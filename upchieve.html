@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UpChieve — Volunteer Tutoring Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    #uc-considerations li::before { content: "•"; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href="index.html" style="color:inherit;text-decoration:none;">Tutor<span>Hub</span></a></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="schoolhouse.html">Schoolhouse</a>
+        <a href="upchieve.html" class="active">UpChieve</a>
+        <a href="wise-readers.html">Wise Readers</a>
+        <a href="learn-to-be.html">Learn to Be</a>
+        <a href="reading-partners.html">Reading Partners</a>
+        <a href="survey.html" style="background:#ECFDF5;color:#059669;">📝 Feedback</a>
+        <a href="ask.html" style="background:var(--primary-light);color:var(--primary);">✨ Ask AI</a>
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero" style="background: linear-gradient(135deg, #0369A1 0%, #0EA5E9 100%); padding: 4rem 2rem;">
+    <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;">
+      <div style="flex:1;min-width:260px;text-align:left;">
+        <img src="upchieve-logo.png" alt="UpChieve logo" style="height:50px;margin-bottom:1.25rem;object-fit:contain;" />
+        <h1 style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;line-height:1.2;margin-bottom:1rem;">UpChieve</h1>
+        <p style="font-size:0.95rem;opacity:0.92;margin-bottom:1.5rem;">An on-demand tutoring platform where you volunteer whenever you're free — log on, get matched with a student instantly, and make an impact. <strong style="font-weight:800;">No scheduling required.</strong></p>
+        <a href="https://upchieve.org" target="_blank" rel="noopener noreferrer" class="visit-btn">Visit upchieve.org ↗</a>
+      </div>
+      <div style="flex:1;min-width:260px;">
+        <img src="upchieve-screenshot.jpg" alt="UpChieve" style="width:100%;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.3);object-fit:cover;max-height:280px;" />
+      </div>
+    </div>
+  </div>
+
+  <main class="main">
+
+    <!-- What Is It -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon" style="background:#E0F2FE;">⚡</span>
+        What Is UpChieve?
+      </h2>
+      <div class="info-box">
+        <p>
+          UpChieve is an <strong>on-demand tutoring platform</strong> where volunteers help low-income high school students.
+          Volunteers log in whenever they're free and get instantly matched with a student who needs help right now — no scheduling required.
+          Sessions use text chat and a shared whiteboard to cover STEM subjects, SAT prep, and essay review.
+        </p>
+      </div>
+    </section>
+
+    <!-- Who Is It For -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon" style="background:#E0F2FE;">👥</span>
+        Who Is It For?
+      </h2>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <div class="emoji">📐</div>
+          <h4>STEM Volunteers</h4>
+          <p>Strong in math, science, or physics? UpChieve has constant demand for tutors in these subjects.</p>
+        </div>
+        <div class="audience-card">
+          <div class="emoji">✍️</div>
+          <h4>Writing Coaches</h4>
+          <p>Confident writers can help students with essay writing, SAT reading, and college application prep.</p>
+        </div>
+        <div class="audience-card">
+          <div class="emoji">⏱️</div>
+          <h4>Flexible Schedulers</h4>
+          <p>No set commitment — volunteer for an hour here and there whenever your schedule allows.</p>
+        </div>
+        <div class="audience-card">
+          <div class="emoji">🌱</div>
+          <h4>First-Time Volunteers</h4>
+          <p>No experience needed. UpChieve's simple drop-in format makes it a great starting point for new tutors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Opportunities & Challenges -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon" style="background:#ECFDF5;">⚖️</span>
+        Opportunities &amp; Considerations
+      </h2>
+      <div class="two-col">
+        <div class="opps-box">
+          <h3>✅ Opportunities</h3>
+          <ul>
+            <li>Volunteer entirely on your own schedule — no appointments to keep</li>
+            <li>High-impact work: your help reaches students with no other tutoring options</li>
+            <li>No minimum hour commitment — do as much or as little as you want</li>
+            <li>Platform is easy to use — text chat and whiteboard, no fancy setup</li>
+            <li>No need to prep a lesson plan — just jump in and help with whatever the student brings</li>
+            <li>Volunteer hours are tracked automatically on your profile</li>
+          </ul>
+        </div>
+        <div class="challenges-box" id="uc-considerations">
+          <h3>Considerations</h3>
+          <ul>
+            <li>You may wait a while after going "online" before a student requests help</li>
+            <li>It can be difficult to explain complex math problems on the platform</li>
+            <li>No ongoing relationship — you'll work with a different student each time</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Get Started -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon" style="background:#E0F2FE;">🚀</span>
+        How to Get Started
+      </h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>
+            <h4>Apply online</h4>
+            <p>Fill out the volunteer application on the UpChieve website. You'll provide basic info and select which subjects you're comfortable coaching.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>
+            <h4>Complete onboarding</h4>
+            <p>UpChieve has a short training and onboarding quiz to ensure volunteers understand how sessions work and the platform's approach to helping students.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>
+            <h4>Go online and wait for a match</h4>
+            <p>Log into the platform, click "Go Online," and the system will notify you when a student requests help in your subject area. You'll be matched automatically.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div>
+            <h4>Help the student</h4>
+            <p>Use the chat and whiteboard tools to work through the student's problem. Most sessions are 30–60 minutes. After the session, give brief feedback through the platform.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon" style="background:#FEF3C7;">💬</span>
+        What Volunteers &amp; Students Are Saying
+      </h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.25rem;">Reviews sourced from Indeed.</p>
+      <div class="reviews-grid">
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Laid-back and rewarding</strong><br/>"Being able to help students and create your own schedule are the best parts. No two days are the same — some days one request, other days twenty. The environment is pretty chill as long as you follow policies."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#0369A1;">V</div>
+            <div>
+              <div class="review-author">Volunteer Tutor · New York, NY</div>
+              <div class="review-source">Indeed · April 15, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★☆ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">4/5</span></div>
+          <p class="review-text"><strong>Flexible hours and rewarding</strong><br/>"Being able to make your own schedule is great and the work is very rewarding. There is very little stress with this role."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#0EA5E9;">V</div>
+            <div>
+              <div class="review-author">Volunteer Tutor · Remote</div>
+              <div class="review-source">Indeed · February 16, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Nice workplace!</strong><br/>"You get to tutor a lot of students and it's really easy to apply. Great for giving education to low-income students, and the hours are flexible."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#059669;">T</div>
+            <div>
+              <div class="review-author">Tutor · Middlesex, NJ</div>
+              <div class="review-source">Indeed · September 12, 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Enjoyable volunteering experience</strong><br/>"I have really enjoyed the opportunity to help struggling students on this platform. It is very convenient to do this remotely."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#7C3AED;">T</div>
+            <div>
+              <div class="review-author">Tutor · Remote</div>
+              <div class="review-source">Indeed · December 6, 2022</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★☆ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">4/5</span></div>
+          <p class="review-text"><strong>Review</strong><br/>"Best working space, remote, easy to apply. I would like to work with more students in one sitting."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#0EA5E9;">T</div>
+            <div>
+              <div class="review-author">Tutor · Jersey City, NJ</div>
+              <div class="review-source">Indeed · September 5, 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Awesome place for volunteering</strong><br/>"UpChieve is very flexible for your schedule and it's easy to earn volunteer hours. There are only a certain number of subjects you can tutor in, but they are working on expanding."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#059669;">A</div>
+            <div>
+              <div class="review-author">Academic Tutor · Dallas, TX</div>
+              <div class="review-source">Indeed · October 25, 2023</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★☆ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">4/5</span></div>
+          <p class="review-text"><strong>Great Experience</strong><br/>"Flexible and was able to go at our own pace. No cons I can think of."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#7C3AED;">T</div>
+            <div>
+              <div class="review-author">Tutor · Remote</div>
+              <div class="review-source">Indeed · October 2, 2023</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Great</strong><br/>"Great work flexibility and helpful management. None that I can think of for cons."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#D97706;">W</div>
+            <div>
+              <div class="review-author">Writing Tutor · Former employee</div>
+              <div class="review-source">Indeed · July 19, 2023</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">5/5</span></div>
+          <p class="review-text"><strong>Good spot to work at</strong><br/>"Amazing team and work culture. Hours can get really long."</p>
+          <div class="review-meta">
+            <div class="review-avatar" style="background:#0369A1;">S</div>
+            <div>
+              <div class="review-author">Software Engineer · New York, NY</div>
+              <div class="review-source">Indeed · September 20, 2024</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="schoolhouse.html">Schoolhouse</a>
+      <a href="upchieve.html">UpChieve</a>
+      <a href="wise-readers.html">Wise Readers</a>
+      <a href="learn-to-be.html">Learn to Be</a>
+      <a href="reading-partners.html">Reading Partners</a>
+      <a href="ask.html">Ask AI</a>
+      <a href="survey.html">Share</a>
+    </div>
+    <p>A resource guide for high school volunteers interested in online tutoring.</p>
+  </footer>
+
+</body>
+</html>

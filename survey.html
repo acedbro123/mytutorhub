@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Share Your Experience — TutorHub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .survey-layout {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .survey-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .survey-header h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .survey-header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .survey-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      background: var(--white);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 100px;
+      line-height: 1.6;
+    }
+
+    .field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748B' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+      padding-right: 2.5rem;
+    }
+
+    .field .hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .two-col-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      width: 100%;
+    }
+
+    .submit-btn:hover { opacity: 0.88; }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .success-msg .check {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-msg h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-msg p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 540px) {
+      .two-col-fields { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href="index.html" style="color:inherit;text-decoration:none;">Tutor<span>Hub</span></a></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="schoolhouse.html">Schoolhouse</a>
+        <a href="upchieve.html">UpChieve</a>
+        <a href="wise-readers.html">Wise Readers</a>
+        <a href="learn-to-be.html">Learn to Be</a>
+        <a href="reading-partners.html">Reading Partners</a>
+        <a href="survey.html" class="active" style="background:#ECFDF5;color:#059669;">📝 Feedback</a>
+        <a href="ask.html" style="background:var(--primary-light);color:var(--primary);">✨ Ask AI</a>
+        
+      </div>
+    </div>
+  </nav>
+
+  <div class="survey-layout">
+
+    <div class="survey-header">
+      <h1>📝 Share Your Experience</h1>
+      <p>Tell us which platform you picked, why you chose it, and any feedback on this site.</p>
+    </div>
+
+    <div class="survey-card" id="survey-card">
+
+      <form id="survey-form" onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:1.5rem;">
+
+        <input type="hidden" name="subject" value="TutorHub Survey Submission" />
+
+        <div class="two-col-fields">
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="First and last name" required />
+          </div>
+          <div class="field">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="platform">Which platform did you choose?</label>
+          <select id="platform" name="platform" required>
+            <option value="" disabled selected>Select a platform...</option>
+            <option value="Schoolhouse.world">Schoolhouse.world</option>
+            <option value="UpChieve">UpChieve</option>
+            <option value="Wise Readers to Leaders">Wise Readers to Leaders</option>
+            <option value="Learn to Be">Learn to Be</option>
+            <option value="Reading Partners">Reading Partners</option>
+            <option value="Still deciding">Still deciding</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="why">Why did you choose it?</label>
+          <textarea id="why" name="why" placeholder="What made this platform the right fit for you?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="feedback">Feedback on this website</label>
+          <textarea id="feedback" name="feedback" placeholder="What did you find helpful? What could be better?"></textarea>
+        </div>
+
+        <button class="submit-btn" type="submit">Submit →</button>
+
+      </form>
+
+      <div class="success-msg" id="success-msg">
+        <div class="check">✅</div>
+        <h2>Thanks for sharing!</h2>
+        <p>Your response has been recorded. We appreciate you taking the time to give feedback.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="schoolhouse.html">Schoolhouse</a>
+      <a href="upchieve.html">UpChieve</a>
+      <a href="wise-readers.html">Wise Readers</a>
+      <a href="learn-to-be.html">Learn to Be</a>
+      <a href="reading-partners.html">Reading Partners</a>
+      <a href="ask.html">Ask AI</a>
+      <a href="survey.html">Share</a>
+    </div>
+    <p>A resource guide for high school volunteers interested in online tutoring.</p>
+  </footer>
+
+  <script>
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('survey-form');
+      const data = new FormData(form);
+
+      data.append('access_key', 'a3dd7fb8-3efe-4951-8354-c827ae93ffdf');
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    }
+  </script>
+
+</body>
+</html>

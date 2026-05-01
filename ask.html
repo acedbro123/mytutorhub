@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask AI — Volunteer Tutoring Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .ask-layout {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .ask-header {
+      text-align: center;
+      padding: 1.5rem 0 0.5rem;
+    }
+
+    .ask-header h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .ask-header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Chat window */
+    .chat-window {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      height: 480px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      max-width: 90%;
+    }
+
+    .message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .message.ai .message-avatar { background: var(--primary-light); color: var(--primary); }
+    .message.user .message-avatar { background: #E2E8F0; color: var(--text); }
+
+    .message-bubble {
+      padding: 0.7rem 1rem;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    .message.ai .message-bubble {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-top-left-radius: 4px;
+    }
+
+    .message.user .message-bubble {
+      background: var(--primary);
+      color: white;
+      border-top-right-radius: 4px;
+    }
+
+    .message-bubble strong { font-weight: 600; }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 0.5rem 0.25rem;
+    }
+
+    .typing-indicator span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #94A3B8;
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    /* Input row */
+    .chat-input-row {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.85rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.9rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      line-height: 1.5;
+      max-height: 120px;
+      overflow-y: auto;
+      transition: border-color 0.15s;
+    }
+
+    .chat-input:focus { border-color: var(--primary); }
+    .chat-input::placeholder { color: #94A3B8; }
+
+    .send-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover { opacity: 0.88; }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Suggested questions */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .suggestion-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .suggestion-chip:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: #C7D2FE;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .chat-window { height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo"><a href="index.html" style="color:inherit;text-decoration:none;">Tutor<span>Hub</span></a></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="schoolhouse.html">Schoolhouse</a>
+        <a href="upchieve.html">UpChieve</a>
+        <a href="wise-readers.html">Wise Readers</a>
+        <a href="learn-to-be.html">Learn to Be</a>
+        <a href="reading-partners.html">Reading Partners</a>
+        <a href="ask.html" class="active" style="background:var(--primary-light);color:var(--primary);">✨ Ask AI</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ask-layout">
+
+    <div class="ask-header">
+      <h1>✨ Ask About Any Platform</h1>
+      <p>Ask anything about the 5 tutoring organizations — which one fits your schedule, your goals, or your subject.</p>
+    </div>
+
+    <!-- Suggested Questions -->
+    <div class="suggestions" id="suggestions">
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">Which platform is best for high schoolers?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">I only have 1 hour a week — what fits?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">Which one looks best on college apps?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">I want to tutor math — where should I go?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">What's the difference between Learn to Be and Schoolhouse?</button>
+      <button class="suggestion-chip" onclick="sendSuggestion(this)">Which platforms are fully online?</button>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+      <div class="chat-messages" id="chat-messages">
+        <div class="message ai">
+          <div class="message-avatar">AI</div>
+          <div class="message-bubble">
+            Hi! I know all about the 5 tutoring platforms on this site — Schoolhouse.world, UpChieve, Wise Readers to Leaders, Learn to Be, and Reading Partners. Ask me anything to help figure out which one is the right fit for you. 👋
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chat-input" placeholder="Ask a question..." rows="1"></textarea>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">
+          ➤
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="schoolhouse.html">Schoolhouse</a>
+      <a href="upchieve.html">UpChieve</a>
+      <a href="wise-readers.html">Wise Readers</a>
+      <a href="learn-to-be.html">Learn to Be</a>
+      <a href="reading-partners.html">Reading Partners</a>
+      <a href="ask.html">Ask AI</a>
+      <a href="survey.html">Share</a>
+    </div>
+    <p>A resource guide for high school volunteers interested in online tutoring.</p>
+  </footer>
+
+  <script>
+    const SYSTEM_PROMPT = `You are a friendly and knowledgeable guide for high school students exploring volunteer tutoring opportunities. You help users figure out which of the 5 organizations on this website is the best fit for them.
+
+Here is everything you know about each organization:
+
+**1. Schoolhouse.world**
+- Free peer-to-peer tutoring platform founded by Sal Khan (founder of Khan Academy)
+- Volunteers tutor via live video sessions with a built-in collaborative whiteboard
+- Covers a huge range of subjects: pre-algebra through AP Calculus, SAT prep, chemistry, biology, writing, history, and more
+- Sessions can be group-based (one tutor, multiple students) or one-on-one
+- Tutors build public profiles, receive student ratings, and can earn subject certifications
+- Very flexible — you post sessions when you want, no ongoing commitment required
+- Widely recognized by college admissions for meaningful volunteer work
+- High school volunteers are welcome and common
+- Fully online/remote
+
+**2. UpChieve**
+- Free, on-demand tutoring platform for low-income high school students
+- Available 24/7 — students request help and get matched with a volunteer in minutes
+- Volunteers log in when free, go "online," and immediately get matched with a student
+- No scheduling, no commitment — drop in whenever you have 30–60 minutes
+- Sessions use text chat + a shared digital whiteboard (no video required)
+- Covers: algebra, geometry, precalculus, calculus, chemistry, biology, physics, SAT math, SAT reading, essay review
+- Maximum flexibility — best for volunteers with unpredictable schedules
+- High school volunteers are welcome
+- Fully online/remote
+
+**3. Wise Readers to Leaders**
+- Independent 501(c)(3) nonprofit founded in 2014 through Stephen Wise Temple in Los Angeles
+- Has grown from serving 50 students to nearly 450 scholars annually across multiple LA campuses
+- Focuses on one-on-one literacy mentoring for young students
+- Also runs a teen leadership program emphasizing cross-cultural experiences, community service, and mentorship
+- Structured curriculum provided — no experience needed
+- Weekly sessions via video call
+- Focused on underserved communities in the Los Angeles area
+- High school volunteers are welcome
+- Primarily serves the LA area
+
+**4. Learn to Be**
+- Free online tutoring nonprofit connecting volunteers with K–12 students from low-income families
+- Built around long-term tutoring relationships — you work with the same student week after week
+- Covers any K–12 subject: math, reading, writing, science, history, and more
+- Sessions via video call with a shared virtual whiteboard
+- Background check required before starting
+- Matching with a student takes 1–3 weeks
+- Strong organizational support — staff help if issues arise
+- All sessions documented — easy to get volunteer hour records
+- Highly regarded by colleges as a meaningful, sustained commitment
+- High school volunteers are welcome
+- Fully online/remote, available nationwide
+
+**5. Reading Partners**
+- National literacy nonprofit that places volunteers in under-resourced elementary schools
+- The only in-person option on this site — you physically go to a partner school during the school day
+- Tutors K–5 students who are reading below grade level, one-on-one
+- Structured, research-backed curriculum fully provided — no lesson planning needed
+- Volunteers commit for the school year, visiting once or twice per week
+- Background check required
+- Only available in cities with an active Reading Partners chapter
+- Ideal for future teachers, social workers, or anyone wanting real classroom experience
+- High school volunteers are welcome
+- In-person only
+
+RESPONSE RULES — follow these strictly:
+- Keep every answer to 2–4 sentences max. No exceptions.
+- Give a direct recommendation first, then a one-sentence reason.
+- No bullet lists, no headers, no markdown formatting.
+- If comparing two platforms, pick a winner based on what the user said.
+- If they describe their situation, give one clear answer — don't list multiple options.
+- Friendly but brief. No filler phrases like "Great question!" or "That's a tough one."
+- If asked about something unrelated to these platforms, say so in one sentence.`;
+
+    const API_KEY = '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';
+    const conversationHistory = [];
+
+    // Auto-resize textarea
+    const chatInput = document.getElementById('chat-input');
+    chatInput.addEventListener('input', () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function sendSuggestion(btn) {
+      chatInput.value = btn.textContent;
+      sendMessage();
+    }
+
+    function appendMessage(role, text) {
+      const messages = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = `message ${role}`;
+      div.innerHTML = `
+        <div class="message-avatar">${role === 'ai' ? 'AI' : 'You'}</div>
+        <div class="message-bubble"></div>
+      `;
+      div.querySelector('.message-bubble').textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div.querySelector('.message-bubble');
+    }
+
+    function showTyping() {
+      const messages = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'message ai';
+      div.id = 'typing-msg';
+      div.innerHTML = `
+        <div class="message-avatar">AI</div>
+        <div class="message-bubble">
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function removeTyping() {
+      const el = document.getElementById('typing-msg');
+      if (el) el.remove();
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('send-btn');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const apiKey = API_KEY;
+
+      input.value = '';
+      input.style.height = 'auto';
+      sendBtn.disabled = true;
+
+      appendMessage('user', text);
+      conversationHistory.push({ role: 'user', content: text });
+
+      showTyping();
+
+      try {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: 'llama-3.1-8b-instant',
+            max_tokens: 150,
+            messages: [
+              { role: 'system', content: SYSTEM_PROMPT },
+              ...conversationHistory
+            ]
+          })
+        });
+
+        const data = await response.json();
+        removeTyping();
+
+        if (!response.ok) {
+          const errMsg = data?.error?.message || 'Something went wrong.';
+          appendMessage('ai', '⚠️ ' + errMsg);
+          conversationHistory.pop();
+        } else {
+          const reply = data.choices[0].message.content;
+          conversationHistory.push({ role: 'assistant', content: reply });
+          appendMessage('ai', reply);
+        }
+      } catch (err) {
+        removeTyping();
+        appendMessage('ai', '⚠️ Network error. Make sure you\'re connected and try again.');
+        conversationHistory.pop();
+      }
+
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  </script>
+
+</body>
+</html>
