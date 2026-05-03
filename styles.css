@@ -647,11 +647,9 @@ footer p { font-size: 0.8rem; }
   footer .footer-links { gap: 0.75rem; }
   footer .footer-links a { font-size: 0.78rem; }
 
-  /* Table — hide Focus and HS Volunteers columns on mobile */
-  table { font-size: 0.8rem; width: 100%; }
-  table th, table td { padding: 0.6rem 0.75rem !important; }
-  table th:nth-child(2), table td:nth-child(2),
-  table th:nth-child(5), table td:nth-child(5) { display: none; }
+  /* Table — shrink to fit on mobile */
+  table { font-size: 0.65rem; width: 100%; }
+  table th, table td { padding: 0.4rem 0.4rem !important; }
 
   /* Intro banner */
   .intro-banner { flex-direction: column; }
