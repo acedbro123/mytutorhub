@@ -7,91 +7,6 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    .about-layout {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 4rem;
-    }
-
-    .about-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      overflow: hidden;
-      display: flex;
-      gap: 0;
-    }
-
-    .about-photo-col {
-      width: 260px;
-      height: 260px;
-      flex-shrink: 0;
-      align-self: center;
-      margin: 2rem 0 2rem 2rem;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .about-photo-col img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 15%;
-      display: block;
-    }
-
-    .about-text-col {
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .about-text-col h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-
-    .about-text-col h1 span {
-      color: var(--primary);
-    }
-
-    .about-text-col p {
-      font-size: 0.95rem;
-      color: var(--text);
-      line-height: 1.8;
-      margin-bottom: 1.1rem;
-    }
-
-    .about-text-col p:last-child {
-      margin-bottom: 0;
-    }
-
-    @media (max-width: 640px) {
-      .about-card {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .about-photo-col {
-        width: 200px;
-        height: 200px;
-        margin: 2rem auto 0;
-      }
-
-      .about-text-col {
-        padding: 1.75rem;
-      }
-
-      .about-text-col h1 {
-        font-size: 1.5rem;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -101,7 +16,7 @@
       <div class="nav-logo"><a href="index.html" style="color:inherit;text-decoration:none;">Tutor<span>Guide</span></a></div>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <a href="about.html" class="active">About</a>
         <a href="schoolhouse.html">Schoolhouse</a>
         <a href="upchieve.html">UpChieve</a>
         <a href="wise-readers.html">Wise Readers</a>
@@ -112,38 +27,43 @@
     </div>
   </nav>
 
-  <div class="about-layout">
-    <h1 style="font-size:2rem;font-weight:800;color:var(--text);margin-bottom:1.5rem;">About Me</h1>
-    <div class="about-card">
-
-      <!-- Photo -->
-      <div class="about-photo-col">
-        <img src="about-photo.jpg" alt="Ace" />
-      </div>
-
-      <!-- Text -->
-      <div class="about-text-col">
-        <h1>Hi, I'm <span>Ace.</span></h1>
-        <p>I created this website because when I first started looking into tutoring organizations, I realized how difficult it was to find clear information all in one place. Every program seemed to have a different website, different requirements, and different experiences, which made it hard to figure out where to start.</p>
-        <p>My goal with this site is simple: make that process easier. Here, you'll find straightforward information about different tutoring organizations, including how they work, what volunteering is like, and who each program might be a good fit for. I want to help students spend less time searching and more time making a difference.</p>
-        <p>Whether you're looking to volunteer, gain experience working with students, earn service hours, or simply help someone learn, I hope this website helps you find an opportunity that's right for you.</p>
-        <p>Thank you for visiting, and I wish you the best on your tutoring journey. Every hour you spend helping a student can make a bigger impact than you realize, and I hope you find an experience that is both meaningful and rewarding.</p>
-      </div>
-
+  <!-- Page Hero -->
+  <div class="page-hero" style="background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);">
+    <div class="page-hero-inner">
+      <div class="tag">The Person Behind This Site</div>
+      <h1>About Me</h1>
+      <p>Why I built this, and what I hope it does for you.</p>
     </div>
   </div>
+
+  <main class="main">
+
+    <section class="section">
+      <div class="info-box" style="display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;">
+        <img src="about-photo.jpg" alt="Ace" style="width:220px;height:220px;object-fit:cover;object-position:center 15%;border-radius:12px;flex-shrink:0;box-shadow:var(--shadow-md);" />
+        <div>
+          <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">Hi, I'm <span style="color:var(--primary);">Ace.</span></h2>
+          <p style="font-size:0.95rem;line-height:1.8;margin-bottom:1rem;">I created this website because when I first started looking into tutoring organizations, I realized how difficult it was to find clear information all in one place. Every program seemed to have a different website, different requirements, and different experiences, which made it hard to figure out where to start.</p>
+          <p style="font-size:0.95rem;line-height:1.8;margin-bottom:1rem;">My goal with this site is simple: make that process easier. Here, you'll find straightforward information about different tutoring organizations, including how they work, what volunteering is like, and who each program might be a good fit for. I want to help students spend less time searching and more time making a difference.</p>
+          <p style="font-size:0.95rem;line-height:1.8;margin-bottom:1rem;">Whether you're looking to volunteer, gain experience working with students, earn service hours, or simply help someone learn, I hope this website helps you find an opportunity that's right for you.</p>
+          <p style="font-size:0.95rem;line-height:1.8;">Thank you for visiting, and I wish you the best on your tutoring journey. Every hour you spend helping a student can make a bigger impact than you realize, and I hope you find an experience that is both meaningful and rewarding.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- Footer -->
   <footer>
     <div class="footer-links">
       <a href="index.html">Home</a>
+      <a href="about.html">About</a>
       <a href="schoolhouse.html">Schoolhouse</a>
       <a href="upchieve.html">UpChieve</a>
       <a href="wise-readers.html">Wise Readers</a>
       <a href="learn-to-be.html">Learn to Be</a>
       <a href="reading-partners.html">Reading Partners</a>
       <a href="ask.html">Ask AI</a>
-      <a href="about.html">About</a>
     </div>
     <p>A resource guide for high school volunteers interested in online tutoring.</p>
   </footer>
