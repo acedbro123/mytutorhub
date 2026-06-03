@@ -297,5 +297,16 @@
     <p>A resource guide for high school volunteers interested in online tutoring.</p>
   </footer>
 
+
+  <script>
+    function toggleDropdown() {
+      document.getElementById('nav-dropdown').classList.toggle('active');
+    }
+    document.addEventListener('click', function(e) {
+      const dd = document.getElementById('nav-dropdown');
+      if (!dd.contains(e.target)) dd.classList.remove('active');
+    });
+  </script>
+
 </body>
 </html>
