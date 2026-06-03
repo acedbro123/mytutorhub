@@ -22,17 +22,22 @@
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-logo"><a href="index.html" style="color:inherit;text-decoration:none;">Tutor<span>Hub</span></a></div>
-      <div class="nav-links">
+            <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="schoolhouse.html">Schoolhouse</a>
-        <a href="upchieve.html">UpChieve</a>
-        <a href="wise-readers.html">Wise Readers</a>
-        <a href="learn-to-be.html">Learn to Be</a>
-        <a href="reading-partners.html" class="active">Reading Partners</a>
-        <a href="survey.html" style="background:#ECFDF5;color:#059669;">📝 Feedback</a>
-        <a href="ask.html" style="background:var(--primary-light);color:var(--primary);">✨ Ask AI</a>
-        
+        <div class="nav-dropdown" id="nav-dropdown">
+          <button class="nav-dropdown-btn has-active" onclick="toggleDropdown()">Websites &#9662;</button>
+          <div class="nav-dropdown-menu">
+            <a href="schoolhouse.html">Schoolhouse</a>
+            <a href="upchieve.html">UpChieve</a>
+            <a href="wise-readers.html">Wise Readers</a>
+            <a href="learn-to-be.html">Learn to Be</a>
+            <a href="reading-partners.html" class="active">Reading Partners</a>
+          </div>
+        </div>
+        <a href="best-practices.html">Best Practices</a>
+        <a href="ask.html" style="background:var(--primary-light);color:var(--primary);">&#10024; Ask AI</a>
+      </div>
       </div>
     </div>
   </nav>
@@ -318,7 +323,7 @@
     }
     document.addEventListener('click', function(e) {
       const dd = document.getElementById('nav-dropdown');
-      if (!dd.contains(e.target)) dd.classList.remove('active');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('active');
     });
   </script>
 
