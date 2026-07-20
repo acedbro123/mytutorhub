@@ -130,6 +130,107 @@
             button.textContent = originalLabel;
           });
       });
+
+      // ------------------------------------------------------------------
+      // Organization markers (loaded from orgs.json)
+      // ------------------------------------------------------------------
+      // orgs.json is an array of organizations. Each entry looks like:
+      //
+      //   {
+      //     "name": "Reading Partners",                 // required
+      //     "description": "One-on-one reading tutoring for K–5 students.",
+      //     "website": "https://readingpartners.org",
+      //     "lat": 37.7749,                             // preferred: exact coords
+      //     "lng": -122.4194
+      //   }
+      //
+      // If you omit "lat"/"lng" but provide an "address", the pin is geocoded
+      // on page load (throttled to respect the free Nominatim usage policy):
+      //
+      //   { "name": "...", "address": "123 Main St, City, ST", ... }
+      //
+      // An empty list ( [] ) simply shows no organization pins.
+
+      var orgMarkers = [];
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function orgPopupHtml(org) {
+        var html = '<strong>' + escapeHtml(org.name || 'Organization') + '</strong>';
+        if (org.description) html += '<br>' + escapeHtml(org.description);
+        if (org.address) html += '<br><span style="color:#64748B;">' + escapeHtml(org.address) + '</span>';
+        if (org.website) {
+          html += '<br><a href="' + encodeURI(org.website) + '" target="_blank" rel="noopener">Visit website ↗</a>';
+        }
+        return html;
+      }
+
+      function addOrgMarker(org, lat, lng) {
+        var m = L.circleMarker([lat, lng], {
+          radius: 9,
+          color: '#065F46',
+          weight: 2,
+          fillColor: '#059669',
+          fillOpacity: 0.9
+        }).addTo(map);
+        m.bindPopup(orgPopupHtml(org));
+        orgMarkers.push(m);
+      }
+
+      function fitToOrgs() {
+        if (orgMarkers.length === 0) return;
+        map.fitBounds(L.featureGroup(orgMarkers).getBounds().pad(0.2));
+      }
+
+      // Geocode any address-only orgs one at a time (~1 req/sec per Nominatim policy).
+      function geocodeOrgQueue(items, onDone) {
+        var i = 0;
+        (function next() {
+          if (i >= items.length) { onDone(); return; }
+          var org = items[i++];
+          fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+            encodeURIComponent(org.address), { headers: { 'Accept': 'application/json' } })
+            .then(function (r) { return r.ok ? r.json() : []; })
+            .then(function (res) {
+              if (res && res.length) {
+                addOrgMarker(org, parseFloat(res[0].lat), parseFloat(res[0].lon));
+              } else if (window.console) {
+                console.warn('Voluntool map: could not geocode org address:', org.address);
+              }
+            })
+            .catch(function () {
+              if (window.console) console.warn('Voluntool map: geocode failed for', org.address);
+            })
+            .finally(function () { setTimeout(next, 1100); });
+        })();
+      }
+
+      fetch('orgs.json', { headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (orgs) {
+          if (!Array.isArray(orgs) || orgs.length === 0) return; // no pins yet — expected
+          var needGeocode = [];
+          orgs.forEach(function (org) {
+            if (typeof org.lat === 'number' && typeof org.lng === 'number') {
+              addOrgMarker(org, org.lat, org.lng);
+            } else if (org.address) {
+              needGeocode.push(org);
+            } else if (window.console) {
+              console.warn('Voluntool map: skipping org with no coordinates or address:', org.name);
+            }
+          });
+          fitToOrgs(); // frame the ready-to-plot pins immediately
+          if (needGeocode.length) geocodeOrgQueue(needGeocode, fitToOrgs);
+        })
+        .catch(function () {
+          if (window.console) {
+            console.warn('Voluntool map: orgs.json not found or invalid — no organization pins loaded.');
+          }
+        });
     })();
   </script>
 </body>
