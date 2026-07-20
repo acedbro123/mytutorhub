@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Leaflet (free, no API key) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="" />
 </head>
 <body>
   <nav class="section-nav section-nav--inperson">
@@ -18,12 +22,115 @@
   </nav>
 
   <main class="main">
-    <section class="section">
-      <div class="info-box">
-        <h1 style="font-size:1.75rem;font-weight:800;margin-bottom:0.75rem;">Map</h1>
-        <p>Coming soon. This will become the local map experience for nearby volunteer opportunities.</p>
+    <section class="section map-section">
+      <div class="map-header">
+        <h1>Find a place on the map</h1>
+        <p>Search for an address or place to drop a pin. Soon this map will also show nearby in-person volunteering opportunities.</p>
       </div>
+
+      <form id="map-search" class="map-search" role="search" aria-label="Search for an address">
+        <input
+          id="map-search-input"
+          class="map-search__input"
+          type="text"
+          name="address"
+          placeholder="Enter an address, city, or place…"
+          autocomplete="off"
+          aria-label="Address" />
+        <button id="map-search-btn" class="btn btn-inperson map-search__btn" type="submit">Search</button>
+      </form>
+
+      <p id="map-message" class="map-message" role="status" aria-live="polite" hidden></p>
+
+      <div id="map" class="map-canvas" aria-label="Interactive map"></div>
     </section>
   </main>
+
+  <!-- Leaflet JS (free, no API key) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  <script>
+    (function () {
+      // --- Initialise the map (default view: continental US) ---
+      var map = L.map('map').setView([39.8283, -98.5795], 4);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var marker = null; // single reusable marker
+
+      var form = document.getElementById('map-search');
+      var input = document.getElementById('map-search-input');
+      var button = document.getElementById('map-search-btn');
+      var message = document.getElementById('map-message');
+
+      function showMessage(text, type) {
+        message.textContent = text;
+        message.className = 'map-message map-message--' + (type || 'info');
+        message.hidden = false;
+      }
+
+      function clearMessage() {
+        message.hidden = true;
+        message.textContent = '';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var query = input.value.trim();
+        if (!query) {
+          showMessage('Please type an address or place to search for.', 'error');
+          input.focus();
+          return;
+        }
+
+        clearMessage();
+        button.disabled = true;
+        var originalLabel = button.textContent;
+        button.textContent = 'Searching…';
+
+        var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+          encodeURIComponent(query);
+
+        fetch(url, { headers: { 'Accept': 'application/json' } })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+          })
+          .then(function (results) {
+            if (!results || results.length === 0) {
+              showMessage('We couldn’t find that address. Try being more specific or check the spelling.', 'error');
+              return;
+            }
+
+            var place = results[0];
+            var lat = parseFloat(place.lat);
+            var lng = parseFloat(place.lon);
+
+            map.flyTo([lat, lng], 15, { duration: 1.25 });
+
+            if (marker) {
+              marker.setLatLng([lat, lng]);
+            } else {
+              marker = L.marker([lat, lng]).addTo(map);
+            }
+            marker.bindPopup(place.display_name).openPopup();
+
+            showMessage('Showing: ' + place.display_name, 'success');
+          })
+          .catch(function () {
+            showMessage('Something went wrong while searching. Please check your connection and try again.', 'error');
+          })
+          .finally(function () {
+            button.disabled = false;
+            button.textContent = originalLabel;
+          });
+      });
+    })();
+  </script>
 </body>
 </html>

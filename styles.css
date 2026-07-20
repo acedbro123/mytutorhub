@@ -990,3 +990,74 @@ footer p { font-size: 0.8rem; }
   /* Chat window */
   .chat-window { height: 360px; }
 }
+
+/* ========== Map page (In-Person section) ========== */
+.map-header { margin-bottom: 1.5rem; }
+.map-header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+.map-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 640px;
+}
+
+.map-search {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.map-search__input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  padding: 0.8rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.map-search__input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-light);
+}
+.map-search__input::placeholder { color: var(--text-muted); }
+
+/* In-Person section button (green to match section identity) */
+.btn-inperson { background: var(--green); color: var(--white); }
+.map-search__btn { flex: 0 0 auto; }
+.map-search__btn:disabled { opacity: 0.65; cursor: default; transform: none; }
+
+.map-message {
+  margin-bottom: 1rem;
+  padding: 0.8rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.map-message--error { background: var(--red-light); color: var(--red); }
+.map-message--success { background: var(--green-light); color: var(--green); }
+.map-message--info { background: var(--primary-light); color: var(--primary); }
+
+.map-canvas {
+  height: clamp(360px, 62vh, 640px);
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  z-index: 0; /* keep Leaflet panes below the site nav */
+}
+
+@media (max-width: 600px) {
+  .map-search { flex-direction: column; }
+  .map-search__btn { width: 100%; justify-content: center; }
+  .map-canvas { height: clamp(320px, 55vh, 460px); }
+}
