@@ -26,8 +26,8 @@
   <main class="main">
     <section class="section map-section">
       <div class="map-header">
-        <h1>Find a place on the map</h1>
-        <p>Search for an address or place to drop a pin. Soon this map will also show nearby in-person volunteering opportunities.</p>
+        <h1>Find volunteer opportunities near you</h1>
+        <p>Enter your address to see nearby in-person volunteering organizations, sorted by distance. Adjust the radius to widen or narrow your search.</p>
       </div>
 
       <form id="map-search" class="map-search" role="search" aria-label="Search for an address">
@@ -36,15 +36,29 @@
           class="map-search__input"
           type="text"
           name="address"
-          placeholder="Enter an address, city, or place…"
+          placeholder="Enter your address, city, or place…"
           autocomplete="off"
           aria-label="Address" />
         <button id="map-search-btn" class="btn btn-inperson map-search__btn" type="submit">Search</button>
       </form>
 
+      <div class="map-controls">
+        <label for="radius-range">Show organizations within</label>
+        <input id="radius-range" type="range" min="5" max="15" step="1" value="10" aria-label="Search radius in miles" />
+        <span class="radius-value"><strong id="radius-value">10</strong> miles</span>
+      </div>
+
       <p id="map-message" class="map-message" role="status" aria-live="polite" hidden></p>
 
-      <div id="map" class="map-canvas" aria-label="Interactive map"></div>
+      <div class="map-layout">
+        <div id="map" class="map-canvas" aria-label="Interactive map"></div>
+        <aside class="map-sidebar" aria-label="Nearby organizations">
+          <div class="map-sidebar__head">Nearby organizations</div>
+          <div id="org-list" class="org-list">
+            <p class="org-list__empty">Enter your address above to see organizations near you.</p>
+          </div>
+        </aside>
+      </div>
     </section>
   </main>
 
@@ -54,12 +68,18 @@
     crossorigin=""></script>
   <script>
     (function () {
-      // --- Base layers ---
-      // Satellite imagery (Esri World Imagery — free, no API key)
+      // ----------------------------------------------------------------
+      // Base layers
+      // ----------------------------------------------------------------
+      // Satellite imagery (Esri World Imagery — free, no API key).
+      // maxNativeZoom caps the highest zoom level for which real tiles exist;
+      // maxZoom lets the map zoom in a little further by upscaling the sharpest
+      // available tile instead of requesting non-existent (grey/blurry) ones.
       var satellite = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         {
-          maxZoom: 19,
+          maxNativeZoom: 18,
+          maxZoom: 20,
           attribution: 'Tiles &copy; Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, ' +
             'Getmapping, Aerogrid, IGN, IGP, UPX, and the GIS User Community'
         }
@@ -67,42 +87,165 @@
 
       // Regular street map (OpenStreetMap)
       var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        maxNativeZoom: 19,
+        maxZoom: 20,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       });
 
-      // --- Initialise the map (default view: continental US, satellite by default) ---
+      // Initialise the map (default view: New York City, satellite by default)
       var map = L.map('map', {
-        center: [39.8283, -98.5795],
-        zoom: 4,
+        center: [40.7484, -73.9857],
+        zoom: 12,
+        maxZoom: 20,
         layers: [satellite]
       });
 
-      // Toggle between Satellite and Street map (top-right)
       L.control.layers(
         { 'Satellite': satellite, 'Street map': streets },
         null,
         { position: 'topright' }
       ).addTo(map);
 
-      var marker = null; // single reusable marker
+      // ----------------------------------------------------------------
+      // State + DOM
+      // ----------------------------------------------------------------
+      var userMarker = null;         // marker for the searched address
+      var userLatLng = null;         // [lat, lng] of the searched address
+      var orgs = [];                 // all organizations from orgs.json
+      var orgLayer = L.layerGroup().addTo(map); // markers currently shown
+      var shownMarkers = [];         // parallel to the rendered list
+
+      var radiusMiles = 10;
 
       var form = document.getElementById('map-search');
       var input = document.getElementById('map-search-input');
       var button = document.getElementById('map-search-btn');
       var message = document.getElementById('map-message');
+      var listEl = document.getElementById('org-list');
+      var radiusRange = document.getElementById('radius-range');
+      var radiusValue = document.getElementById('radius-value');
 
       function showMessage(text, type) {
         message.textContent = text;
         message.className = 'map-message map-message--' + (type || 'info');
         message.hidden = false;
       }
-
       function clearMessage() {
         message.hidden = true;
         message.textContent = '';
       }
 
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      // Great-circle distance between two points, in miles (haversine).
+      function distanceMiles(lat1, lng1, lat2, lng2) {
+        var R = 3958.8; // Earth radius in miles
+        var toRad = Math.PI / 180;
+        var dLat = (lat2 - lat1) * toRad;
+        var dLng = (lng2 - lng1) * toRad;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * toRad) * Math.cos(lat2 * toRad) *
+          Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      function orgPopupHtml(org, dist) {
+        var html = '<strong>' + escapeHtml(org.name || 'Organization') + '</strong>';
+        if (typeof dist === 'number') html += '<br>' + dist.toFixed(1) + ' miles away';
+        if (org.category) html += '<br><em>' + escapeHtml(org.category) + '</em>';
+        if (org.description) html += '<br>' + escapeHtml(org.description);
+        if (org.address) html += '<br><span style="color:#64748B;">' + escapeHtml(org.address) + '</span>';
+        if (org.link) {
+          html += '<br><a href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
+        }
+        return html;
+      }
+
+      // ----------------------------------------------------------------
+      // Render the sidebar list + org markers for the current radius
+      // ----------------------------------------------------------------
+      function renderOrgs() {
+        orgLayer.clearLayers();
+        shownMarkers = [];
+        listEl.innerHTML = '';
+
+        if (!userLatLng) {
+          listEl.innerHTML = '<p class="org-list__empty">Enter your address above to see organizations near you.</p>';
+          return;
+        }
+
+        // distance-tag, filter by radius, sort nearest-first
+        var nearby = orgs
+          .map(function (org) {
+            return {
+              org: org,
+              dist: distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude)
+            };
+          })
+          .filter(function (item) { return item.dist <= radiusMiles; })
+          .sort(function (a, b) { return a.dist - b.dist; });
+
+        if (nearby.length === 0) {
+          listEl.innerHTML = '<p class="org-list__empty">No organizations within ' + radiusMiles +
+            ' miles. Try increasing the radius.</p>';
+          return;
+        }
+
+        nearby.forEach(function (item) {
+          var org = item.org;
+
+          // marker
+          var m = L.circleMarker([org.latitude, org.longitude], {
+            radius: 9, color: '#065F46', weight: 2, fillColor: '#059669', fillOpacity: 0.9
+          });
+          m.bindPopup(orgPopupHtml(org, item.dist));
+          m.addTo(orgLayer);
+          shownMarkers.push(m);
+
+          // sidebar card
+          var card = document.createElement('div');
+          card.className = 'org-card';
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          var linkHtml = org.link
+            ? '<a class="org-card__link" href="' + encodeURI(org.link) +
+              '" target="_blank" rel="noopener">Visit website ↗</a>'
+            : '';
+          card.innerHTML =
+            '<div class="org-card__top">' +
+              '<span class="org-card__name">' + escapeHtml(org.name || 'Organization') + '</span>' +
+              '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' +
+            '</div>' +
+            (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
+            (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
+            linkHtml;
+
+          function focusOrg() {
+            map.flyTo([org.latitude, org.longitude], 17, { duration: 1 });
+            m.openPopup();
+            // On mobile the map sits above the list — bring it into view.
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          // Clicking the external link should NOT trigger the fly-to.
+          card.addEventListener('click', function (e) {
+            if (e.target.closest('.org-card__link')) return;
+            focusOrg();
+          });
+          card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focusOrg(); }
+          });
+
+          listEl.appendChild(card);
+        });
+      }
+
+      // ----------------------------------------------------------------
+      // Address search (geocode via free Nominatim API)
+      // ----------------------------------------------------------------
       form.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -142,17 +285,23 @@
             var place = results[0];
             var lat = parseFloat(place.lat);
             var lng = parseFloat(place.lon);
+            userLatLng = [lat, lng];
 
-            map.flyTo([lat, lng], 16, { duration: 1.25 });
+            // zoom to ~17 (neighborhood/house level) so buildings are visible
+            map.flyTo([lat, lng], 17, { duration: 1.25 });
 
-            if (marker) {
-              marker.setLatLng([lat, lng]);
+            if (userMarker) {
+              userMarker.setLatLng([lat, lng]);
             } else {
-              marker = L.marker([lat, lng]).addTo(map);
+              userMarker = L.marker([lat, lng]).addTo(map);
             }
-            marker.bindPopup(place.display_name).openPopup();
+            userMarker.bindPopup('Your location: ' + escapeHtml(place.display_name));
 
-            showMessage('Showing: ' + place.display_name, 'success');
+            renderOrgs();
+
+            var count = listEl.querySelectorAll('.org-card').length;
+            showMessage(count + ' organization' + (count === 1 ? '' : 's') +
+              ' within ' + radiusMiles + ' miles of your address.', 'success');
           })
           .catch(function (err) {
             if (window.console) console.error('Voluntool map geocoding failed:', err);
@@ -170,104 +319,43 @@
           });
       });
 
-      // ------------------------------------------------------------------
-      // Organization markers (loaded from orgs.json)
-      // ------------------------------------------------------------------
-      // orgs.json is an array of organizations. Each entry looks like:
-      //
-      //   {
-      //     "name": "Reading Partners",                 // required
-      //     "description": "One-on-one reading tutoring for K–5 students.",
-      //     "website": "https://readingpartners.org",
-      //     "lat": 37.7749,                             // preferred: exact coords
-      //     "lng": -122.4194
-      //   }
-      //
-      // If you omit "lat"/"lng" but provide an "address", the pin is geocoded
-      // on page load (throttled to respect the free Nominatim usage policy):
-      //
-      //   { "name": "...", "address": "123 Main St, City, ST", ... }
-      //
-      // An empty list ( [] ) simply shows no organization pins.
-
-      var orgMarkers = [];
-
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>"']/g, function (c) {
-          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-        });
-      }
-
-      function orgPopupHtml(org) {
-        var html = '<strong>' + escapeHtml(org.name || 'Organization') + '</strong>';
-        if (org.description) html += '<br>' + escapeHtml(org.description);
-        if (org.address) html += '<br><span style="color:#64748B;">' + escapeHtml(org.address) + '</span>';
-        if (org.website) {
-          html += '<br><a href="' + encodeURI(org.website) + '" target="_blank" rel="noopener">Visit website ↗</a>';
+      // Radius control — update the list/markers live once an address is set.
+      radiusRange.addEventListener('input', function () {
+        radiusMiles = parseInt(radiusRange.value, 10);
+        radiusValue.textContent = radiusMiles;
+        if (userLatLng) {
+          renderOrgs();
+          var count = listEl.querySelectorAll('.org-card').length;
+          showMessage(count + ' organization' + (count === 1 ? '' : 's') +
+            ' within ' + radiusMiles + ' miles of your address.', 'success');
         }
-        return html;
-      }
+      });
 
-      function addOrgMarker(org, lat, lng) {
-        var m = L.circleMarker([lat, lng], {
-          radius: 9,
-          color: '#065F46',
-          weight: 2,
-          fillColor: '#059669',
-          fillOpacity: 0.9
-        }).addTo(map);
-        m.bindPopup(orgPopupHtml(org));
-        orgMarkers.push(m);
-      }
-
-      function fitToOrgs() {
-        if (orgMarkers.length === 0) return;
-        map.fitBounds(L.featureGroup(orgMarkers).getBounds().pad(0.2));
-      }
-
-      // Geocode any address-only orgs one at a time (~1 req/sec per Nominatim policy).
-      function geocodeOrgQueue(items, onDone) {
-        var i = 0;
-        (function next() {
-          if (i >= items.length) { onDone(); return; }
-          var org = items[i++];
-          fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
-            encodeURIComponent(org.address), { headers: { 'Accept': 'application/json' } })
-            .then(function (r) { return r.ok ? r.json() : []; })
-            .then(function (res) {
-              if (res && res.length) {
-                addOrgMarker(org, parseFloat(res[0].lat), parseFloat(res[0].lon));
-              } else if (window.console) {
-                console.warn('Voluntool map: could not geocode org address:', org.address);
-              }
-            })
-            .catch(function () {
-              if (window.console) console.warn('Voluntool map: geocode failed for', org.address);
-            })
-            .finally(function () { setTimeout(next, 1100); });
-        })();
-      }
-
+      // ----------------------------------------------------------------
+      // Load organizations from orgs.json
+      // ----------------------------------------------------------------
+      // orgs.json is an editable array. Each entry:
+      //   {
+      //     "name": "...",              // required
+      //     "description": "...",
+      //     "address": "...",
+      //     "latitude": 40.7,           // required
+      //     "longitude": -73.9,         // required
+      //     "category": "Tutoring",
+      //     "link": "https://..."
+      //   }
       fetch('orgs.json', { headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : []; })
-        .then(function (orgs) {
-          if (!Array.isArray(orgs) || orgs.length === 0) return; // no pins yet — expected
-          var needGeocode = [];
-          orgs.forEach(function (org) {
-            if (typeof org.lat === 'number' && typeof org.lng === 'number') {
-              addOrgMarker(org, org.lat, org.lng);
-            } else if (org.address) {
-              needGeocode.push(org);
-            } else if (window.console) {
-              console.warn('Voluntool map: skipping org with no coordinates or address:', org.name);
-            }
+        .then(function (data) {
+          if (!Array.isArray(data)) return;
+          orgs = data.filter(function (o) {
+            return typeof o.latitude === 'number' && typeof o.longitude === 'number';
           });
-          fitToOrgs(); // frame the ready-to-plot pins immediately
-          if (needGeocode.length) geocodeOrgQueue(needGeocode, fitToOrgs);
+          if (userLatLng) renderOrgs(); // in case a search finished first
         })
         .catch(function () {
           if (window.console) {
-            console.warn('Voluntool map: orgs.json not found or invalid — no organization pins loaded.');
+            console.warn('Voluntool map: orgs.json not found or invalid — no organizations loaded.');
           }
         });
     })();

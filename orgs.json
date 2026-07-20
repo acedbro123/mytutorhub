@@ -1,1 +1,56 @@
-[]
+[
+  {
+    "name": "Sample: Midtown Tutoring Center",
+    "description": "Free after-school tutoring in math and reading for local K-8 students.",
+    "address": "1500 Broadway, New York, NY 10036",
+    "latitude": 40.7549,
+    "longitude": -73.9840,
+    "category": "Tutoring",
+    "link": "https://example.org/midtown-tutoring"
+  },
+  {
+    "name": "Sample: Astoria Community Literacy",
+    "description": "Volunteer reading mentors help new readers of all ages build confidence.",
+    "address": "31-14 Broadway, Astoria, NY 11106",
+    "latitude": 40.7644,
+    "longitude": -73.9235,
+    "category": "Literacy",
+    "link": "https://example.org/astoria-literacy"
+  },
+  {
+    "name": "Sample: Brooklyn Reads",
+    "description": "One-on-one literacy support for elementary students in Brooklyn schools.",
+    "address": "209 Joralemon St, Brooklyn, NY 11201",
+    "latitude": 40.6928,
+    "longitude": -73.9903,
+    "category": "Literacy",
+    "link": "https://example.org/brooklyn-reads"
+  },
+  {
+    "name": "Sample: Harlem Learning Hub",
+    "description": "Homework help and STEM enrichment for middle and high school students.",
+    "address": "163 W 125th St, New York, NY 10027",
+    "latitude": 40.8116,
+    "longitude": -73.9465,
+    "category": "STEM",
+    "link": "https://example.org/harlem-learning"
+  },
+  {
+    "name": "Sample: Bronx Youth Mentors",
+    "description": "Weekly mentoring and college-prep guidance for local teens.",
+    "address": "2700 E Tremont Ave, Bronx, NY 10461",
+    "latitude": 40.8448,
+    "longitude": -73.8648,
+    "category": "Mentoring",
+    "link": "https://example.org/bronx-mentors"
+  },
+  {
+    "name": "Sample: Staten Island Volunteers",
+    "description": "Community volunteering and tutoring opportunities across Staten Island.",
+    "address": "1150 South Ave, Staten Island, NY 10314",
+    "latitude": 40.5795,
+    "longitude": -74.1502,
+    "category": "Community",
+    "link": "https://example.org/staten-island-volunteers"
+  }
+]
