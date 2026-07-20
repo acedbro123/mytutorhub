@@ -68,6 +68,20 @@ a:hover { text-decoration: underline; }
   margin-bottom: 1.5rem;
 }
 
+.landing-title {
+  text-align: center;
+  font-size: clamp(2.75rem, 9vw, 4.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 2.25rem;
+  background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--primary); /* fallback for browsers without background-clip:text */
+}
+
 .landing-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
