@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Send our origin as Referer so Nominatim can identify this site (its usage policy) -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Map — Voluntool</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,13 +54,36 @@
     crossorigin=""></script>
   <script>
     (function () {
-      // --- Initialise the map (default view: continental US) ---
-      var map = L.map('map').setView([39.8283, -98.5795], 4);
+      // --- Base layers ---
+      // Satellite imagery (Esri World Imagery — free, no API key)
+      var satellite = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        {
+          maxZoom: 19,
+          attribution: 'Tiles &copy; Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, ' +
+            'Getmapping, Aerogrid, IGN, IGP, UPX, and the GIS User Community'
+        }
+      );
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Regular street map (OpenStreetMap)
+      var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+      });
+
+      // --- Initialise the map (default view: continental US, satellite by default) ---
+      var map = L.map('map', {
+        center: [39.8283, -98.5795],
+        zoom: 4,
+        layers: [satellite]
+      });
+
+      // Toggle between Satellite and Street map (top-right)
+      L.control.layers(
+        { 'Satellite': satellite, 'Street map': streets },
+        null,
+        { position: 'topright' }
+      ).addTo(map);
 
       var marker = null; // single reusable marker
 
@@ -96,14 +121,21 @@
         var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
           encodeURIComponent(query);
 
-        fetch(url, { headers: { 'Accept': 'application/json' } })
+        fetch(url, {
+          headers: { 'Accept': 'application/json' },
+          referrerPolicy: 'strict-origin-when-cross-origin'
+        })
           .then(function (res) {
-            if (!res.ok) throw new Error('Network response was not ok');
+            if (!res.ok) {
+              var httpErr = new Error('HTTP ' + res.status);
+              httpErr.status = res.status;
+              throw httpErr;
+            }
             return res.json();
           })
           .then(function (results) {
             if (!results || results.length === 0) {
-              showMessage('We couldn’t find that address. Try being more specific or check the spelling.', 'error');
+              showMessage('We couldn’t find that address. Try adding a city/state, or check the spelling.', 'error');
               return;
             }
 
@@ -111,7 +143,7 @@
             var lat = parseFloat(place.lat);
             var lng = parseFloat(place.lon);
 
-            map.flyTo([lat, lng], 15, { duration: 1.25 });
+            map.flyTo([lat, lng], 16, { duration: 1.25 });
 
             if (marker) {
               marker.setLatLng([lat, lng]);
@@ -122,8 +154,15 @@
 
             showMessage('Showing: ' + place.display_name, 'success');
           })
-          .catch(function () {
-            showMessage('Something went wrong while searching. Please check your connection and try again.', 'error');
+          .catch(function (err) {
+            if (window.console) console.error('Voluntool map geocoding failed:', err);
+            if (err && err.status === 403) {
+              showMessage('The free map search service is temporarily busy and blocked this request. Please wait a few seconds and try again.', 'error');
+            } else if (err && err.status) {
+              showMessage('The map search service returned an error (' + err.status + '). Please try again in a moment.', 'error');
+            } else {
+              showMessage('Couldn’t reach the map search service. Check your internet connection and try again.', 'error');
+            }
           })
           .finally(function () {
             button.disabled = false;
