@@ -1056,11 +1056,11 @@ footer p { font-size: 0.8rem; }
   z-index: 0; /* keep Leaflet panes below the site nav */
 }
 
-/* Radius control */
+/* Filter controls (radius / age / hours) */
 .map-controls {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1.25rem;
   flex-wrap: wrap;
   margin-bottom: 1rem;
   padding: 0.85rem 1.1rem;
@@ -1069,15 +1069,38 @@ footer p { font-size: 0.8rem; }
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
 }
-.map-controls label { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.map-control { display: flex; align-items: center; gap: 0.6rem; }
+.map-control--radius { flex: 1 1 260px; min-width: 220px; }
+.map-controls label { font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; }
 .map-controls input[type="range"] {
   flex: 1;
-  min-width: 160px;
+  min-width: 120px;
   accent-color: var(--green);
   cursor: pointer;
 }
-.map-controls .radius-value { font-size: 0.9rem; color: var(--text-muted); }
+.map-controls select {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  cursor: pointer;
+}
+.map-controls select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-light);
+}
+.map-controls .radius-value { font-size: 0.9rem; color: var(--text-muted); white-space: nowrap; }
 .map-controls .radius-value strong { color: var(--green); font-size: 1rem; }
+
+@media (max-width: 600px) {
+  .map-controls { gap: 0.85rem; }
+  .map-control--radius { flex: 1 1 100%; }
+}
 
 /* Map + sidebar layout */
 .map-layout { display: flex; gap: 1.25rem; align-items: stretch; }

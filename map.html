@@ -43,9 +43,35 @@
       </form>
 
       <div class="map-controls">
-        <label for="radius-range">Show organizations within</label>
-        <input id="radius-range" type="range" min="5" max="15" step="1" value="10" aria-label="Search radius in miles" />
-        <span class="radius-value"><strong id="radius-value">10</strong> miles</span>
+        <div class="map-control map-control--radius">
+          <label for="radius-range">Within</label>
+          <input id="radius-range" type="range" min="0" max="100" step="1" value="25" aria-label="Search radius in miles" />
+          <span class="radius-value"><strong id="radius-value">25</strong> mi</span>
+        </div>
+        <div class="map-control">
+          <label for="age-select">My age</label>
+          <select id="age-select" aria-label="Your age">
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16" selected>16</option>
+            <option value="17">17</option>
+            <option value="18">18 or older</option>
+          </select>
+        </div>
+        <div class="map-control">
+          <label for="hours-select">Hours/week</label>
+          <select id="hours-select" aria-label="Hours per week you can volunteer">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="40">10+</option>
+          </select>
+        </div>
       </div>
 
       <p id="map-message" class="map-message" role="status" aria-live="polite" hidden></p>
@@ -66,6 +92,8 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
+  <!-- Organization data (edit orgs.js to add your own) -->
+  <script src="orgs.js"></script>
   <script>
     (function () {
       // ----------------------------------------------------------------
@@ -92,10 +120,10 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       });
 
-      // Initialise the map (default view: New York City, satellite by default)
+      // Initialise the map (default view: Los Angeles, satellite by default)
       var map = L.map('map', {
-        center: [40.7484, -73.9857],
-        zoom: 12,
+        center: [34.0522, -118.2437],
+        zoom: 11,
         maxZoom: 20,
         layers: [satellite]
       });
@@ -111,11 +139,14 @@
       // ----------------------------------------------------------------
       var userMarker = null;         // marker for the searched address
       var userLatLng = null;         // [lat, lng] of the searched address
-      var orgs = [];                 // all organizations from orgs.json
+      var orgs = [];                 // all organizations from orgs.js
       var orgLayer = L.layerGroup().addTo(map); // markers currently shown
       var shownMarkers = [];         // parallel to the rendered list
 
-      var radiusMiles = 10;
+      // Filter state
+      var radiusMiles = 25;
+      var userAge = 16;
+      var userHours = 5;
 
       var form = document.getElementById('map-search');
       var input = document.getElementById('map-search-input');
@@ -124,6 +155,8 @@
       var listEl = document.getElementById('org-list');
       var radiusRange = document.getElementById('radius-range');
       var radiusValue = document.getElementById('radius-value');
+      var ageSelect = document.getElementById('age-select');
+      var hoursSelect = document.getElementById('hours-select');
 
       function showMessage(text, type) {
         message.textContent = text;
@@ -178,7 +211,8 @@
           return;
         }
 
-        // distance-tag, filter by radius, sort nearest-first
+        // Tag with distance, then filter by radius AND age AND weekly hours,
+        // and sort nearest-first.
         var nearby = orgs
           .map(function (org) {
             return {
@@ -186,12 +220,16 @@
               dist: distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude)
             };
           })
-          .filter(function (item) { return item.dist <= radiusMiles; })
+          .filter(function (item) {
+            return item.dist <= radiusMiles &&
+              item.org.minAge <= userAge &&
+              item.org.weeklyHoursRequired <= userHours;
+          })
           .sort(function (a, b) { return a.dist - b.dist; });
 
         if (nearby.length === 0) {
-          listEl.innerHTML = '<p class="org-list__empty">No organizations within ' + radiusMiles +
-            ' miles. Try increasing the radius.</p>';
+          listEl.innerHTML = '<p class="org-list__empty">No organizations match your filters. ' +
+            'Try widening the radius, raising your available hours, or your age.</p>';
           return;
         }
 
@@ -241,6 +279,14 @@
 
           listEl.appendChild(card);
         });
+      }
+
+      // Update the status line to reflect the current filtered count.
+      function summarize() {
+        if (!userLatLng) return;
+        var count = listEl.querySelectorAll('.org-card').length;
+        showMessage(count + ' organization' + (count === 1 ? '' : 's') +
+          ' match your filters (within ' + radiusMiles + ' miles).', 'success');
       }
 
       // ----------------------------------------------------------------
@@ -298,10 +344,7 @@
             userMarker.bindPopup('Your location: ' + escapeHtml(place.display_name));
 
             renderOrgs();
-
-            var count = listEl.querySelectorAll('.org-card').length;
-            showMessage(count + ' organization' + (count === 1 ? '' : 's') +
-              ' within ' + radiusMiles + ' miles of your address.', 'success');
+            summarize();
           })
           .catch(function (err) {
             if (window.console) console.error('Voluntool map geocoding failed:', err);
@@ -319,45 +362,41 @@
           });
       });
 
-      // Radius control — update the list/markers live once an address is set.
+      // Filters — update the list + markers live once an address is set.
       radiusRange.addEventListener('input', function () {
         radiusMiles = parseInt(radiusRange.value, 10);
         radiusValue.textContent = radiusMiles;
-        if (userLatLng) {
-          renderOrgs();
-          var count = listEl.querySelectorAll('.org-card').length;
-          showMessage(count + ' organization' + (count === 1 ? '' : 's') +
-            ' within ' + radiusMiles + ' miles of your address.', 'success');
-        }
+        if (userLatLng) { renderOrgs(); summarize(); }
+      });
+      ageSelect.addEventListener('change', function () {
+        userAge = parseInt(ageSelect.value, 10);
+        if (userLatLng) { renderOrgs(); summarize(); }
+      });
+      hoursSelect.addEventListener('change', function () {
+        userHours = parseInt(hoursSelect.value, 10);
+        if (userLatLng) { renderOrgs(); summarize(); }
       });
 
       // ----------------------------------------------------------------
-      // Load organizations from orgs.json
+      // Load organizations from orgs.js (window.VOLUNTOOL_ORGS)
       // ----------------------------------------------------------------
-      // orgs.json is an editable array. Each entry:
-      //   {
-      //     "name": "...",              // required
-      //     "description": "...",
-      //     "address": "...",
-      //     "latitude": 40.7,           // required
-      //     "longitude": -73.9,         // required
-      //     "category": "Tutoring",
-      //     "link": "https://..."
-      //   }
-      fetch('orgs.json', { headers: { 'Accept': 'application/json' } })
-        .then(function (r) { return r.ok ? r.json() : []; })
-        .then(function (data) {
-          if (!Array.isArray(data)) return;
-          orgs = data.filter(function (o) {
-            return typeof o.latitude === 'number' && typeof o.longitude === 'number';
-          });
-          if (userLatLng) renderOrgs(); // in case a search finished first
-        })
-        .catch(function () {
+      // Each entry needs at least: name, latitude, longitude, minAge,
+      // weeklyHoursRequired. See orgs.js for the full field list and how to
+      // add your own.
+      (function loadOrgs() {
+        var data = window.VOLUNTOOL_ORGS;
+        if (!Array.isArray(data)) {
           if (window.console) {
-            console.warn('Voluntool map: orgs.json not found or invalid — no organizations loaded.');
+            console.warn('Voluntool map: orgs.js not loaded or invalid — no organizations loaded.');
           }
+          return;
+        }
+        orgs = data.filter(function (o) {
+          return o && typeof o.latitude === 'number' && typeof o.longitude === 'number' &&
+            typeof o.minAge === 'number' && typeof o.weeklyHoursRequired === 'number';
         });
+        if (userLatLng) renderOrgs(); // in case a search finished first
+      })();
     })();
   </script>
 </body>
