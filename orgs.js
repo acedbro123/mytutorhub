@@ -111,5 +111,78 @@ window.VOLUNTOOL_ORGS = [
     link: "https://example.org/pomona-literacy",
     minAge: 15,
     weeklyHoursRequired: 2
+  },
+
+  // =========================================================================
+  // Beverly Hills organizations (added from your list).
+  // These entries have NO latitude/longitude — the Map page geocodes each
+  // address via OpenStreetMap Nominatim on load and caches the result in the
+  // browser, so distance filtering still works. Lines marked "// VERIFY" are
+  // placeholders for you to confirm later.
+  // =========================================================================
+  {
+    name: "City of Beverly Hills Volunteer Program",
+    description: "City-run volunteering across senior nutrition, the public library, the annual Art Show, Concerts on Canon, and community events.",
+    address: "455 N Rexford Dr, Beverly Hills, CA 90210",
+    category: "Community",
+    link: "https://www.beverlyhills.org/343/Volunteering",
+    minAge: 14, // grades 9-12 and up
+    weeklyHoursRequired: 2 // VERIFY — flexible/event-based, not a fixed weekly amount
+  },
+  {
+    name: "Friends of Beverly Gardens Park",
+    description: "Volunteer group that helps restore and maintain the historic Beverly Gardens Park along Santa Monica Blvd.",
+    address: "Beverly Gardens Park, Santa Monica Blvd, Beverly Hills, CA 90210", // VERIFY
+    category: "Environment",
+    link: "https://www.beverlyhills.org/480/Community-Groups", // VERIFY
+    minAge: 14, // grades 9-12 and up
+    weeklyHoursRequired: 2 // VERIFY — event-based
+  },
+  {
+    name: "Dream Street Foundation",
+    description: "Runs free camps for children and young adults with serious medical conditions; volunteers serve as camp counselors and companions.",
+    address: "Beverly Hills, CA 90210", // VERIFY — exact street address
+    category: "Children / Health",
+    link: "https://dreamstreetfoundation.org", // VERIFY
+    minAge: 19,
+    weeklyHoursRequired: 4 // VERIFY — intensive during camp sessions
+  },
+  {
+    name: "TreePeople",
+    description: "Environmental nonprofit focused on tree planting and ecosystem restoration; runs regular public volunteer events.",
+    address: "12601 Mulholland Dr, Beverly Hills, CA 90210",
+    category: "Environment",
+    link: "https://www.treepeople.org",
+    minAge: 5, // with adult guardian
+    weeklyHoursRequired: 3 // typical event length
+  },
+  {
+    name: "Teen BHEF (Beverly Hills Education Foundation)",
+    description: "Student volunteer group for grades 7-12 doing service projects and fundraising to support Beverly Hills schools.",
+    address: "255 S Lasky Dr, Beverly Hills, CA 90212", // VERIFY
+    category: "Education / Youth",
+    link: "https://www.bhef.org", // VERIFY
+    minAge: 12, // grades 7-12
+    weeklyHoursRequired: 1 // VERIFY — flexible/event-based
   }
+
+  // PENDING — uncomment and fill minAge when replies arrive:
+  // {
+  //   name: "The Amanda Foundation",
+  //   description: "No-kill animal rescue with a full veterinary hospital; volunteers help with dog walking, cat care, and adoption events.",
+  //   address: "351 N Foothill Rd, Beverly Hills, CA 90210",
+  //   category: "Animals",
+  //   link: "https://amandafoundation.org/get-involved/",
+  //   minAge: ???, // awaiting email reply
+  //   weeklyHoursRequired: 2 // VERIFY
+  // },
+  // {
+  //   name: "Friends of Greystone",
+  //   description: "Volunteer group raising funds and running events to restore the historic Greystone/Doheny estate.",
+  //   address: "905 Loma Vista Dr, Beverly Hills, CA 90210", // VERIFY
+  //   category: "Historic Preservation",
+  //   link: "https://www.friendsofgreystone.org", // VERIFY
+  //   minAge: ???, // awaiting email reply
+  //   weeklyHoursRequired: 2 // VERIFY
+  // }
 ];
