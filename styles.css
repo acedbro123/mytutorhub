@@ -1056,6 +1056,10 @@ footer p { font-size: 0.8rem; }
   z-index: 0; /* keep Leaflet panes below the site nav */
 }
 
+/* "You are here" home marker — strip Leaflet's default divIcon box */
+.home-marker { background: transparent; border: none; }
+.home-marker svg { display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35)); }
+
 /* Filter controls (radius / age / hours) */
 .map-controls {
   display: flex;
