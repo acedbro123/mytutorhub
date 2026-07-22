@@ -94,6 +94,8 @@
     crossorigin=""></script>
   <!-- Organization data (edit orgs.js to add your own) -->
   <script src="orgs.js"></script>
+  <!-- Shared saved-orgs store (localStorage) -->
+  <script src="saved.js"></script>
   <script>
     (function () {
       // ----------------------------------------------------------------
@@ -189,6 +191,62 @@
         });
       }
 
+      // ---- Save (bookmark) buttons ----------------------------------------
+      var BOOKMARK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">' +
+        '<path d="M6 2h12a1 1 0 0 1 1 1v18l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>';
+
+      function saveButtonHtml(org) {
+        var saved = window.VoluntoolSaved && VoluntoolSaved.isSaved(org.name);
+        return '<button type="button" class="org-save' + (saved ? ' org-save--active' : '') +
+          '" data-name="' + escapeHtml(org.name) + '" aria-pressed="' + (saved ? 'true' : 'false') +
+          '" title="Save this organization">' + BOOKMARK_SVG +
+          '<span class="org-save__label">' + (saved ? 'Saved' : 'Save') + '</span></button>';
+      }
+
+      function updateSaveButton(btn) {
+        var saved = window.VoluntoolSaved && VoluntoolSaved.isSaved(btn.getAttribute('data-name'));
+        btn.classList.toggle('org-save--active', !!saved);
+        btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+        var label = btn.querySelector('.org-save__label');
+        if (label) label.textContent = saved ? 'Saved' : 'Save';
+      }
+      function refreshAllSaveButtons() {
+        var btns = document.querySelectorAll('.org-save');
+        for (var i = 0; i < btns.length; i++) updateSaveButton(btns[i]);
+      }
+      function orgByName(name) {
+        for (var i = 0; i < orgs.length; i++) if (orgs[i].name === name) return orgs[i];
+        return null;
+      }
+      // Only persist the stable fields (not the transient distance).
+      function saveDataFor(org) {
+        return {
+          name: org.name, description: org.description, address: org.address,
+          category: org.category, link: org.link, minAge: org.minAge,
+          weeklyHoursRequired: org.weeklyHoursRequired,
+          latitude: org.latitude, longitude: org.longitude
+        };
+      }
+      function toggleSaveByName(name) {
+        var org = orgByName(name);
+        if (org && window.VoluntoolSaved) {
+          VoluntoolSaved.toggle(saveDataFor(org));
+          refreshAllSaveButtons();
+        }
+      }
+
+      // Save buttons inside Leaflet popups (wired when the popup opens).
+      map.on('popupopen', function (e) {
+        var el = e.popup.getElement();
+        var btn = el && el.querySelector('.org-save');
+        if (!btn) return;
+        updateSaveButton(btn);
+        btn.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          toggleSaveByName(btn.getAttribute('data-name'));
+        });
+      });
+
       // Great-circle distance between two points, in miles (haversine).
       function distanceMiles(lat1, lng1, lat2, lng2) {
         var R = 3958.8; // Earth radius in miles
@@ -210,6 +268,7 @@
         if (org.link) {
           html += '<br><a href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
         }
+        html += '<br>' + saveButtonHtml(org);
         return html;
       }
 
@@ -275,7 +334,15 @@
             '</div>' +
             (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
             (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
-            linkHtml;
+            '<div class="org-card__actions">' + linkHtml + saveButtonHtml(org) + '</div>';
+
+          var saveBtn = card.querySelector('.org-save');
+          if (saveBtn) {
+            saveBtn.addEventListener('click', function (e) {
+              e.stopPropagation(); // don't trigger the card's focus behavior
+              toggleSaveByName(org.name);
+            });
+          }
 
           function focusOrg() {
             // Frame BOTH the home pin and this org so both stay visible.
@@ -292,9 +359,9 @@
             // On mobile the map sits above the list — bring it into view.
             document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
-          // Clicking the external link should NOT trigger the fly-to.
+          // Clicking the external link or the save button should NOT fly-to.
           card.addEventListener('click', function (e) {
-            if (e.target.closest('.org-card__link')) return;
+            if (e.target.closest('.org-card__link') || e.target.closest('.org-save')) return;
             focusOrg();
           });
           card.addEventListener('keydown', function (e) {
@@ -356,6 +423,7 @@
             var lat = parseFloat(place.lat);
             var lng = parseFloat(place.lon);
             userLatLng = [lat, lng];
+            if (window.VoluntoolSaved) VoluntoolSaved.setLocation(lat, lng, place.display_name);
 
             // zoom to ~17 (neighborhood/house level) so buildings are visible
             map.flyTo([lat, lng], 17, { duration: 1.25 });

@@ -1171,6 +1171,49 @@ footer p { font-size: 0.8rem; }
 }
 .org-card__desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.4rem; }
 .org-card__link { font-size: 0.82rem; font-weight: 700; color: var(--green); }
+.org-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+/* Save (bookmark) toggle — neutral by default, yellow when saved */
+.org-save {
+  margin-left: auto; /* keep it on the right even when there's no link */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.org-save svg { fill: none; stroke: currentColor; stroke-width: 2; }
+.org-save:hover { border-color: #CA8A04; color: #CA8A04; }
+.org-save--active {
+  background: #FEF9C3;      /* yellow-100 */
+  border-color: #EAB308;    /* yellow-500 */
+  color: #A16207;           /* yellow-700 */
+}
+.org-save--active svg { fill: #EAB308; stroke: #EAB308; }
+
+/* Saved Volunteer Ideas page */
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.saved-grid .org-card { margin-bottom: 0; cursor: default; }
+.saved-grid .org-card:hover { transform: none; box-shadow: var(--shadow); border-color: var(--border); }
+.saved-card__meta { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.25rem; }
+.saved-empty { text-align: center; }
 
 @media (max-width: 820px) {
   .map-layout { flex-direction: column; }

@@ -19,11 +19,106 @@
 
   <main class="main">
     <section class="section">
-      <div class="info-box">
-        <h1 style="font-size:1.75rem;font-weight:800;margin-bottom:0.75rem;">Saved Volunteer Ideas</h1>
-        <p>Coming soon. This page will let visitors save and revisit in-person opportunities they want to keep track of.</p>
+      <div class="map-header">
+        <h1>Saved Volunteer Ideas</h1>
+        <p>Organizations you saved from the map. Distances are measured from the last address you searched.</p>
       </div>
+      <div id="saved-list" class="saved-grid"></div>
     </section>
   </main>
+
+  <!-- Shared saved-orgs store (localStorage) -->
+  <script src="saved.js"></script>
+  <script>
+    (function () {
+      var listEl = document.getElementById('saved-list');
+
+      var BOOKMARK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">' +
+        '<path d="M6 2h12a1 1 0 0 1 1 1v18l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>';
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function render() {
+        var saved = VoluntoolSaved.getAll();
+        var loc = VoluntoolSaved.getLocation();
+        listEl.innerHTML = '';
+
+        if (!saved.length) {
+          listEl.className = '';
+          listEl.innerHTML =
+            '<div class="info-box saved-empty">' +
+              '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:0.5rem;">Nothing saved yet</h2>' +
+              '<p>Head to the <a href="map.html">Map</a>, search your address, and tap ' +
+              '<strong>Save</strong> on any organization to keep it here.</p>' +
+            '</div>';
+          return;
+        }
+
+        listEl.className = 'saved-grid';
+
+        // Tag with distance (if we know the user's location) and sort nearest-first.
+        var items = saved.map(function (org) {
+          var dist = null;
+          if (loc && typeof org.latitude === 'number' && typeof org.longitude === 'number') {
+            dist = VoluntoolSaved.distanceMiles(loc.lat, loc.lng, org.latitude, org.longitude);
+          }
+          return { org: org, dist: dist };
+        });
+        items.sort(function (a, b) {
+          if (a.dist == null && b.dist == null) return 0;
+          if (a.dist == null) return 1;
+          if (b.dist == null) return -1;
+          return a.dist - b.dist;
+        });
+
+        items.forEach(function (item) {
+          var org = item.org;
+          var card = document.createElement('div');
+          card.className = 'org-card saved-card';
+
+          var linkHtml = org.link
+            ? '<a class="org-card__link" href="' + encodeURI(org.link) +
+              '" target="_blank" rel="noopener">Visit website ↗</a>'
+            : '';
+
+          card.innerHTML =
+            '<div class="org-card__top">' +
+              '<span class="org-card__name">' + escapeHtml(org.name || 'Organization') + '</span>' +
+              (item.dist != null ? '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' : '') +
+            '</div>' +
+            (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
+            (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
+            (org.address ? '<p class="saved-card__meta">📍 ' + escapeHtml(org.address) + '</p>' : '') +
+            '<p class="saved-card__meta">' +
+              (typeof org.minAge === 'number' ? 'Ages ' + org.minAge + '+' : '') +
+              (typeof org.minAge === 'number' && typeof org.weeklyHoursRequired === 'number' ? ' &middot; ' : '') +
+              (typeof org.weeklyHoursRequired === 'number' ? org.weeklyHoursRequired + ' hr/week' : '') +
+            '</p>' +
+            '<div class="org-card__actions">' + linkHtml +
+              '<button type="button" class="org-save org-save--active" data-name="' + escapeHtml(org.name) +
+              '" aria-pressed="true" title="Remove from saved">' + BOOKMARK_SVG +
+              '<span class="org-save__label">Saved</span></button>' +
+            '</div>';
+
+          var removeBtn = card.querySelector('.org-save');
+          removeBtn.addEventListener('click', function () {
+            VoluntoolSaved.remove(org.name); // also un-highlights on the Map page
+            render();
+          });
+
+          listEl.appendChild(card);
+        });
+      }
+
+      render();
+
+      // If saved items change in another tab, keep this page in sync.
+      window.addEventListener('storage', render);
+    })();
+  </script>
 </body>
 </html>
