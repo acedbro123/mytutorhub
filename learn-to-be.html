@@ -17,9 +17,13 @@
   <nav class="section-nav section-nav--online">
     <div class="section-nav-inner">
       <a href="index.html" class="section-nav-link">Home</a>
-      <a href="websites.html" class="section-nav-link active">Websites</a>
-      <a href="best-practices.html" class="section-nav-link">Best Practices</a>
-      <a href="ask.html" class="section-nav-link">Ask AI</a>
+      <div class="section-nav-dropdown" data-dropdown>
+        <a href="websites.html" class="section-nav-link active">Websites</a>
+        <button type="button" class="section-nav-dropdown__toggle" aria-haspopup="true" aria-expanded="false" aria-label="Open list of websites">▾</button>
+        <div class="section-nav-dropdown__menu" role="menu" hidden></div>
+      </div>
+      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Best Practices<span class="pending-tag">Pending</span></span>
+      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Ask AI<span class="pending-tag">Pending</span></span>
     </div>
   </nav>
 
@@ -308,5 +312,7 @@
     <p>A resource guide for high school volunteers interested in online tutoring.</p>
   </footer>
 
+  <script src="sites.js"></script>
+  <script src="online-nav.js"></script>
 </body>
 </html>

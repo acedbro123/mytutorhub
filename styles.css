@@ -177,6 +177,78 @@ a:hover { text-decoration: underline; }
   color: #047857;
 }
 
+/* ---- Online "Websites" dropdown ---- */
+.section-nav-dropdown { position: relative; display: inline-flex; align-items: center; }
+.section-nav-dropdown__toggle {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.4rem 0.45rem;
+  margin-left: -0.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.section-nav-dropdown__toggle:hover,
+.section-nav-dropdown.open .section-nav-dropdown__toggle {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.section-nav-dropdown__menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  padding: 0.35rem;
+  z-index: 200;
+}
+/* open on hover (desktop) or when toggled open via click/tap/keyboard */
+.section-nav-dropdown:hover .section-nav-dropdown__menu,
+.section-nav-dropdown.open .section-nav-dropdown__menu { display: block; }
+.section-nav-dropdown__item {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.section-nav-dropdown__item:hover,
+.section-nav-dropdown__item:focus {
+  background: var(--primary-light);
+  color: var(--primary);
+  text-decoration: none;
+  outline: none;
+}
+
+/* ---- Pending (not-yet-built) nav items ---- */
+.section-nav-link--pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  opacity: 0.65;
+  cursor: default;
+}
+.section-nav-link--pending:hover { background: transparent; color: var(--text-muted); }
+.pending-tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+}
+
 /* ========== Navigation ========== */
 .nav {
   background: var(--white);

@@ -12,69 +12,28 @@
   <nav class="section-nav section-nav--online">
     <div class="section-nav-inner">
       <a href="index.html" class="section-nav-link">Home</a>
-      <a href="websites.html" class="section-nav-link active">Websites</a>
-      <a href="best-practices.html" class="section-nav-link">Best Practices</a>
-      <a href="ask.html" class="section-nav-link">Ask AI</a>
+      <div class="section-nav-dropdown" data-dropdown>
+        <a href="websites.html" class="section-nav-link active">Websites</a>
+        <button type="button" class="section-nav-dropdown__toggle" aria-haspopup="true" aria-expanded="false" aria-label="Open list of websites">▾</button>
+        <div class="section-nav-dropdown__menu" role="menu" hidden></div>
+      </div>
+      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Best Practices<span class="pending-tag">Pending</span></span>
+      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Ask AI<span class="pending-tag">Pending</span></span>
     </div>
   </nav>
 
   <section class="page-hero" style="background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);">
     <div class="page-hero-inner">
       <div class="tag">Remote volunteering</div>
-      <h1>Browse online volunteering websites</h1>
+      <h1>Browse Online Volunteering Websites</h1>
       <p>Use this section to explore the platforms you already know and compare which fit your style best.</p>
     </div>
   </section>
 
   <main class="main">
     <section class="section">
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-icon" style="background:#EEF2FF;">📘</div>
-          <h3>Schoolhouse.world</h3>
-          <p>A peer tutoring platform founded by Sal Khan with live, interactive sessions across many subjects.</p>
-          <div class="card-footer">
-            <span class="badge badge-purple">All subjects</span>
-            <a href="schoolhouse.html" class="card-link">Learn more →</a>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="background:#E0F2FE;">⚡</div>
-          <h3>UpChieve</h3>
-          <p>On-demand volunteering where you can jump in whenever you have time and help a student instantly.</p>
-          <div class="card-footer">
-            <span class="badge badge-blue">On-demand</span>
-            <a href="upchieve.html" class="card-link">Learn more →</a>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="background:#ECFDF5;">📖</div>
-          <h3>Wise Readers to Leaders</h3>
-          <p>A literacy-focused option that helps students build reading confidence over time through repeated support.</p>
-          <div class="card-footer">
-            <span class="badge badge-green">Literacy focus</span>
-            <a href="wise-readers.html" class="card-link">Learn more →</a>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="background:#FFFBEB;">🌱</div>
-          <h3>Learn to Be</h3>
-          <p>A long-term tutoring opportunity where volunteers build consistent relationships with students over time.</p>
-          <div class="card-footer">
-            <span class="badge badge-amber">Long-term match</span>
-            <a href="learn-to-be.html" class="card-link">Learn more →</a>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-icon" style="background:#FFF7ED;">📖</div>
-          <h3>Reading Partners</h3>
-          <p>Another strong option for structured, one-on-one support, especially for younger readers.</p>
-          <div class="card-footer">
-            <span class="badge" style="background:#FFF7ED;color:#C2410C;">In-person & Online</span>
-            <a href="reading-partners.html" class="card-link">Learn more →</a>
-          </div>
-        </div>
-      </div>
+      <!-- Cards generated from VOLUNTOOL_SITES (sites.js) by online-nav.js -->
+      <div class="cards-grid" id="sites-grid"></div>
     </section>
 
     <section class="section">
@@ -84,5 +43,7 @@
       </div>
     </section>
   </main>
+  <script src="sites.js"></script>
+  <script src="online-nav.js"></script>
 </body>
 </html>
