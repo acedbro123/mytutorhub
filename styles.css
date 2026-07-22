@@ -179,18 +179,17 @@ a:hover { text-decoration: underline; }
 
 /* ---- Online "Websites" dropdown ---- */
 .section-nav-dropdown { position: relative; display: inline-flex; align-items: center; }
+/* The whole "Websites" item is the toggle (text + caret) */
 .section-nav-dropdown__toggle {
   border: none;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.7rem;
-  line-height: 1;
-  padding: 0.4rem 0.45rem;
-  margin-left: -0.4rem;
-  border-radius: 999px;
+  font-family: inherit;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
 }
-.section-nav-dropdown__toggle:hover,
+.section-nav-dropdown__caret { font-size: 0.6rem; line-height: 1; }
 .section-nav-dropdown.open .section-nav-dropdown__toggle {
   background: var(--primary-light);
   color: var(--primary);
@@ -208,8 +207,7 @@ a:hover { text-decoration: underline; }
   padding: 0.35rem;
   z-index: 200;
 }
-/* open on hover (desktop) or when toggled open via click/tap/keyboard */
-.section-nav-dropdown:hover .section-nav-dropdown__menu,
+/* open only when toggled via click/tap/keyboard (so a click can also close it) */
 .section-nav-dropdown.open .section-nav-dropdown__menu { display: block; }
 .section-nav-dropdown__item {
   display: block;

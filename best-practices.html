@@ -9,28 +9,50 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
+
   <nav class="section-nav section-nav--online">
     <div class="section-nav-inner">
+      <a href="index.html" class="section-nav-link">Home</a>
       <a href="websites.html" class="section-nav-link">Browse</a>
       <div class="section-nav-dropdown" data-dropdown>
-        <a href="websites.html" class="section-nav-link">Websites</a>
-        <button type="button" class="section-nav-dropdown__toggle" aria-haspopup="true" aria-expanded="false" aria-label="Open list of websites">▾</button>
+        <button type="button" class="section-nav-link section-nav-dropdown__toggle" aria-haspopup="true" aria-expanded="false">Websites <span class="section-nav-dropdown__caret" aria-hidden="true">▾</span></button>
         <div class="section-nav-dropdown__menu" role="menu" hidden></div>
       </div>
-      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Best Practices<span class="pending-tag">Pending</span></span>
-      <span class="section-nav-link section-nav-link--pending" aria-disabled="true">Ask AI<span class="pending-tag">Pending</span></span>
-      <a href="index.html" class="section-nav-link">Home</a>
+      <a href="best-practices.html" class="section-nav-link active">Best Practices</a>
+      <a href="ask.html" class="section-nav-link">Ask AI</a>
     </div>
   </nav>
 
+  <!-- Page Hero -->
+  <div class="page-hero" style="background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);">
+    <div class="page-hero-inner">
+      <div class="tag">Advice for Volunteers</div>
+      <h1>Best Practices</h1>
+      <p>Tips to help you show up as the best tutor you can be — for your student and for yourself.</p>
+    </div>
+  </div>
+
   <main class="main">
+
     <section class="section">
       <div class="info-box">
-        <h1 style="font-size:1.75rem;font-weight:800;margin-bottom:0.75rem;">Best Practices</h1>
-        <p>Coming soon. This page will eventually hold practical tips for volunteering well and making the experience more rewarding.</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.85rem;">
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Be aware of a student's age, skill level, and learning style. Meet students where they are rather than where you think they should be.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Don't be discouraged if a student struggles at first. Learning takes time, and progress is often gradual.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Building a positive relationship is just as important as teaching content. Students learn better when they feel comfortable asking questions.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> It's okay if a tutoring match doesn't work out. Sometimes a different tutor or teaching style is a better fit for a student's needs.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Tutoring is rewarding, but it is still work. Some sessions may require preparation, planning, or reviewing material beforehand.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Be patient. A concept that seems simple to you may be completely new or confusing to your student.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Focus on helping students understand concepts rather than simply giving them answers.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Don't be afraid to admit when you don't know something. Learning how to find the answer together can be a valuable lesson.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;padding-bottom:0.85rem;border-bottom:1px solid var(--border);"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Celebrate small successes. A student's growing confidence can be just as meaningful as an improvement in grades.</li>
+          <li style="display:flex;gap:0.75rem;font-size:0.95rem;line-height:1.7;"><span style="color:var(--primary);font-weight:700;flex-shrink:0;">→</span> Remember that your impact goes beyond academics. Encouragement, support, and consistency can make a lasting difference in a student's life.</li>
+        </ul>
       </div>
     </section>
+
   </main>
+
   <script src="sites.js"></script>
   <script src="online-nav.js"></script>
 </body>
