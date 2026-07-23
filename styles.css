@@ -1145,7 +1145,30 @@ footer p { font-size: 0.8rem; }
 }
 .map-control { display: flex; align-items: center; gap: 0.6rem; }
 .map-control--radius { flex: 1 1 260px; min-width: 220px; }
-.map-controls label { font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; }
+.map-control--category { flex: 1 1 100%; align-items: flex-start; }
+.map-controls label,
+.map-controls .map-control__label { font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; }
+.map-control__label { padding-top: 0.35rem; }
+
+.category-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.category-chip {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.category-chip:hover { border-color: var(--green); color: var(--green); }
+.category-chip--active {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--white);
+}
 .map-controls input[type="range"] {
   flex: 1;
   min-width: 120px;

@@ -72,6 +72,10 @@
             <option value="40">10+</option>
           </select>
         </div>
+        <div class="map-control map-control--category">
+          <span class="map-control__label">Categories</span>
+          <div id="category-chips" class="category-chips" role="group" aria-label="Filter by category"></div>
+        </div>
       </div>
 
       <p id="map-message" class="map-message" role="status" aria-live="polite" hidden></p>
@@ -164,6 +168,7 @@
       var radiusMiles = 25;
       var userAge = 16;
       var userHours = 5;
+      var selectedCategories = []; // empty = show all categories
 
       var form = document.getElementById('map-search');
       var input = document.getElementById('map-search-input');
@@ -174,6 +179,7 @@
       var radiusValue = document.getElementById('radius-value');
       var ageSelect = document.getElementById('age-select');
       var hoursSelect = document.getElementById('hours-select');
+      var categoryChips = document.getElementById('category-chips');
 
       function showMessage(text, type) {
         message.textContent = text;
@@ -273,6 +279,41 @@
       }
 
       // ----------------------------------------------------------------
+      // Category filter
+      // ----------------------------------------------------------------
+      // Split combined categories like "Children / Health" so an org counts
+      // under BOTH "Children" and "Health".
+      function orgCategories(org) {
+        if (!org.category) return [];
+        return org.category.split('/').map(function (c) { return c.trim(); }).filter(Boolean);
+      }
+
+      // An org passes when no categories are selected (= show all), or when it
+      // belongs to at least one selected category.
+      function matchesCategory(org) {
+        if (selectedCategories.length === 0) return true;
+        var cats = orgCategories(org);
+        for (var i = 0; i < cats.length; i++) {
+          if (selectedCategories.indexOf(cats[i]) !== -1) return true;
+        }
+        return false;
+      }
+
+      // Build the chip list dynamically from every (split) category in the data.
+      function buildCategoryChips() {
+        if (!categoryChips) return;
+        var seen = {};
+        orgs.forEach(function (o) {
+          orgCategories(o).forEach(function (c) { seen[c] = true; });
+        });
+        var cats = Object.keys(seen).sort();
+        categoryChips.innerHTML = cats.map(function (c) {
+          return '<button type="button" class="category-chip" data-cat="' + escapeHtml(c) +
+            '" aria-pressed="false">' + escapeHtml(c) + '</button>';
+        }).join('');
+      }
+
+      // ----------------------------------------------------------------
       // Render the sidebar list + org markers for the current radius
       // ----------------------------------------------------------------
       function renderOrgs() {
@@ -297,7 +338,8 @@
           .filter(function (item) {
             return item.dist <= radiusMiles &&
               item.org.minAge <= userAge &&
-              item.org.weeklyHoursRequired <= userHours;
+              item.org.weeklyHoursRequired <= userHours &&
+              matchesCategory(item.org);
           })
           .sort(function (a, b) { return a.dist - b.dist; });
 
@@ -473,6 +515,22 @@
         userHours = parseInt(hoursSelect.value, 10);
         if (userLatLng) { renderOrgs(); summarize(); }
       });
+      categoryChips.addEventListener('click', function (e) {
+        var chip = e.target.closest('.category-chip');
+        if (!chip) return;
+        var cat = chip.getAttribute('data-cat');
+        var idx = selectedCategories.indexOf(cat);
+        if (idx === -1) {
+          selectedCategories.push(cat);
+          chip.classList.add('category-chip--active');
+          chip.setAttribute('aria-pressed', 'true');
+        } else {
+          selectedCategories.splice(idx, 1);
+          chip.classList.remove('category-chip--active');
+          chip.setAttribute('aria-pressed', 'false');
+        }
+        if (userLatLng) { renderOrgs(); summarize(); }
+      });
 
       // ----------------------------------------------------------------
       // Load organizations from orgs.js (window.VOLUNTOOL_ORGS)
@@ -538,6 +596,7 @@
           return o && typeof o.minAge === 'number' && typeof o.weeklyHoursRequired === 'number' &&
             (hasCoords(o) || (typeof o.address === 'string' && o.address));
         });
+        buildCategoryChips(); // populate the category filter from the data
 
         // Fill coordinates for address-only orgs, using the cache when possible.
         var cache = readGeocache();
