@@ -160,6 +160,7 @@
       // org marker never touches userMarker; only a new address search moves it.
       var userMarker = null;         // dedicated "home" marker for the searched address
       var userLatLng = null;         // [lat, lng] of the searched address
+      var userAddress = null;        // the searched address text (origin for directions)
       var orgs = [];                 // all organizations from orgs.js
       var orgLayer = L.layerGroup().addTo(map); // markers currently shown
       var shownMarkers = [];         // parallel to the rendered list
@@ -265,6 +266,22 @@
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       }
 
+      // ---- Get Directions link (opens Google Maps directions in a new tab) ----
+      var DIRECTIONS_SVG = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">' +
+        '<path d="M21.71 11.29l-9-9a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42l9 9a1 1 0 0 0 1.42 0l9-9a1 1 0 0 0 0-1.42zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg>';
+
+      function directionsUrl(org) {
+        var dest = org.address ? org.address : (org.latitude + ',' + org.longitude);
+        var url = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
+        if (userAddress) url += '&origin=' + encodeURIComponent(userAddress);
+        return url;
+      }
+      function directionsLinkHtml(org) {
+        var href = directionsUrl(org).replace(/&/g, '&amp;');
+        return '<a class="org-directions" href="' + href +
+          '" target="_blank" rel="noopener noreferrer">' + DIRECTIONS_SVG + ' Directions</a>';
+      }
+
       function orgPopupHtml(org, dist) {
         var html = '<strong>' + escapeHtml(org.name || 'Organization') + '</strong>';
         if (typeof dist === 'number') html += '<br>' + dist.toFixed(1) + ' miles away';
@@ -274,6 +291,7 @@
         if (org.link) {
           html += '<br><a href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
         }
+        html += '<br>' + directionsLinkHtml(org);
         html += '<br>' + saveButtonHtml(org);
         return html;
       }
@@ -376,7 +394,7 @@
             '</div>' +
             (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
             (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
-            '<div class="org-card__actions">' + linkHtml + saveButtonHtml(org) + '</div>';
+            '<div class="org-card__actions">' + directionsLinkHtml(org) + linkHtml + saveButtonHtml(org) + '</div>';
 
           var saveBtn = card.querySelector('.org-save');
           if (saveBtn) {
@@ -403,7 +421,8 @@
           }
           // Clicking the external link or the save button should NOT fly-to.
           card.addEventListener('click', function (e) {
-            if (e.target.closest('.org-card__link') || e.target.closest('.org-save')) return;
+            if (e.target.closest('.org-card__link') || e.target.closest('.org-save') ||
+                e.target.closest('.org-directions')) return;
             focusOrg();
           });
           card.addEventListener('keydown', function (e) {
@@ -465,6 +484,7 @@
             var lat = parseFloat(place.lat);
             var lng = parseFloat(place.lon);
             userLatLng = [lat, lng];
+            userAddress = place.display_name;
             if (window.VoluntoolSaved) VoluntoolSaved.setLocation(lat, lng, place.display_name);
 
             // zoom to ~17 (neighborhood/house level) so buildings are visible

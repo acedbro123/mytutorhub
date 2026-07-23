@@ -1267,9 +1267,22 @@ footer p { font-size: 0.8rem; }
 .org-card__actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.6rem;
   margin-top: 0.5rem;
 }
+
+/* "Get Directions" link */
+.org-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green);
+}
+.org-directions svg { fill: currentColor; }
+.org-directions:hover { text-decoration: underline; }
 
 /* Save (bookmark) toggle — neutral by default, yellow when saved */
 .org-save {

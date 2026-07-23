@@ -36,6 +36,19 @@
       var BOOKMARK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">' +
         '<path d="M6 2h12a1 1 0 0 1 1 1v18l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>';
 
+      var DIRECTIONS_SVG = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">' +
+        '<path d="M21.71 11.29l-9-9a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42l9 9a1 1 0 0 0 1.42 0l9-9a1 1 0 0 0 0-1.42zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg>';
+
+      // Opens Google Maps directions to the org in a new tab, prefilling the
+      // user's saved address as the origin when we have it.
+      function directionsLinkHtml(org, userAddr) {
+        var dest = org.address ? org.address : (org.latitude + ',' + org.longitude);
+        var url = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
+        if (userAddr) url += '&origin=' + encodeURIComponent(userAddr);
+        return '<a class="org-directions" href="' + url.replace(/&/g, '&amp;') +
+          '" target="_blank" rel="noopener noreferrer">' + DIRECTIONS_SVG + ' Directions</a>';
+      }
+
       function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, function (c) {
           return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -98,7 +111,7 @@
               (typeof org.minAge === 'number' && typeof org.weeklyHoursRequired === 'number' ? ' &middot; ' : '') +
               (typeof org.weeklyHoursRequired === 'number' ? org.weeklyHoursRequired + ' hr/week' : '') +
             '</p>' +
-            '<div class="org-card__actions">' + linkHtml +
+            '<div class="org-card__actions">' + directionsLinkHtml(org, loc && loc.address) + linkHtml +
               '<button type="button" class="org-save org-save--active" data-name="' + escapeHtml(org.name) +
               '" aria-pressed="true" title="Remove from saved">' + BOOKMARK_SVG +
               '<span class="org-save__label">Saved</span></button>' +
