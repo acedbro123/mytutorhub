@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit an Organization — Voluntool</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav class="section-nav section-nav--inperson">
+    <div class="section-nav-inner">
+      <a href="index.html" class="section-nav-link">Home</a>
+      <a href="map.html" class="section-nav-link">Map</a>
+      <a href="saved-volunteer-ideas.html" class="section-nav-link">Saved Volunteer Ideas</a>
+      <a href="submit-organization.html" class="section-nav-link active">Submit an Org</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="section">
+      <div class="map-header">
+        <h1>Submit an Organization</h1>
+        <p>Know an in-person volunteering organization we're missing? Send it our way. Submissions come to us for review — we'll add approved ones to the map.</p>
+      </div>
+
+      <form id="submit-form" class="submit-form" novalidate>
+        <div class="form-field">
+          <label for="f-name">Organization name <span class="req">*</span></label>
+          <input id="f-name" type="text" autocomplete="organization" />
+          <p class="field-error" data-for="f-name"></p>
+        </div>
+
+        <div class="form-field">
+          <label for="f-address">Address <span class="req">*</span></label>
+          <input id="f-address" type="text" autocomplete="street-address" placeholder="Street, City, State ZIP" />
+          <p class="field-error" data-for="f-address"></p>
+        </div>
+
+        <div class="form-field">
+          <label for="f-link">Website / link</label>
+          <input id="f-link" type="url" placeholder="https://…" />
+          <p class="field-error" data-for="f-link"></p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f-category">Category</label>
+            <input id="f-category" type="text" placeholder="e.g. Tutoring, Environment" />
+          </div>
+          <div class="form-field">
+            <label for="f-minage">Minimum age</label>
+            <input id="f-minage" type="number" min="0" max="120" placeholder="e.g. 14" />
+          </div>
+          <div class="form-field">
+            <label for="f-hours">Approx. weekly hours</label>
+            <input id="f-hours" type="number" min="0" max="168" step="1" placeholder="e.g. 2" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="f-desc">Short description</label>
+          <textarea id="f-desc" rows="3" placeholder="What does this organization do, and who is it for?"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="f-email">Your email <span class="hint">(optional — so we can follow up)</span></label>
+          <input id="f-email" type="email" placeholder="you@example.com" />
+          <p class="field-error" data-for="f-email"></p>
+        </div>
+
+        <button type="submit" class="btn btn-inperson" id="submit-btn">Submit for review</button>
+        <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      // ======================================================================
+      // HOW TO CONNECT THIS FORM (one-time, ~2 minutes):
+      //   1. Go to https://formspree.io and create a free account.
+      //   2. Click "New Form", name it (e.g. "Voluntool org submissions"), and
+      //      set the email address where you want submissions delivered.
+      //   3. Formspree gives you an endpoint URL that looks like:
+      //         https://formspree.io/f/abcdwxyz
+      //   4. Paste that URL between the quotes below, then commit & deploy.
+      //   5. On the very first submission Formspree emails you to confirm the
+      //      address — click the link once and you're set.
+      // ======================================================================
+      const FORM_ENDPOINT = "PASTE_YOUR_FORMSPREE_ENDPOINT_HERE";
+
+      var form = document.getElementById('submit-form');
+      var btn = document.getElementById('submit-btn');
+      var statusEl = document.getElementById('form-status');
+
+      function el(id) { return document.getElementById(id); }
+
+      function showFieldError(id, msg) {
+        var err = form.querySelector('.field-error[data-for="' + id + '"]');
+        if (err) err.textContent = msg;
+        var input = el(id);
+        if (input) input.classList.add('invalid');
+      }
+      function clearErrors() {
+        var errs = form.querySelectorAll('.field-error');
+        for (var i = 0; i < errs.length; i++) errs[i].textContent = '';
+        var bad = form.querySelectorAll('.invalid');
+        for (var j = 0; j < bad.length; j++) bad[j].classList.remove('invalid');
+      }
+      function setStatus(msg, type) {
+        statusEl.textContent = msg;
+        statusEl.className = 'form-status form-status--' + type;
+        statusEl.hidden = false;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearErrors();
+        statusEl.hidden = true;
+
+        var name = el('f-name').value.trim();
+        var address = el('f-address').value.trim();
+        var link = el('f-link').value.trim();
+        var email = el('f-email').value.trim();
+        var invalid = false;
+
+        // Required fields
+        if (!name) { showFieldError('f-name', 'Please enter the organization name.'); invalid = true; }
+        if (!address) { showFieldError('f-address', 'Please enter the address.'); invalid = true; }
+        // Optional-but-must-be-valid fields
+        if (link && !/^https?:\/\//i.test(link)) {
+          showFieldError('f-link', 'Please include http:// or https://');
+          invalid = true;
+        }
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showFieldError('f-email', 'Please enter a valid email address.');
+          invalid = true;
+        }
+
+        if (invalid) {
+          var first = form.querySelector('.invalid');
+          if (first) first.focus();
+          setStatus('Please fix the highlighted fields and try again.', 'error');
+          return;
+        }
+
+        if (FORM_ENDPOINT === 'PASTE_YOUR_FORMSPREE_ENDPOINT_HERE') {
+          setStatus('This form isn’t connected yet — the site owner still needs to add the Formspree endpoint.', 'error');
+          return;
+        }
+
+        var payload = {
+          organization: name,
+          address: address,
+          link: link,
+          category: el('f-category').value.trim(),
+          minAge: el('f-minage').value.trim(),
+          weeklyHoursRequired: el('f-hours').value.trim(),
+          description: el('f-desc').value.trim(),
+          email: email,
+          _subject: 'New organization submission — Voluntool'
+        };
+
+        btn.disabled = true;
+        var label = btn.textContent;
+        btn.textContent = 'Submitting…';
+
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (res.ok) {
+              form.reset();
+              setStatus('✅ Thanks! Your organization was submitted for review. We’ll take a look before adding it to the map.', 'success');
+              return;
+            }
+            return res.json().then(function (data) {
+              var msg = (data && data.errors && data.errors.length)
+                ? data.errors.map(function (x) { return x.message; }).join(' ')
+                : 'Something went wrong submitting the form.';
+              setStatus('⚠️ ' + msg + ' Please try again.', 'error');
+            }).catch(function () {
+              setStatus('⚠️ Something went wrong submitting the form. Please try again.', 'error');
+            });
+          })
+          .catch(function () {
+            setStatus('⚠️ Couldn’t reach the form service. Check your connection and try again.', 'error');
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.textContent = label;
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
