@@ -10,7 +10,9 @@
 
 // Only these origins may call the Worker (basic anti-abuse for browsers).
 const ALLOWED_ORIGINS = [
-  'https://tutorhub.site',
+  'https://voluntools.site',
+  'https://www.voluntools.site',
+  'https://tutorhub.site',          // old domain — kept during the switchover
   'https://www.tutorhub.site',
   'http://localhost:8765',
   'http://127.0.0.1:8765'
