@@ -1320,6 +1320,124 @@ footer p { font-size: 0.8rem; }
 .saved-grid .org-card:hover { transform: none; box-shadow: var(--shadow); border-color: var(--border); }
 .saved-card__meta { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.25rem; }
 .saved-empty { text-align: center; }
+.saved-card--hours-only { opacity: 0.92; }
+
+/* ===== Service-hours log ===== */
+.hours-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #065F46 0%, #059669 100%);
+  color: var(--white);
+  box-shadow: var(--shadow-md);
+}
+.hours-summary__totals { display: flex; flex-direction: column; }
+.hours-summary__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+}
+.hours-summary__value { font-size: 2.4rem; font-weight: 800; line-height: 1.1; }
+.hours-summary__value::after { content: ' hrs'; font-size: 1rem; font-weight: 700; opacity: 0.85; }
+.hours-summary .btn-inperson { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.55); }
+.hours-summary .btn-inperson:hover { background: rgba(255,255,255,0.28); }
+.hours-summary .btn-inperson:disabled { opacity: 0.5; cursor: default; }
+
+.hours-empty {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hours-block { margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); }
+.hours-block__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.hours-block__title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.hours-block__subtotal { font-size: 0.95rem; font-weight: 800; color: var(--green); }
+
+.hours-entries { list-style: none; padding: 0; margin: 0 0 0.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.hours-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.hours-entry__info { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; min-width: 0; }
+.hours-entry__hrs { font-weight: 800; color: var(--green); font-size: 0.85rem; white-space: nowrap; }
+.hours-entry__date { font-size: 0.8rem; color: var(--text); font-weight: 600; white-space: nowrap; }
+.hours-entry__note { font-size: 0.8rem; color: var(--text-muted); }
+.hours-entry__actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+.hours-entry__actions button {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+}
+.hours-entry__actions button:hover { background: var(--border); color: var(--text); }
+.hours-entry__actions .hours-del:hover { background: var(--red-light); color: var(--red); }
+
+/* add / edit forms */
+.hours-form, .hours-edit-form { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.hours-edit-form { width: 100%; }
+.hours-form input, .hours-edit-form input {
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--text);
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
+.hours-form input:focus, .hours-edit-form input:focus {
+  outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light);
+}
+.hours-form .hours-date, .hours-edit-form .e-date { flex: 0 0 auto; }
+.hours-form .hours-num, .hours-edit-form .e-num { width: 62px; }
+.hours-form .hours-note, .hours-edit-form .e-note { flex: 1 1 120px; min-width: 90px; }
+.hours-edit-actions { display: flex; gap: 0.4rem; }
+.btn-log, .e-cancel {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn-log { background: var(--green); color: var(--white); }
+.btn-log:hover { background: #047857; }
+.e-cancel { background: var(--white); color: var(--text-muted); border-color: var(--border); }
+.e-cancel:hover { color: var(--text); }
 
 /* Sidebar "submit an org" prompt */
 .map-sidebar__foot {

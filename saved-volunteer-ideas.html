@@ -22,8 +22,18 @@
     <section class="section">
       <div class="map-header">
         <h1>Saved Volunteer Ideas</h1>
-        <p>Organizations you saved from the map. Distances are measured from the last address you searched.</p>
+        <p>Organizations you saved from the map, plus your volunteer service-hours log.</p>
       </div>
+
+      <div class="hours-summary" id="hours-summary" hidden>
+        <div class="hours-summary__totals">
+          <span class="hours-summary__label">Total service hours</span>
+          <span class="hours-summary__value" id="hours-total">0</span>
+        </div>
+        <button type="button" class="btn btn-inperson" id="export-csv">⬇ Export CSV</button>
+      </div>
+      <p id="hours-empty" class="hours-empty" hidden></p>
+
       <div id="saved-list" class="saved-grid"></div>
     </section>
   </main>
@@ -33,6 +43,11 @@
   <script>
     (function () {
       var listEl = document.getElementById('saved-list');
+      var summaryEl = document.getElementById('hours-summary');
+      var totalEl = document.getElementById('hours-total');
+      var hoursEmptyEl = document.getElementById('hours-empty');
+      var exportBtn = document.getElementById('export-csv');
+      var H = VoluntoolSaved.hours;
 
       var BOOKMARK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">' +
         '<path d="M6 2h12a1 1 0 0 1 1 1v18l-7-4-7 4V3a1 1 0 0 1 1-1z"/></svg>';
@@ -40,8 +55,6 @@
       var DIRECTIONS_SVG = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">' +
         '<path d="M21.71 11.29l-9-9a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42l9 9a1 1 0 0 0 1.42 0l9-9a1 1 0 0 0 0-1.42zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg>';
 
-      // Opens Google Maps directions to the org in a new tab, prefilling the
-      // user's saved address as the origin when we have it.
       function directionsLinkHtml(org, userAddr) {
         var dest = org.address ? org.address : (org.latitude + ',' + org.longitude);
         var url = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
@@ -56,26 +69,224 @@
         });
       }
 
+      // ---- hours helpers ----
+      function fmtHrs(n) { return String(Math.round((Number(n) || 0) * 100) / 100); }
+      function pad(n) { return String(n).length < 2 ? '0' + n : String(n); }
+      function todayISO() {
+        var d = new Date();
+        return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+      }
+      function fmtDate(iso) {
+        var p = (iso || '').split('-');
+        if (p.length !== 3) return iso || '';
+        var m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return (m[(+p[1]) - 1] || '') + ' ' + (+p[2]) + ', ' + p[0];
+      }
+      function sortedEntries(name) {
+        return H.forOrg(name).slice().sort(function (a, b) {
+          if (a.date !== b.date) return a.date < b.date ? 1 : -1; // newest date first
+          return a.id < b.id ? 1 : -1;                            // then newest-added first
+        });
+      }
+
+      // Build (and wire) the hours-log block for one organization.
+      function hoursBlock(name) {
+        var wrap = document.createElement('div');
+        wrap.className = 'hours-block';
+        var entries = sortedEntries(name);
+
+        var entriesHtml = entries.map(function (e) {
+          return '<li class="hours-entry" data-id="' + e.id + '">' +
+            '<div class="hours-entry__info">' +
+              '<span class="hours-entry__hrs">' + fmtHrs(e.hours) + ' h</span>' +
+              '<span class="hours-entry__date">' + escapeHtml(fmtDate(e.date)) + '</span>' +
+              (e.note ? '<span class="hours-entry__note">' + escapeHtml(e.note) + '</span>' : '') +
+            '</div>' +
+            '<div class="hours-entry__actions">' +
+              '<button type="button" class="hours-edit">Edit</button>' +
+              '<button type="button" class="hours-del" title="Delete">✕</button>' +
+            '</div>' +
+          '</li>';
+        }).join('');
+
+        wrap.innerHTML =
+          '<div class="hours-block__head">' +
+            '<span class="hours-block__title">Service hours</span>' +
+            '<span class="hours-block__subtotal">' + fmtHrs(H.subtotal(name)) + ' h</span>' +
+          '</div>' +
+          (entries.length ? '<ul class="hours-entries">' + entriesHtml + '</ul>' : '') +
+          '<form class="hours-form">' +
+            '<input type="date" class="hours-date" aria-label="Date" required />' +
+            '<input type="number" class="hours-num" min="0.25" max="24" step="0.25" placeholder="hrs" aria-label="Hours" required />' +
+            '<input type="text" class="hours-note" placeholder="What did you do? (optional)" aria-label="Note" />' +
+            '<button type="submit" class="btn-log">Log</button>' +
+          '</form>';
+
+        wrap.querySelector('.hours-date').value = todayISO();
+
+        wrap.querySelector('.hours-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var hrs = parseFloat(wrap.querySelector('.hours-num').value);
+          var date = wrap.querySelector('.hours-date').value;
+          if (!date || !(hrs > 0)) return;
+          H.add(name, { date: date, hours: hrs, note: wrap.querySelector('.hours-note').value.trim() });
+          render();
+        });
+
+        var lis = wrap.querySelectorAll('.hours-entry');
+        for (var i = 0; i < lis.length; i++) {
+          (function (li) {
+            var id = li.getAttribute('data-id');
+            li.querySelector('.hours-del').addEventListener('click', function () {
+              H.remove(name, id);
+              render();
+            });
+            li.querySelector('.hours-edit').addEventListener('click', function () {
+              startEdit(li, name, id);
+            });
+          })(lis[i]);
+        }
+
+        return wrap;
+      }
+
+      // Inline edit of a single entry.
+      function startEdit(li, name, id) {
+        var entry = H.forOrg(name).filter(function (e) { return e.id === id; })[0];
+        if (!entry) return;
+        li.classList.add('hours-entry--editing');
+        li.innerHTML =
+          '<form class="hours-edit-form">' +
+            '<input type="date" class="e-date" value="' + escapeHtml(entry.date) + '" required />' +
+            '<input type="number" class="e-num" min="0.25" max="24" step="0.25" value="' + escapeHtml(String(entry.hours)) + '" required />' +
+            '<input type="text" class="e-note" value="' + escapeHtml(entry.note || '') + '" placeholder="note" />' +
+            '<div class="hours-edit-actions">' +
+              '<button type="submit" class="btn-log">Save</button>' +
+              '<button type="button" class="e-cancel">Cancel</button>' +
+            '</div>' +
+          '</form>';
+        li.querySelector('.hours-edit-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var hrs = parseFloat(li.querySelector('.e-num').value);
+          var date = li.querySelector('.e-date').value;
+          if (!date || !(hrs > 0)) return;
+          H.update(name, id, { date: date, hours: hrs, note: li.querySelector('.e-note').value.trim() });
+          render();
+        });
+        li.querySelector('.e-cancel').addEventListener('click', function () { render(); });
+      }
+
+      function fullCard(item, loc) {
+        var org = item.org;
+        var card = document.createElement('div');
+        card.className = 'org-card saved-card';
+
+        var linkHtml = org.link
+          ? '<a class="org-card__link" href="' + encodeURI(org.link) +
+            '" target="_blank" rel="noopener">Visit website ↗</a>'
+          : '';
+
+        card.innerHTML =
+          '<div class="org-card__top">' +
+            '<span class="org-card__name">' + escapeHtml(org.name || 'Organization') + '</span>' +
+            (item.dist != null ? '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' : '') +
+          '</div>' +
+          (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
+          (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
+          (org.address ? '<p class="saved-card__meta">📍 ' + escapeHtml(org.address) + '</p>' : '') +
+          '<p class="saved-card__meta">' +
+            (typeof org.minAge === 'number' ? 'Ages ' + org.minAge + '+' : '') +
+            (typeof org.minAge === 'number' && typeof org.weeklyHoursRequired === 'number' ? ' &middot; ' : '') +
+            (typeof org.weeklyHoursRequired === 'number' ? org.weeklyHoursRequired + ' hr/week' : '') +
+          '</p>' +
+          '<div class="org-card__actions">' + directionsLinkHtml(org, loc && loc.address) + linkHtml +
+            '<button type="button" class="org-save org-save--active" data-name="' + escapeHtml(org.name) +
+            '" aria-pressed="true" title="Remove from saved">' + BOOKMARK_SVG +
+            '<span class="org-save__label">Saved</span></button>' +
+          '</div>';
+
+        card.querySelector('.org-save').addEventListener('click', function () {
+          VoluntoolSaved.remove(org.name); // hours are kept; card becomes hours-only
+          render();
+        });
+
+        card.appendChild(hoursBlock(org.name));
+        return card;
+      }
+
+      // For orgs that still have logged hours but were removed from saved —
+      // keep their hours visible/editable so nothing is lost.
+      function minimalCard(name) {
+        var card = document.createElement('div');
+        card.className = 'org-card saved-card saved-card--hours-only';
+        card.innerHTML =
+          '<div class="org-card__top">' +
+            '<span class="org-card__name">' + escapeHtml(name) + '</span>' +
+          '</div>' +
+          '<p class="saved-card__meta">No longer in your saved list — hours kept for your records.</p>';
+        card.appendChild(hoursBlock(name));
+        return card;
+      }
+
+      function exportCsv() {
+        var rows = H.flat().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+        function cell(s) {
+          s = String(s == null ? '' : s);
+          return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+        }
+        var lines = ['organization,date,hours,notes'];
+        rows.forEach(function (r) {
+          lines.push([cell(r.org), cell(r.date), cell(r.hours), cell(r.note)].join(','));
+        });
+        var blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'voluntool-service-hours.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
       function render() {
         var saved = VoluntoolSaved.getAll();
         var loc = VoluntoolSaved.getLocation();
+        var hoursOrgs = H.orgsWithHours();
+        var total = H.total();
+        var entryCount = H.flat().length;
+
+        totalEl.textContent = fmtHrs(total);
+        exportBtn.disabled = entryCount === 0;
         listEl.innerHTML = '';
 
-        if (!saved.length) {
+        if (saved.length === 0 && hoursOrgs.length === 0) {
+          summaryEl.hidden = true;
+          hoursEmptyEl.hidden = true;
           listEl.className = '';
           listEl.innerHTML =
             '<div class="info-box saved-empty">' +
               '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:0.5rem;">Nothing saved yet</h2>' +
               '<p>Head to the <a href="map.html">Map</a>, search your address, and tap ' +
-              '<strong>Save</strong> on any organization to keep it here.</p>' +
+              '<strong>Save</strong> on an organization. Then you can log your volunteer hours here.</p>' +
             '</div>';
           return;
         }
 
+        summaryEl.hidden = false;
         listEl.className = 'saved-grid';
 
-        // Tag with distance (if we know the user's location) and sort nearest-first.
+        if (total === 0) {
+          hoursEmptyEl.hidden = false;
+          hoursEmptyEl.textContent = 'No hours logged yet — after you volunteer, add a session on any card below and it’ll add up here.';
+        } else {
+          hoursEmptyEl.hidden = true;
+        }
+
+        // Saved orgs → full cards, nearest-first.
+        var savedNames = {};
         var items = saved.map(function (org) {
+          savedNames[org.name] = true;
           var dist = null;
           if (loc && typeof org.latitude === 'number' && typeof org.longitude === 'number') {
             dist = VoluntoolSaved.distanceMiles(loc.lat, loc.lng, org.latitude, org.longitude);
@@ -88,49 +299,18 @@
           if (b.dist == null) return -1;
           return a.dist - b.dist;
         });
+        items.forEach(function (item) { listEl.appendChild(fullCard(item, loc)); });
 
-        items.forEach(function (item) {
-          var org = item.org;
-          var card = document.createElement('div');
-          card.className = 'org-card saved-card';
-
-          var linkHtml = org.link
-            ? '<a class="org-card__link" href="' + encodeURI(org.link) +
-              '" target="_blank" rel="noopener">Visit website ↗</a>'
-            : '';
-
-          card.innerHTML =
-            '<div class="org-card__top">' +
-              '<span class="org-card__name">' + escapeHtml(org.name || 'Organization') + '</span>' +
-              (item.dist != null ? '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' : '') +
-            '</div>' +
-            (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
-            (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
-            (org.address ? '<p class="saved-card__meta">📍 ' + escapeHtml(org.address) + '</p>' : '') +
-            '<p class="saved-card__meta">' +
-              (typeof org.minAge === 'number' ? 'Ages ' + org.minAge + '+' : '') +
-              (typeof org.minAge === 'number' && typeof org.weeklyHoursRequired === 'number' ? ' &middot; ' : '') +
-              (typeof org.weeklyHoursRequired === 'number' ? org.weeklyHoursRequired + ' hr/week' : '') +
-            '</p>' +
-            '<div class="org-card__actions">' + directionsLinkHtml(org, loc && loc.address) + linkHtml +
-              '<button type="button" class="org-save org-save--active" data-name="' + escapeHtml(org.name) +
-              '" aria-pressed="true" title="Remove from saved">' + BOOKMARK_SVG +
-              '<span class="org-save__label">Saved</span></button>' +
-            '</div>';
-
-          var removeBtn = card.querySelector('.org-save');
-          removeBtn.addEventListener('click', function () {
-            VoluntoolSaved.remove(org.name); // also un-highlights on the Map page
-            render();
-          });
-
-          listEl.appendChild(card);
+        // Orgs with hours but no longer saved → minimal cards (keep hours visible).
+        hoursOrgs.forEach(function (name) {
+          if (!savedNames[name]) listEl.appendChild(minimalCard(name));
         });
       }
 
+      exportBtn.addEventListener('click', exportCsv);
       render();
 
-      // If saved items change in another tab, keep this page in sync.
+      // If saved items or hours change in another tab, keep this page in sync.
       window.addEventListener('storage', render);
     })();
   </script>
