@@ -248,8 +248,8 @@
     "minAge": 14,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 33.858412464466,
+    "longitude": -118.302803753823
   },
   {
     "id": "los-angeles-regional-food-bank",
@@ -276,8 +276,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.1205923,
+    "longitude": -118.1733997
   },
   {
     "id": "five-acres",
@@ -752,8 +752,8 @@
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.15285086048,
+    "longitude": -118.460042837851
   },
   {
     "id": "st-johns-community-health",
@@ -1130,8 +1130,8 @@
     "minAge": 20,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.161289439364,
+    "longitude": -118.448630526747
   },
   {
     "id": "tierra-del-sol-foundation",
@@ -1424,8 +1424,8 @@
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.070233980038,
+    "longitude": -118.068818913177
   },
   {
     "id": "linc-housing-corporation",
@@ -1858,8 +1858,9 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 33.7701,
+    "longitude": -118.1937,
+    "approxLocation": true
   },
   {
     "id": "depression-and-bipolar-support-alliance",
@@ -1886,8 +1887,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.51348952922,
+    "longitude": -118.299454891316
   },
   {
     "id": "church-of-the-foothills",
@@ -1998,8 +1999,8 @@
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.201339437527,
+    "longitude": -118.492966889296
   },
   {
     "id": "etta",
@@ -2026,8 +2027,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.061724850048,
+    "longitude": -118.293022212286
   },
   {
     "id": "optimist-boys-home-and-ranch-inc",
@@ -2082,8 +2083,8 @@
     "minAge": 15,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.161289439364,
+    "longitude": -118.448630526747
   },
   {
     "id": "woodcraft-rangers",
@@ -2572,8 +2573,8 @@
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.0513654139,
+    "longitude": -118.256357659164
   },
   {
     "id": "affirmative-athletics",
@@ -2670,8 +2671,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.0496292,
+    "longitude": -117.7509471
   },
   {
     "id": "friends-of-the-venice-library",
@@ -3342,8 +3343,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.090667797105,
+    "longitude": -118.309107734298
   },
   {
     "id": "volunteer-league",
@@ -3720,8 +3721,8 @@
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.091164182697,
+    "longitude": -118.286580149767
   },
   {
     "id": "los-angeles-catholic-worker",
@@ -4084,8 +4085,8 @@
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": null,
-    "longitude": null
+    "latitude": 34.0536961,
+    "longitude": -118.2429212
   },
   {
     "id": "culver-palms-meals-on-wheels",
