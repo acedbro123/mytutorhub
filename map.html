@@ -84,7 +84,7 @@
       <div class="map-layout">
         <div id="map" class="map-canvas" aria-label="Interactive map"></div>
         <aside class="map-sidebar" aria-label="Nearby organizations">
-          <div class="map-sidebar__head">Nearby organizations</div>
+          <div class="map-sidebar__head">Nearby organizations<span id="geo-indicator" class="geo-indicator" hidden>loading organizations…</span></div>
           <div id="org-list" class="org-list">
             <p class="org-list__empty">Enter your address above to see organizations near you.</p>
           </div>
@@ -286,15 +286,34 @@
           '" target="_blank" rel="noopener noreferrer">' + DIRECTIONS_SVG + ' Directions</a>';
       }
 
+      // Contact link: prefer website; fall back to a mailto: if only email exists;
+      // render nothing if neither is present.
+      function contactLinkCard(org) {
+        if (org.link) return '<a class="org-card__link" href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
+        if (org.email) return '<a class="org-card__link" href="mailto:' + encodeURI(org.email) + '">Contact ✉</a>';
+        return '';
+      }
+      function contactLinkPopup(org) {
+        if (org.link) return '<a href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
+        if (org.email) return '<a href="mailto:' + encodeURI(org.email) + '">Contact ✉</a>';
+        return '';
+      }
+
+      // null minAge/weeklyHoursRequired = UNKNOWN: never hidden by that filter,
+      // and (for age) visibly tagged. 0 is a real value ("no minimum").
+      function ageUnknown(org) { return typeof org.minAge !== 'number'; }
+      function ageOk(org) { return ageUnknown(org) || org.minAge <= userAge; }
+      function hoursOk(org) { return typeof org.weeklyHoursRequired !== 'number' || org.weeklyHoursRequired <= userHours; }
+
       function orgPopupHtml(org, dist) {
         var html = '<strong>' + escapeHtml(org.name || 'Organization') + '</strong>';
         if (typeof dist === 'number') html += '<br>' + dist.toFixed(1) + ' miles away';
         if (org.category) html += '<br><em>' + escapeHtml(org.category) + '</em>';
+        if (ageUnknown(org)) html += '<br><span class="org-agetag">age not verified</span>';
         if (org.description) html += '<br>' + escapeHtml(org.description);
         if (org.address) html += '<br><span style="color:#64748B;">' + escapeHtml(org.address) + '</span>';
-        if (org.link) {
-          html += '<br><a href="' + encodeURI(org.link) + '" target="_blank" rel="noopener">Visit website ↗</a>';
-        }
+        var contact = contactLinkPopup(org);
+        if (contact) html += '<br>' + contact;
         html += '<br>' + directionsLinkHtml(org);
         html += '<br>' + saveButtonHtml(org);
         return html;
@@ -359,8 +378,8 @@
           })
           .filter(function (item) {
             return item.dist <= radiusMiles &&
-              item.org.minAge <= userAge &&
-              item.org.weeklyHoursRequired <= userHours &&
+              ageOk(item.org) &&
+              hoursOk(item.org) &&
               matchesCategory(item.org);
           })
           .sort(function (a, b) { return a.dist - b.dist; });
@@ -387,9 +406,9 @@
           card.className = 'org-card';
           card.setAttribute('role', 'button');
           card.setAttribute('tabindex', '0');
-          var linkHtml = org.link
-            ? '<a class="org-card__link" href="' + encodeURI(org.link) +
-              '" target="_blank" rel="noopener">Visit website ↗</a>'
+          var linkHtml = contactLinkCard(org);
+          var ageTagHtml = ageUnknown(org)
+            ? '<span class="org-agetag" title="Minimum age not verified for this organization">age not verified</span>'
             : '';
           card.innerHTML =
             '<div class="org-card__top">' +
@@ -397,6 +416,7 @@
               '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' +
             '</div>' +
             (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
+            ageTagHtml +
             (org.description ? '<p class="org-card__desc">' + escapeHtml(org.description) + '</p>' : '') +
             '<div class="org-card__actions">' + directionsLinkHtml(org) + linkHtml + saveButtonHtml(org) + '</div>';
 
@@ -563,6 +583,7 @@
       // either latitude+longitude OR an address (which we geocode on load).
       // See orgs.js for the full field list and how to add your own.
       var GEOCACHE_KEY = 'voluntool_geocache_v1';
+      var GEO_INDICATOR = document.getElementById('geo-indicator');
 
       function hasCoords(o) {
         return typeof o.latitude === 'number' && typeof o.longitude === 'number';
@@ -574,13 +595,38 @@
       function writeGeocache(cache) {
         try { localStorage.setItem(GEOCACHE_KEY, JSON.stringify(cache)); } catch (e) { /* ignore */ }
       }
+      // Cache key per org: by stable id when we have one, else by address.
+      function geoCacheKey(o) {
+        return (o.id != null && o.id !== '') ? ('id:' + o.id) : ('addr:' + o.address);
+      }
+      function setGeoLoading(on) { if (GEO_INDICATOR) GEO_INDICATOR.hidden = !on; }
 
-      // Geocode any address-only orgs one at a time (~1 req/sec per the Nominatim
+      // Import stats + failures (exposed on window for reporting).
+      var geoStats = { imported: 0, geocoded: 0 };
+      var geoFailures = [];
+      window.VOLUNTOOL_IMPORT = { imported: 0, geocoded: 0, failures: geoFailures, done: false };
+
+      function finishGeocoding() {
+        setGeoLoading(false);
+        window.VOLUNTOOL_IMPORT.imported = geoStats.imported;
+        window.VOLUNTOOL_IMPORT.geocoded = geoStats.geocoded;
+        window.VOLUNTOOL_IMPORT.failures = geoFailures;
+        window.VOLUNTOOL_IMPORT.done = true;
+        if (window.console) {
+          console.log('Voluntool import — ' + geoStats.imported + ' imported, ' +
+            geoStats.geocoded + ' geocoded, ' + geoFailures.length + ' failed to geocode.');
+          if (geoFailures.length) {
+            console.warn('Voluntool import — addresses that failed to geocode:', geoFailures);
+          }
+        }
+      }
+
+      // Geocode address-only orgs one at a time (~1 req/sec per the Nominatim
       // usage policy), caching each result so we only ever look it up once.
-      function geocodeMissing(items, cache) {
+      function geocodeMissing(items, cache, onDone) {
         var i = 0;
         (function next() {
-          if (i >= items.length) return;
+          if (i >= items.length) { if (onDone) onDone(); return; }
           var org = items[i++];
           var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
             encodeURIComponent(org.address);
@@ -593,50 +639,91 @@
               if (res && res.length) {
                 org.latitude = parseFloat(res[0].lat);
                 org.longitude = parseFloat(res[0].lon);
-                cache[org.address] = { lat: org.latitude, lng: org.longitude };
+                cache[geoCacheKey(org)] = { lat: org.latitude, lng: org.longitude };
                 writeGeocache(cache);
+                if (org.__imported) geoStats.geocoded++;
                 if (userLatLng) { renderOrgs(); summarize(); } // show it once located
-              } else if (window.console) {
-                console.warn('Voluntool map: could not geocode', org.name, '—', org.address);
+              } else {
+                if (org.__imported) geoFailures.push({ name: org.name, address: org.address });
+                if (window.console) console.warn('Voluntool map: could not geocode', org.name, '—', org.address);
               }
             })
             .catch(function () {
-              if (window.console) console.warn('Voluntool map: geocode failed for', org.address);
+              if (org.__imported) geoFailures.push({ name: org.name, address: org.address });
+              if (window.console) console.warn('Voluntool map: geocode request failed for', org.name, '—', org.address);
             })
             .finally(function () { setTimeout(next, 1100); });
         })();
       }
 
-      (function loadOrgs() {
-        var data = window.VOLUNTOOL_ORGS;
-        if (!Array.isArray(data)) {
-          if (window.console) {
-            console.warn('Voluntool map: orgs.js not loaded or invalid — no organizations loaded.');
+      // Merge imported orgs into the curated list. Keep BOTH on an id collision —
+      // the newcomer gets a unique id. Normalise category so it stays filterable,
+      // and flag imported entries.
+      function mergeImported(curated, imported) {
+        var used = {};
+        curated.forEach(function (o) { if (o.id != null && o.id !== '') used[String(o.id)] = true; });
+        var merged = curated.slice();
+        imported.forEach(function (o) {
+          var id = (o.id == null || o.id === '') ? '' : String(o.id);
+          if (id === '' || used[id]) {
+            var base = (id === '') ? 'imp' : id;
+            var n = 2, cand = base;
+            while (cand === '' || used[cand]) { cand = base + '-' + n; n++; }
+            id = cand;
           }
-          return;
-        }
-        // Keep entries with the filter fields and either coordinates or an address.
-        orgs = data.filter(function (o) {
-          return o && typeof o.minAge === 'number' && typeof o.weeklyHoursRequired === 'number' &&
-            (hasCoords(o) || (typeof o.address === 'string' && o.address));
+          used[id] = true;
+          o.id = id;
+          o.__imported = true;
+          if (!o.category) o.category = 'Uncategorized';
+          merged.push(o);
         });
-        buildCategoryChips(); // populate the category filter from the data
+        return merged;
+      }
 
-        // Fill coordinates for address-only orgs, using the cache when possible.
+      function startOrgs(curated, imported) {
+        geoStats.imported = imported.length;
+        // Keep entries that have a name and either coordinates or an address.
+        // (minAge / weeklyHoursRequired may be null — that's handled in filters.)
+        orgs = mergeImported(curated, imported).filter(function (o) {
+          return o && o.name && (hasCoords(o) || (typeof o.address === 'string' && o.address));
+        });
+        buildCategoryChips();
+
         var cache = readGeocache();
         var missing = [];
         orgs.forEach(function (o) {
           if (hasCoords(o)) return;
-          if (cache[o.address] && typeof cache[o.address].lat === 'number') {
-            o.latitude = cache[o.address].lat;
-            o.longitude = cache[o.address].lng;
+          var key = geoCacheKey(o);
+          if (cache[key] && typeof cache[key].lat === 'number') {
+            o.latitude = cache[key].lat;
+            o.longitude = cache[key].lng;
+            if (o.__imported) geoStats.geocoded++; // resolved from cache
           } else {
             missing.push(o);
           }
         });
 
-        if (userLatLng) renderOrgs(); // in case a search finished first
-        if (missing.length) geocodeMissing(missing, cache);
+        if (userLatLng) renderOrgs();
+        if (missing.length) { setGeoLoading(true); geocodeMissing(missing, cache, finishGeocoding); }
+        else finishGeocoding();
+      }
+
+      // ----------------------------------------------------------------
+      // Load orgs: curated list (orgs.js) MERGED with the batch import
+      // (organizations_la.json). The import file is optional — if it's not
+      // present, the map just uses the curated orgs.
+      // ----------------------------------------------------------------
+      (function loadOrgs() {
+        var curated = Array.isArray(window.VOLUNTOOL_ORGS) ? window.VOLUNTOOL_ORGS : [];
+        fetch('organizations_la.json', { headers: { 'Accept': 'application/json' } })
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (imported) {
+            startOrgs(curated, Array.isArray(imported) ? imported : []);
+          })
+          .catch(function () {
+            if (window.console) console.warn('Voluntool map: organizations_la.json not found — using curated orgs only.');
+            startOrgs(curated, []);
+          });
       })();
     })();
   </script>

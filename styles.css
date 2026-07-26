@@ -1169,6 +1169,34 @@ footer p { font-size: 0.8rem; }
   border-color: var(--green);
   color: var(--white);
 }
+
+/* Geocoding "loading organizations…" indicator (in the sidebar head) */
+.geo-indicator { font-weight: 600; font-size: 0.72rem; text-transform: none; letter-spacing: 0; opacity: 0.9; }
+.geo-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 7px; height: 7px;
+  margin: 0 0.35rem 0 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+  animation: geo-pulse 1s ease-in-out infinite;
+}
+@keyframes geo-pulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+/* "age not verified" tag (orgs with unknown minimum age) */
+.org-agetag {
+  display: inline-block;
+  margin: 0.2rem 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--amber);
+  background: var(--amber-light);
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+}
 .map-controls input[type="range"] {
   flex: 1;
   min-width: 120px;
