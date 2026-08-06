@@ -85,6 +85,15 @@
         <div id="map" class="map-canvas" aria-label="Interactive map"></div>
         <aside class="map-sidebar" aria-label="Nearby organizations">
           <div class="map-sidebar__head">Nearby organizations<span id="geo-indicator" class="geo-indicator" hidden>loading organizations…</span></div>
+          <div class="org-name-search-wrap">
+            <input
+              id="org-name-search"
+              class="org-name-search"
+              type="search"
+              placeholder="Search organizations by name…"
+              autocomplete="off"
+              aria-label="Search nearby organizations by name" />
+          </div>
           <div id="org-list" class="org-list">
             <p class="org-list__empty">Enter your address above to see organizations near you.</p>
           </div>
@@ -174,6 +183,7 @@
       var userAge = 16;
       var userHours = 5;
       var selectedCategories = []; // empty = show all categories
+      var nameQuery = '';          // lowercased name search; empty = no name filter
 
       var form = document.getElementById('map-search');
       var input = document.getElementById('map-search-input');
@@ -185,6 +195,7 @@
       var ageSelect = document.getElementById('age-select');
       var hoursSelect = document.getElementById('hours-select');
       var categoryChips = document.getElementById('category-chips');
+      var orgNameSearch = document.getElementById('org-name-search');
 
       function showMessage(text, type) {
         message.textContent = text;
@@ -340,6 +351,13 @@
         return false;
       }
 
+      // Name search: case-insensitive substring match on the org name.
+      // Empty query = matches everything.
+      function matchesName(org) {
+        if (!nameQuery) return true;
+        return (org.name || '').toLowerCase().indexOf(nameQuery) !== -1;
+      }
+
       // Build the chip list dynamically from every (split) category in the data.
       function buildCategoryChips() {
         if (!categoryChips) return;
@@ -362,31 +380,49 @@
         shownMarkers = [];
         listEl.innerHTML = '';
 
-        if (!userLatLng) {
+        var hasLoc = !!userLatLng;
+
+        // Nothing to show until the user gives us EITHER an address (for the
+        // nearby list) OR a name to search for.
+        if (!hasLoc && !nameQuery) {
           listEl.innerHTML = '<p class="org-list__empty">Enter your address above to see organizations near you.</p>';
           return;
         }
 
-        // Tag with distance, then filter by radius AND age AND weekly hours,
-        // and sort nearest-first.
+        // Tag with distance (only when we know the user's location), filter by
+        // age + hours + category + name, then sort. A name search looks across
+        // ALL distances; without a name we honor the radius. Sort nearest-first
+        // when we have a location, else alphabetically.
         var nearby = orgs
           .map(function (org) {
             return {
               org: org,
-              dist: distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude)
+              dist: hasLoc ? distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude) : null
             };
           })
           .filter(function (item) {
-            return item.dist <= radiusMiles &&
+            var withinRadius = (!hasLoc || nameQuery) ? true : item.dist <= radiusMiles;
+            return withinRadius &&
               ageOk(item.org) &&
               hoursOk(item.org) &&
-              matchesCategory(item.org);
+              matchesCategory(item.org) &&
+              matchesName(item.org);
           })
-          .sort(function (a, b) { return a.dist - b.dist; });
+          .sort(function (a, b) {
+            if (a.dist == null || b.dist == null) {
+              return (a.org.name || '').localeCompare(b.org.name || '');
+            }
+            return a.dist - b.dist;
+          });
 
         if (nearby.length === 0) {
-          listEl.innerHTML = '<p class="org-list__empty">No organizations match your filters. ' +
-            'Try widening the radius, raising your available hours, or your age.</p>';
+          listEl.innerHTML = '<p class="org-list__empty">' +
+            (nameQuery
+              ? 'No organizations match “' + escapeHtml(orgNameSearch.value.trim()) +
+                '”. Try a different name, or check your age, hours, and category filters.'
+              : 'No organizations match your filters. Try widening the radius, ' +
+                'raising your available hours, or your age.') +
+            '</p>';
           return;
         }
 
@@ -413,7 +449,9 @@
           card.innerHTML =
             '<div class="org-card__top">' +
               '<span class="org-card__name">' + escapeHtml(org.name || 'Organization') + '</span>' +
-              '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>' +
+              (typeof item.dist === 'number'
+                ? '<span class="org-card__dist">' + item.dist.toFixed(1) + ' mi</span>'
+                : '') +
             '</div>' +
             (org.category ? '<span class="org-card__cat">' + escapeHtml(org.category) + '</span>' : '') +
             ageTagHtml +
@@ -459,10 +497,14 @@
 
       // Update the status line to reflect the current filtered count.
       function summarize() {
-        if (!userLatLng) return;
+        if (!userLatLng && !nameQuery) return;
         var count = listEl.querySelectorAll('.org-card').length;
-        showMessage(count + ' organization' + (count === 1 ? '' : 's') +
-          ' match your filters (within ' + radiusMiles + ' miles).', 'success');
+        var noun = ' organization' + (count === 1 ? '' : 's');
+        if (nameQuery) {
+          showMessage(count + noun + ' match “' + orgNameSearch.value.trim() + '”.', 'success');
+        } else {
+          showMessage(count + noun + ' match your filters (within ' + radiusMiles + ' miles).', 'success');
+        }
       }
 
       // ----------------------------------------------------------------
@@ -574,6 +616,15 @@
           chip.setAttribute('aria-pressed', 'false');
         }
         if (userLatLng) { renderOrgs(); summarize(); }
+      });
+
+      // Name search — filters the list live. Works even before an address is
+      // entered (matches by name, no distance); clearing it restores the
+      // normal nearby list.
+      orgNameSearch.addEventListener('input', function () {
+        nameQuery = orgNameSearch.value.trim().toLowerCase();
+        renderOrgs();
+        if (userLatLng || nameQuery) summarize(); else clearMessage();
       });
 
       // ----------------------------------------------------------------

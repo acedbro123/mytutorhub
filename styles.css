@@ -1252,6 +1252,30 @@ footer p { font-size: 0.8rem; }
   background: var(--green-light);
   color: var(--green);
 }
+.org-name-search-wrap {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.org-name-search {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.org-name-search:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-light);
+}
+.org-name-search::placeholder { color: var(--text-muted); }
+
 .org-list { overflow-y: auto; padding: 0.6rem; }
 .org-list__empty { padding: 1.4rem 1.1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
