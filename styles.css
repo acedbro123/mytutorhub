@@ -1245,25 +1245,28 @@ footer p { font-size: 0.8rem; }
   max-height: clamp(420px, 68vh, 680px);
 }
 .map-sidebar__head {
-  padding: 0.9rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
   border-bottom: 1px solid var(--border);
   font-weight: 800;
   font-size: 1rem;
   background: var(--green-light);
   color: var(--green);
 }
-.org-name-search-wrap {
-  padding: 0.6rem 0.7rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--white);
-}
+.map-sidebar__title { white-space: nowrap; }
 .org-name-search {
-  width: 100%;
+  flex: 1 1 auto;
+  min-width: 90px;
+  max-width: 62%;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 0.82rem;
   color: var(--text);
-  padding: 0.55rem 0.9rem;
+  padding: 0.4rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--white);
