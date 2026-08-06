@@ -703,27 +703,66 @@
           }
         });
 
-        if (userLatLng) renderOrgs();
+        // If a location was restored on load, the list/count were rendered
+        // against an empty org set — refresh both now that the data is here.
+        if (userLatLng) { renderOrgs(); summarize(); }
         if (missing.length) { setGeoLoading(true); geocodeMissing(missing, cache, finishGeocoding); }
         else finishGeocoding();
       }
 
       // ----------------------------------------------------------------
-      // Load orgs: curated list (orgs.js) MERGED with the batch import
-      // (organizations_la.json). The import file is optional — if it's not
-      // present, the map just uses the curated orgs.
+      // Restore the last searched address (persisted in localStorage by
+      // setLocation() on every search). This is what keeps your location,
+      // home pin, and nearby-org list in place when you leave the Map page
+      // (e.g. to Saved Volunteer Ideas) and come back.
+      // ----------------------------------------------------------------
+      (function restoreSavedLocation() {
+        if (!window.VoluntoolSaved) return;
+        var loc = VoluntoolSaved.getLocation();
+        if (!loc || typeof loc.lat !== 'number' || typeof loc.lng !== 'number') return;
+
+        userLatLng = [loc.lat, loc.lng];
+        userAddress = loc.address || '';
+        if (loc.address) input.value = loc.address;
+
+        // Recreate the home pin and center on it (instant, no fly animation).
+        userMarker = L.marker([loc.lat, loc.lng], {
+          icon: homeIcon,
+          zIndexOffset: 1000,
+          title: 'Your location'
+        }).addTo(map);
+        userMarker.bindPopup('<strong>Your location</strong><br>' + escapeHtml(userAddress));
+        map.setView([loc.lat, loc.lng], 17);
+
+        // Orgs may not be loaded yet — renderOrgs() runs again once they load
+        // (see startOrgs), so the list fills in as soon as the data arrives.
+        renderOrgs();
+        summarize();
+      })();
+
+      // ----------------------------------------------------------------
+      // Load orgs: curated list (orgs.js) MERGED with the batch imports
+      // (organizations_la.json + organizations_oc.json). Each import file is
+      // optional — a missing file just contributes nothing.
       // ----------------------------------------------------------------
       (function loadOrgs() {
         var curated = Array.isArray(window.VOLUNTOOL_ORGS) ? window.VOLUNTOOL_ORGS : [];
-        fetch('organizations_la.json', { headers: { 'Accept': 'application/json' } })
-          .then(function (r) { return r.ok ? r.json() : []; })
-          .then(function (imported) {
-            startOrgs(curated, Array.isArray(imported) ? imported : []);
-          })
-          .catch(function () {
-            if (window.console) console.warn('Voluntool map: organizations_la.json not found — using curated orgs only.');
-            startOrgs(curated, []);
-          });
+        var files = ['organizations_la.json', 'organizations_oc.json'];
+
+        // Fetch every import file; a failed/missing one resolves to [] so the
+        // others still load.
+        Promise.all(files.map(function (file) {
+          return fetch(file, { headers: { 'Accept': 'application/json' } })
+            .then(function (r) { return r.ok ? r.json() : []; })
+            .then(function (data) { return Array.isArray(data) ? data : []; })
+            .catch(function () {
+              if (window.console) console.warn('Voluntool map: ' + file + ' not found — skipping it.');
+              return [];
+            });
+        })).then(function (lists) {
+          var imported = lists.reduce(function (all, list) { return all.concat(list); }, []);
+          startOrgs(curated, imported);
+        });
       })();
     })();
   </script>
