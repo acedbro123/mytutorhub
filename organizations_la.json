@@ -1250,7 +1250,7 @@
     "name": "Los Angeles LGBT Center",
     "description": "",
     "address": "1118 N McCadden Pl Los Angeles, CA 90038",
-    "category": "Uncategorized",
+    "category": "LGBTQ",
     "link": "",
     "email": "",
     "minAge": 18,
@@ -4199,5 +4199,33 @@
     "weeklyHoursRequired": null,
     "latitude": 34.0557775,
     "longitude": -118.2429894
+  },
+  {
+    "id": "wise-readers-to-leaders",
+    "name": "Wise Readers to Leaders",
+    "description": "",
+    "address": "15500 Stephen S Wise Dr, Los Angeles, CA 90077",
+    "category": "Education",
+    "link": "https://wisereaderstoleaders.org",
+    "email": "",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 34.128097,
+    "longitude": -118.470656
+  },
+  {
+    "id": "wise-camp-at-stephen-wise-temple",
+    "name": "Wise Camp at Stephen Wise Temple",
+    "description": "",
+    "address": "15500 Stephen S Wise Dr, Los Angeles, CA 90077",
+    "category": "Children",
+    "link": "",
+    "email": "",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 34.128097,
+    "longitude": -118.470656
   }
 ]
