@@ -177,6 +177,7 @@
       var orgs = [];                 // all organizations from orgs.js
       var orgLayer = L.layerGroup().addTo(map); // markers currently shown
       var shownMarkers = [];         // parallel to the rendered list
+      var markerById = {};           // org.id -> marker, so a list card can open its popup
 
       // Filter state
       var radiusMiles = 25;
@@ -375,9 +376,45 @@
       // ----------------------------------------------------------------
       // Render the sidebar list + org markers for the current radius
       // ----------------------------------------------------------------
-      function renderOrgs() {
+      // Markers are driven by BOTH the nearby radius AND the current map view:
+      // an org gets a pin if it passes the active filters and is either within
+      // your search radius (so pins stay put right after a search, even when
+      // zoomed in) OR currently visible on the map (so zooming out reveals every
+      // organization in view). A name search shows all of its matches, like the
+      // list. This is what lets you zoom out and see all ~1,100 pins at once.
+      function renderMarkers() {
         orgLayer.clearLayers();
-        shownMarkers = [];
+        markerById = {};
+        if (!orgs.length) return;
+        var bounds = map.getBounds();
+        var shown = 0, MAX = 4000; // safety cap; total data set is well under this
+        for (var i = 0; i < orgs.length; i++) {
+          var org = orgs[i];
+          if (!hasCoords(org)) continue;
+          if (!(ageOk(org) && hoursOk(org) && matchesCategory(org) && matchesName(org))) continue;
+          var inView = bounds.contains([org.latitude, org.longitude]);
+          var inRadius = !!userLatLng && !nameQuery &&
+            distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude) <= radiusMiles;
+          if (!(inView || inRadius || nameQuery)) continue;
+          var dist = userLatLng
+            ? distanceMiles(userLatLng[0], userLatLng[1], org.latitude, org.longitude)
+            : null;
+          var m = L.circleMarker([org.latitude, org.longitude], {
+            radius: 9, color: '#065F46', weight: 2, fillColor: '#059669', fillOpacity: 0.9
+          });
+          m.bindPopup(orgPopupHtml(org, dist), { autoPan: false });
+          m.addTo(orgLayer);
+          markerById[org.id] = m;
+          if (++shown >= MAX) break;
+        }
+      }
+      // Re-render pins whenever the view changes (pan OR zoom both end in moveend).
+      map.on('moveend', renderMarkers);
+
+      // Update both the map pins and the nearby list together.
+      function refresh() { renderMarkers(); renderOrgs(); summarize(); }
+
+      function renderOrgs() {
         listEl.innerHTML = '';
 
         var hasLoc = !!userLatLng;
@@ -429,14 +466,6 @@
         nearby.forEach(function (item) {
           var org = item.org;
 
-          // marker (autoPan off so opening a popup won't slide the home pin out of view)
-          var m = L.circleMarker([org.latitude, org.longitude], {
-            radius: 9, color: '#065F46', weight: 2, fillColor: '#059669', fillOpacity: 0.9
-          });
-          m.bindPopup(orgPopupHtml(org, item.dist), { autoPan: false });
-          m.addTo(orgLayer);
-          shownMarkers.push(m);
-
           // sidebar card
           var card = document.createElement('div');
           card.className = 'org-card';
@@ -477,7 +506,12 @@
             } else {
               map.flyTo([org.latitude, org.longitude], 16, { duration: 1 });
             }
-            m.openPopup();
+            // Markers re-render on moveend (fires first, as it was bound at init),
+            // so by the time this runs the org's pin exists — then open it.
+            map.once('moveend', function () {
+              var mk = markerById[org.id];
+              if (mk) mk.openPopup();
+            });
             // On mobile the map sits above the list — bring it into view.
             document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
@@ -568,8 +602,7 @@
             }
             userMarker.bindPopup('<strong>Your location</strong><br>' + escapeHtml(place.display_name));
 
-            renderOrgs();
-            summarize();
+            refresh();
           })
           .catch(function (err) {
             if (window.console) console.error('Voluntool map geocoding failed:', err);
@@ -591,15 +624,15 @@
       radiusRange.addEventListener('input', function () {
         radiusMiles = parseInt(radiusRange.value, 10);
         radiusValue.textContent = radiusMiles;
-        if (userLatLng) { renderOrgs(); summarize(); }
+        refresh();
       });
       ageSelect.addEventListener('change', function () {
         userAge = parseInt(ageSelect.value, 10);
-        if (userLatLng) { renderOrgs(); summarize(); }
+        refresh();
       });
       hoursSelect.addEventListener('change', function () {
         userHours = parseInt(hoursSelect.value, 10);
-        if (userLatLng) { renderOrgs(); summarize(); }
+        refresh();
       });
       categoryChips.addEventListener('click', function (e) {
         var chip = e.target.closest('.category-chip');
@@ -615,7 +648,7 @@
           chip.classList.remove('category-chip--active');
           chip.setAttribute('aria-pressed', 'false');
         }
-        if (userLatLng) { renderOrgs(); summarize(); }
+        refresh();
       });
 
       // Name search — filters the list live. Works even before an address is
@@ -623,6 +656,7 @@
       // normal nearby list.
       orgNameSearch.addEventListener('input', function () {
         nameQuery = orgNameSearch.value.trim().toLowerCase();
+        renderMarkers();
         renderOrgs();
         if (userLatLng || nameQuery) summarize(); else clearMessage();
       });
@@ -670,6 +704,7 @@
             console.warn('Voluntool import — addresses that failed to geocode:', geoFailures);
           }
         }
+        refresh(); // ensure pins reflect the final geocoded set
       }
 
       // Geocode address-only orgs one at a time (~1 req/sec per the Nominatim
@@ -693,7 +728,7 @@
                 cache[geoCacheKey(org)] = { lat: org.latitude, lng: org.longitude };
                 writeGeocache(cache);
                 if (org.__imported) geoStats.geocoded++;
-                if (userLatLng) { renderOrgs(); summarize(); } // show it once located
+                refresh(); // show it once located (pins + list)
               } else {
                 if (org.__imported) geoFailures.push({ name: org.name, address: org.address });
                 if (window.console) console.warn('Voluntool map: could not geocode', org.name, '—', org.address);
@@ -754,9 +789,9 @@
           }
         });
 
-        // If a location was restored on load, the list/count were rendered
-        // against an empty org set — refresh both now that the data is here.
-        if (userLatLng) { renderOrgs(); summarize(); }
+        // Data is here now — render pins for the current view (and the nearby
+        // list if a location was restored).
+        refresh();
         if (missing.length) { setGeoLoading(true); geocodeMissing(missing, cache, finishGeocoding); }
         else finishGeocoding();
       }
@@ -785,10 +820,9 @@
         userMarker.bindPopup('<strong>Your location</strong><br>' + escapeHtml(userAddress));
         map.setView([loc.lat, loc.lng], 17);
 
-        // Orgs may not be loaded yet — renderOrgs() runs again once they load
-        // (see startOrgs), so the list fills in as soon as the data arrives.
-        renderOrgs();
-        summarize();
+        // Orgs may not be loaded yet — refresh() runs again once they load
+        // (see startOrgs), so the list + pins fill in as soon as data arrives.
+        refresh();
       })();
 
       // ----------------------------------------------------------------
