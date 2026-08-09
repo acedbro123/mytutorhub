@@ -1228,7 +1228,53 @@ footer p { font-size: 0.8rem; }
 }
 
 /* Map + sidebar layout */
-.map-layout { display: flex; gap: 1.25rem; align-items: stretch; }
+.map-layout { display: flex; gap: 1.25rem; align-items: stretch; position: relative; }
+
+/* Collapse toggle in the sidebar header (hide list -> enlarge map) */
+.sidebar-toggle {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--green);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sidebar-toggle:hover { background: var(--white); filter: brightness(0.97); }
+
+/* Reopen tab, anchored to the map's right edge, shown only when collapsed */
+.sidebar-show {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 500;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  background: var(--white);
+  color: var(--green);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.7rem 0.6rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+.sidebar-show:hover { background: var(--green-light); }
+
+/* Collapsed: hide the list, let the map fill the width and grow taller.
+   Higher specificity (.map-layout.map-layout--collapsed) so the taller height
+   wins over the responsive .map-layout .map-canvas heights at every breakpoint. */
+.map-layout--collapsed { gap: 0; }
+.map-layout--collapsed .map-sidebar { display: none; }
+.map-layout.map-layout--collapsed .map-canvas { height: clamp(480px, 82vh, 1200px); }
 .map-layout .map-canvas {
   flex: 1 1 auto;
   height: clamp(420px, 68vh, 680px);

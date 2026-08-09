@@ -81,8 +81,10 @@
 
       <p id="map-message" class="map-message" role="status" aria-live="polite" hidden></p>
 
-      <div class="map-layout">
+      <div class="map-layout" id="map-layout">
         <div id="map" class="map-canvas" aria-label="Interactive map"></div>
+        <button id="sidebar-show" class="sidebar-show" type="button"
+          aria-label="Show organizations list" hidden>‹ List</button>
         <aside class="map-sidebar" aria-label="Nearby organizations">
           <div class="map-sidebar__head">
             <span class="map-sidebar__title">Nearby organizations<span id="geo-indicator" class="geo-indicator" hidden>loading organizations…</span></span>
@@ -93,6 +95,8 @@
               placeholder="Search…"
               autocomplete="off"
               aria-label="Search nearby organizations by name" />
+            <button id="sidebar-hide" class="sidebar-toggle" type="button"
+              title="Hide list and enlarge map" aria-label="Hide list and enlarge map">⤢</button>
           </div>
           <div id="org-list" class="org-list">
             <p class="org-list__empty">Enter your address above to see organizations near you.</p>
@@ -660,6 +664,22 @@
         renderOrgs();
         if (userLatLng || nameQuery) summarize(); else clearMessage();
       });
+
+      // Collapse the org list so the map fills the whole area (and back).
+      // Leaflet must recompute its size after the container resizes, or tiles
+      // render grey/misaligned.
+      (function () {
+        var mapLayout = document.getElementById('map-layout');
+        var hideBtn = document.getElementById('sidebar-hide');
+        var showBtn = document.getElementById('sidebar-show');
+        function setCollapsed(collapsed) {
+          mapLayout.classList.toggle('map-layout--collapsed', collapsed);
+          showBtn.hidden = !collapsed;
+          setTimeout(function () { map.invalidateSize(); }, 60);
+        }
+        hideBtn.addEventListener('click', function () { setCollapsed(true); });
+        showBtn.addEventListener('click', function () { setCollapsed(false); });
+      })();
 
       // ----------------------------------------------------------------
       // Load organizations from orgs.js (window.VOLUNTOOL_ORGS)
