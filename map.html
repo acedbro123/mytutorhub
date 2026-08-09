@@ -837,7 +837,7 @@
         // Fetch every import file; a failed/missing one resolves to [] so the
         // others still load.
         Promise.all(files.map(function (file) {
-          return fetch(file, { headers: { 'Accept': 'application/json' } })
+          return fetch(file, { headers: { 'Accept': 'application/json' }, cache: 'no-cache' })
             .then(function (r) { return r.ok ? r.json() : []; })
             .then(function (data) { return Array.isArray(data) ? data : []; })
             .catch(function () {
