@@ -4227,5 +4227,47 @@
     "weeklyHoursRequired": null,
     "latitude": 34.128097,
     "longitude": -118.470656
+  },
+  {
+    "id": "mar-vista-family-center",
+    "name": "Mar Vista Family Center",
+    "description": "",
+    "address": "5075 S Slauson Ave, Los Angeles, CA 90230",
+    "category": "Children / Education",
+    "link": "https://marvistafc.org",
+    "email": "",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 33.9940346,
+    "longitude": -118.4077083
+  },
+  {
+    "id": "westside-food-bank",
+    "name": "Westside Food Bank",
+    "description": "",
+    "address": "1710 22nd St, Santa Monica, CA 90404",
+    "category": "Food",
+    "link": "https://www.wsfb.org",
+    "email": "volunteer@wsfb.org",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 34.0252623,
+    "longitude": -118.4728412
+  },
+  {
+    "id": "hope-in-a-suitcase",
+    "name": "Hope in a Suitcase",
+    "description": "",
+    "address": "311 N Robertson Blvd #715, Beverly Hills, CA 90211",
+    "category": "Children",
+    "link": "https://www.hopeinasuitcase.org",
+    "email": "info@hopeinasuitcase.org",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 34.0710014,
+    "longitude": -118.3838583
   }
 ]
