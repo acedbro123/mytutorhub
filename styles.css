@@ -40,7 +40,7 @@ a:hover { text-decoration: underline; }
 .landing-page {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%);
+  background: linear-gradient(165deg, #FBF7EF 0%, #F3F7F4 60%, #EAF3EC 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,16 +92,12 @@ a:hover { text-decoration: underline; }
 
 .landing-title {
   text-align: center;
-  font-size: clamp(2.75rem, 9vw, 4.75rem);
+  font-size: clamp(2.9rem, 9.5vw, 5rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  margin-bottom: 0.6rem;
-  background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: var(--primary); /* fallback for browsers without background-clip:text */
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin-bottom: 0.55rem;
+  color: var(--green);
 }
 
 .landing-tagline {
@@ -146,14 +142,23 @@ a:hover { text-decoration: underline; }
 }
 
 .landing-option--online {
-  background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%);
-  border-color: #C7D2FE;
+  background: linear-gradient(160deg, #7C3AED 0%, #6D28D9 100%);
+  border-color: #6D28D9;
 }
 
 .landing-option--inperson {
-  background: linear-gradient(135deg, #ECFDF5 0%, #F8FAFC 100%);
-  border-color: #A7F3D0;
+  background: linear-gradient(160deg, #10B981 0%, #059669 100%);
+  border-color: #059669;
 }
+/* filled cards -> light text */
+.landing-option--online .landing-option__label,
+.landing-option--inperson .landing-option__label { color: #fff; }
+.landing-option--online .landing-option__desc,
+.landing-option--inperson .landing-option__desc { color: rgba(255,255,255,0.9); }
+.landing-option--online .landing-option__cta,
+.landing-option--inperson .landing-option__cta { color: #fff; }
+.landing-option--online .landing-option__icon { color: #6D28D9; }
+.landing-option--inperson .landing-option__icon { color: #059669; }
 
 .landing-option__icon {
   width: 46px;
@@ -166,7 +171,7 @@ a:hover { text-decoration: underline; }
   box-shadow: var(--shadow);
 }
 .landing-option__icon svg { width: 26px; height: 26px; }
-.landing-option--online .landing-option__icon { color: #4338CA; }
+.landing-option--online .landing-option__icon { color: #6D28D9; }
 .landing-option--inperson .landing-option__icon { color: #059669; }
 
 .landing-option__label {
@@ -200,16 +205,17 @@ a:hover { text-decoration: underline; }
   padding: 5px 8px;
 }
 
-/* In Person: little map illustration */
+/* In Person: little map illustration, framed in white so it pops on the card */
 .landing-map-visual {
   display: block;
   margin-top: 0.15rem;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #A7F3D0;
+  background: #fff;
+  padding: 6px;
   box-shadow: var(--shadow);
 }
-.landing-map-visual svg { display: block; width: 100%; height: 96px; }
+.landing-map-visual svg { display: block; width: 100%; height: 88px; border-radius: 8px; }
 
 /* CTA line pinned to the bottom of each card */
 .landing-option__cta {
@@ -218,8 +224,8 @@ a:hover { text-decoration: underline; }
   font-weight: 800;
   font-size: 0.95rem;
 }
-.landing-option--online .landing-option__cta { color: #4338CA; }
-.landing-option--inperson .landing-option__cta { color: #059669; }
+.landing-option--online .landing-option__cta,
+.landing-option--inperson .landing-option__cta { color: #fff; }
 
 .section-nav {
   background: var(--white);
