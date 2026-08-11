@@ -74,7 +74,7 @@ a:hover { text-decoration: underline; }
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  margin-bottom: 2.25rem;
+  margin-bottom: 0.55rem;
   background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -82,10 +82,23 @@ a:hover { text-decoration: underline; }
   color: var(--primary); /* fallback for browsers without background-clip:text */
 }
 
+.landing-tagline {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 auto 2.25rem;
+}
+
 .landing-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
+}
+@media (max-width: 620px) {
+  .landing-actions { grid-template-columns: 1fr; }
+  .landing-card { padding: 1.6rem; }
 }
 
 .landing-option {
@@ -130,6 +143,46 @@ a:hover { text-decoration: underline; }
   line-height: 1.6;
   font-size: 0.95rem;
 }
+
+/* Online: platform logos */
+.landing-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.landing-logos img {
+  height: 34px;
+  width: auto;
+  max-width: 94px;
+  object-fit: contain;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 5px 8px;
+}
+
+/* In Person: mini-map illustration */
+.landing-map-visual {
+  display: block;
+  margin-top: 0.25rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #A7F3D0;
+  box-shadow: var(--shadow);
+}
+.landing-map-visual svg { display: block; width: 100%; height: 94px; }
+
+/* CTA pinned to bottom of each card */
+.landing-option__cta {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.landing-option--online .landing-option__cta { color: var(--primary); }
+.landing-option--inperson .landing-option__cta { color: var(--green); }
 
 .section-nav {
   background: var(--white);
