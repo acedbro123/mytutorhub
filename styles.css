@@ -37,56 +37,54 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ===== Landing — bold "sticker / pop" style ===== */
+/* ===== Landing — calm green baseline ===== */
 .landing-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2.5rem 1rem;
-  background-color: #FCF6E6;
-  background-image: radial-gradient(rgba(20,40,29,0.10) 1.7px, transparent 1.7px);
-  background-size: 22px 22px;
+  background: linear-gradient(180deg, #F4FAF6 0%, #FFFFFF 100%);
 }
 
-.landing-shell { width: min(940px, 100%); }
+.landing-shell { width: min(920px, 100%); }
 
-/* No outer card — the title + sticker buttons sit right on the dotted page */
 .landing-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  box-shadow: var(--shadow-lg);
+  padding: 2.5rem;
 }
 
 .landing-title {
   text-align: center;
-  font-size: clamp(3rem, 10vw, 5.25rem);
+  font-size: clamp(2.9rem, 9.5vw, 5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1;
-  color: #16A34A;
-  margin-bottom: 0.7rem;
-  text-shadow: 3px 3px 0 rgba(20,40,29,0.14);
+  line-height: 1.02;
+  color: var(--green);
+  margin-bottom: 0.55rem;
 }
 
 .landing-tagline {
   text-align: center;
-  color: #14281D;
-  font-size: clamp(0.98rem, 2.4vw, 1.18rem);
-  font-weight: 700;
-  line-height: 1.45;
-  max-width: 40ch;
-  margin: 0 auto 2.4rem;
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 38ch;
+  margin: 0 auto 2.25rem;
 }
 
 .landing-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 @media (max-width: 640px) {
   .landing-actions { grid-template-columns: 1fr; }
+  .landing-card { padding: 1.6rem; }
 }
 
 .landing-option {
@@ -94,84 +92,71 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
   gap: 0.7rem;
   padding: 1.6rem;
-  border-radius: 22px;
-  border: 3px solid #14281D;
-  box-shadow: 6px 6px 0 #14281D;
+  border-radius: 18px;
+  border: 1px solid #D5E8DC;
+  background: #F6FBF8;
+  box-shadow: var(--shadow);
   text-decoration: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.landing-option:hover { text-decoration: none; }
-.landing-option--online { background: #16A34A; transform: rotate(-1deg); }
-.landing-option--inperson { background: #FACC15; transform: rotate(1deg); }
-.landing-option--online:hover  { transform: rotate(-1deg) translate(-3px, -3px); box-shadow: 9px 9px 0 #14281D; }
-.landing-option--inperson:hover { transform: rotate(1deg) translate(-3px, -3px); box-shadow: 9px 9px 0 #14281D; }
+.landing-option:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+}
 
-/* text: white on green, dark ink on yellow */
-.landing-option--online .landing-option__label { color: #fff; }
-.landing-option--online .landing-option__desc { color: rgba(255,255,255,0.92); }
-.landing-option--online .landing-option__cta { color: #fff; }
-.landing-option--inperson .landing-option__label,
-.landing-option--inperson .landing-option__desc,
-.landing-option--inperson .landing-option__cta { color: #14281D; }
+.landing-option__label { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+.landing-option__desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.55; }
 
-.landing-option__label { font-size: 1.5rem; font-weight: 800; }
-.landing-option__desc { font-size: 0.95rem; font-weight: 600; line-height: 1.5; }
-
-/* icon in a bordered sticker badge */
 .landing-option__icon {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: #fff;
-  border: 2.5px solid #14281D;
-  border-radius: 14px;
-  box-shadow: 3px 3px 0 #14281D;
+  border: 1px solid #D5E8DC;
+  box-shadow: var(--shadow);
+  color: var(--green);
 }
-.landing-option__icon svg { width: 27px; height: 27px; }
-.landing-option--online .landing-option__icon { color: #16A34A; }
-.landing-option--inperson .landing-option__icon { color: #14281D; }
+.landing-option__icon svg { width: 26px; height: 26px; }
 
-/* Online: platform logos as bordered chips */
 .landing-logos {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   margin-top: 0.15rem;
 }
 .landing-logos img {
   height: 34px;
   width: auto;
-  max-width: 96px;
+  max-width: 94px;
   object-fit: contain;
   background: #fff;
-  border: 2px solid #14281D;
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
   padding: 5px 8px;
-  box-shadow: 2px 2px 0 #14281D;
 }
 
-/* In Person: mini-map in a bordered frame */
 .landing-map-visual {
-  display: block;
   margin-top: 0.15rem;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
-  padding: 5px;
-  border: 2.5px solid #14281D;
-  box-shadow: 3px 3px 0 #14281D;
+  padding: 6px;
+  border: 1px solid #D5E8DC;
+  box-shadow: var(--shadow);
 }
-.landing-map-visual svg { display: block; width: 100%; height: 90px; border-radius: 9px; }
+.landing-map-visual svg { display: block; width: 100%; height: 88px; border-radius: 8px; }
 
-/* CTA pinned to the bottom */
 .landing-option__cta {
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.4rem;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  color: var(--green);
 }
 
 .section-nav {
