@@ -9,17 +9,68 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body class="landing-page">
+  <div class="landing-bg" aria-hidden="true"></div>
   <main class="landing-shell">
     <div class="landing-card">
       <h1 class="landing-title">Voluntool</h1>
+      <p class="landing-tagline">Making helping people easy — find opportunities to help, online or in&nbsp;person.</p>
+
       <div class="landing-actions">
+        <!-- ONLINE -->
         <a class="landing-option landing-option--online" href="websites.html">
+          <span class="landing-option__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18" />
+              <path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18Z" />
+            </svg>
+          </span>
           <span class="landing-option__label">Online</span>
-          <span class="landing-option__desc">Browse remote volunteering platforms and resources.</span>
+          <span class="landing-option__desc">Volunteer from home — tutoring and mentoring through trusted platforms like these:</span>
+          <span class="landing-logos">
+            <img src="upchieve-logo.png" alt="UPchieve" />
+            <img src="ltb_logo_with_icon-15741151bbc1867ee3750cc8849579612557be92ce60e5a859f8596d5f992f2a.png" alt="Learn To Be" />
+            <img src="schoolhouse-logo.png" alt="Schoolhouse.world" />
+            <img src="reading-partners-logo.png" alt="Reading Partners" />
+          </span>
+          <span class="landing-option__cta">Browse platforms →</span>
         </a>
+
+        <!-- IN PERSON -->
         <a class="landing-option landing-option--inperson" href="map.html">
+          <span class="landing-option__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10Z" />
+              <circle cx="12" cy="11" r="2.2" />
+            </svg>
+          </span>
           <span class="landing-option__label">In Person</span>
-          <span class="landing-option__desc">Explore local volunteer opportunities and community programs.</span>
+          <span class="landing-option__desc">Explore 1,100+ local organizations on an interactive map, sorted by distance from you.</span>
+          <span class="landing-map-visual" aria-hidden="true">
+            <svg viewBox="0 0 260 120" preserveAspectRatio="none">
+              <rect x="0" y="0" width="260" height="120" rx="12" fill="#DCFCE7" />
+              <!-- water -->
+              <path d="M0 96 C 40 84, 70 108, 110 96 S 190 84, 260 100 L260 120 L0 120 Z" fill="#BBF7D0" />
+              <!-- roads -->
+              <path d="M-5 40 L265 30" stroke="#fff" stroke-width="7" fill="none" />
+              <path d="M60 -5 L95 125" stroke="#fff" stroke-width="7" fill="none" />
+              <path d="M175 -5 L205 125" stroke="#fff" stroke-width="6" fill="none" />
+              <path d="M-5 78 L265 70" stroke="#fff" stroke-width="5" fill="none" />
+              <!-- blocks -->
+              <rect x="18" y="46" width="26" height="18" rx="3" fill="#86EFAC" opacity="0.7" />
+              <rect x="112" y="40" width="40" height="22" rx="3" fill="#86EFAC" opacity="0.7" />
+              <rect x="214" y="44" width="30" height="18" rx="3" fill="#86EFAC" opacity="0.7" />
+              <!-- pins -->
+              <g fill="#059669">
+                <path d="M130 34 c -7 0 -12 5 -12 12 c 0 9 12 20 12 20 s 12 -11 12 -20 c 0 -7 -5 -12 -12 -12 Z" />
+              </g>
+              <circle cx="130" cy="46" r="4.5" fill="#fff" />
+              <circle cx="66" cy="84" r="6" fill="#10B981" stroke="#fff" stroke-width="2" />
+              <circle cx="200" cy="60" r="6" fill="#10B981" stroke="#fff" stroke-width="2" />
+              <circle cx="40" cy="30" r="6" fill="#10B981" stroke="#fff" stroke-width="2" />
+            </svg>
+          </span>
+          <span class="landing-option__cta">Open the map →</span>
         </a>
       </div>
     </div>

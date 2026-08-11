@@ -38,16 +38,38 @@ a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .landing-page {
+  position: relative;
   min-height: 100vh;
   background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  overflow: hidden;
+}
+
+/* Faded volunteer photo behind the card */
+.landing-bg {
+  position: absolute;
+  inset: 0;
+  background: url('learn-to-be-volunteer-group-min-664f10ec84f41f79e49bd0b12976c835fa4de7e37be761be0642aeb9dbf34a9f.jpg') center / cover no-repeat;
+  filter: grayscale(100%) contrast(1.05);
+  opacity: 0.14;
+  z-index: 0;
+}
+.landing-page::after {
+  /* soften the photo edges into the gradient */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, transparent 0%, rgba(248,250,252,0.55) 100%);
+  z-index: 0;
 }
 
 .landing-shell {
-  width: min(900px, 100%);
+  position: relative;
+  z-index: 1;
+  width: min(920px, 100%);
 }
 
 .landing-card {
@@ -74,7 +96,7 @@ a:hover { text-decoration: underline; }
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.05;
-  margin-bottom: 2.25rem;
+  margin-bottom: 0.6rem;
   background: linear-gradient(135deg, #4338CA 0%, #0EA5E9 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -82,10 +104,24 @@ a:hover { text-decoration: underline; }
   color: var(--primary); /* fallback for browsers without background-clip:text */
 }
 
+.landing-tagline {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 34ch;
+  margin: 0 auto 2.25rem;
+}
+
 .landing-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
+}
+@media (max-width: 620px) {
+  .landing-actions { grid-template-columns: 1fr; }
+  .landing-card { padding: 1.5rem; }
 }
 
 .landing-option {
@@ -119,6 +155,20 @@ a:hover { text-decoration: underline; }
   border-color: #A7F3D0;
 }
 
+.landing-option__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.landing-option__icon svg { width: 26px; height: 26px; }
+.landing-option--online .landing-option__icon { color: #4338CA; }
+.landing-option--inperson .landing-option__icon { color: #059669; }
+
 .landing-option__label {
   font-size: 1.35rem;
   font-weight: 800;
@@ -127,9 +177,49 @@ a:hover { text-decoration: underline; }
 
 .landing-option__desc {
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.55;
   font-size: 0.95rem;
 }
+
+/* Online: row of platform logos */
+.landing-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+.landing-logos img {
+  height: 34px;
+  width: auto;
+  max-width: 92px;
+  object-fit: contain;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 5px 8px;
+}
+
+/* In Person: little map illustration */
+.landing-map-visual {
+  display: block;
+  margin-top: 0.15rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #A7F3D0;
+  box-shadow: var(--shadow);
+}
+.landing-map-visual svg { display: block; width: 100%; height: 96px; }
+
+/* CTA line pinned to the bottom of each card */
+.landing-option__cta {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.landing-option--online .landing-option__cta { color: #4338CA; }
+.landing-option--inperson .landing-option__cta { color: #059669; }
 
 .section-nav {
   background: var(--white);
