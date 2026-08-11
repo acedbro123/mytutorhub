@@ -37,196 +37,142 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* ===== Landing — bold "sticker / pop" style ===== */
 .landing-page {
-  position: relative;
   min-height: 100vh;
-  background: linear-gradient(165deg, #FBF7EF 0%, #F3F7F4 60%, #EAF3EC 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  overflow: hidden;
+  padding: 2.5rem 1rem;
+  background-color: #FCF6E6;
+  background-image: radial-gradient(rgba(20,40,29,0.10) 1.7px, transparent 1.7px);
+  background-size: 22px 22px;
 }
 
-/* Faded volunteer photo behind the card */
-.landing-bg {
-  position: absolute;
-  inset: 0;
-  background: url('learn-to-be-volunteer-group-min-664f10ec84f41f79e49bd0b12976c835fa4de7e37be761be0642aeb9dbf34a9f.jpg') center / cover no-repeat;
-  filter: grayscale(100%) contrast(1.05);
-  opacity: 0.14;
-  z-index: 0;
-}
-.landing-page::after {
-  /* soften the photo edges into the gradient */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 40%, transparent 0%, rgba(248,250,252,0.55) 100%);
-  z-index: 0;
-}
+.landing-shell { width: min(940px, 100%); }
 
-.landing-shell {
-  position: relative;
-  z-index: 1;
-  width: min(920px, 100%);
-}
-
+/* No outer card — the title + sticker buttons sit right on the dotted page */
 .landing-card {
-  background: rgba(255,255,255,0.95);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  box-shadow: var(--shadow-lg);
-  padding: 2.5rem;
-}
-
-.landing-kicker {
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 1.5rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 .landing-title {
   text-align: center;
-  font-size: clamp(2.9rem, 9.5vw, 5rem);
+  font-size: clamp(3rem, 10vw, 5.25rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.02;
-  margin-bottom: 0.55rem;
-  color: var(--green);
+  line-height: 1;
+  color: #16A34A;
+  margin-bottom: 0.7rem;
+  text-shadow: 3px 3px 0 rgba(20,40,29,0.14);
 }
 
 .landing-tagline {
   text-align: center;
-  color: var(--text-muted);
-  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
-  font-weight: 500;
-  line-height: 1.5;
-  max-width: 34ch;
-  margin: 0 auto 2.25rem;
+  color: #14281D;
+  font-size: clamp(0.98rem, 2.4vw, 1.18rem);
+  font-weight: 700;
+  line-height: 1.45;
+  max-width: 40ch;
+  margin: 0 auto 2.4rem;
 }
 
 .landing-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
-@media (max-width: 620px) {
+@media (max-width: 640px) {
   .landing-actions { grid-template-columns: 1fr; }
-  .landing-card { padding: 1.5rem; }
 }
 
 .landing-option {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding: 1.75rem;
+  gap: 0.7rem;
+  padding: 1.6rem;
   border-radius: 22px;
-  border: 1px solid var(--border);
-  color: var(--text);
-  background: var(--white);
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 190px;
+  border: 3px solid #14281D;
+  box-shadow: 6px 6px 0 #14281D;
   text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
+.landing-option:hover { text-decoration: none; }
+.landing-option--online { background: #16A34A; transform: rotate(-1deg); }
+.landing-option--inperson { background: #FACC15; transform: rotate(1deg); }
+.landing-option--online:hover  { transform: rotate(-1deg) translate(-3px, -3px); box-shadow: 9px 9px 0 #14281D; }
+.landing-option--inperson:hover { transform: rotate(1deg) translate(-3px, -3px); box-shadow: 9px 9px 0 #14281D; }
 
-.landing-option:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  text-decoration: none;
-}
+/* text: white on green, dark ink on yellow */
+.landing-option--online .landing-option__label { color: #fff; }
+.landing-option--online .landing-option__desc { color: rgba(255,255,255,0.92); }
+.landing-option--online .landing-option__cta { color: #fff; }
+.landing-option--inperson .landing-option__label,
+.landing-option--inperson .landing-option__desc,
+.landing-option--inperson .landing-option__cta { color: #14281D; }
 
-.landing-option--online {
-  background: linear-gradient(160deg, #22375A 0%, #14243E 100%);
-  border-color: #14243E;
-}
+.landing-option__label { font-size: 1.5rem; font-weight: 800; }
+.landing-option__desc { font-size: 0.95rem; font-weight: 600; line-height: 1.5; }
 
-.landing-option--inperson {
-  background: linear-gradient(160deg, #CDB16B 0%, #B69441 100%);
-  border-color: #B69441;
-}
-/* Classic deep navy + muted antique gold. Navy card: cream text, gold CTA.
-   Gold card: deep navy text. */
-.landing-option--online .landing-option__label { color: #F6F1E4; }
-.landing-option--online .landing-option__desc { color: rgba(246,241,228,0.82); }
-.landing-option--online .landing-option__cta { color: #D9BE7E; }
-.landing-option--online .landing-option__icon { color: #22375A; }
-.landing-option--inperson .landing-option__label { color: #1B2A4A; }
-.landing-option--inperson .landing-option__desc { color: rgba(27,42,74,0.82); }
-.landing-option--inperson .landing-option__cta { color: #1B2A4A; }
-.landing-option--inperson .landing-option__icon { color: #1B2A4A; }
-
+/* icon in a bordered sticker badge */
 .landing-option__icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 50px;
+  height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--white);
-  box-shadow: var(--shadow);
+  background: #fff;
+  border: 2.5px solid #14281D;
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 #14281D;
 }
-.landing-option__icon svg { width: 26px; height: 26px; }
-.landing-option--online .landing-option__icon { color: #22375A; }
-.landing-option--inperson .landing-option__icon { color: #1B2A4A; }
+.landing-option__icon svg { width: 27px; height: 27px; }
+.landing-option--online .landing-option__icon { color: #16A34A; }
+.landing-option--inperson .landing-option__icon { color: #14281D; }
 
-.landing-option__label {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.landing-option__desc {
-  color: var(--text-muted);
-  line-height: 1.55;
-  font-size: 0.95rem;
-}
-
-/* Online: row of platform logos */
+/* Online: platform logos as bordered chips */
 .landing-logos {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   margin-top: 0.15rem;
 }
 .landing-logos img {
   height: 34px;
   width: auto;
-  max-width: 92px;
+  max-width: 96px;
   object-fit: contain;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 9px;
+  background: #fff;
+  border: 2px solid #14281D;
+  border-radius: 10px;
   padding: 5px 8px;
+  box-shadow: 2px 2px 0 #14281D;
 }
 
-/* In Person: little map illustration, framed in white so it pops on the card */
+/* In Person: mini-map in a bordered frame */
 .landing-map-visual {
   display: block;
   margin-top: 0.15rem;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   background: #fff;
-  padding: 6px;
-  box-shadow: var(--shadow);
+  padding: 5px;
+  border: 2.5px solid #14281D;
+  box-shadow: 3px 3px 0 #14281D;
 }
-.landing-map-visual svg { display: block; width: 100%; height: 88px; border-radius: 8px; }
+.landing-map-visual svg { display: block; width: 100%; height: 90px; border-radius: 9px; }
 
-/* CTA line pinned to the bottom of each card */
+/* CTA pinned to the bottom */
 .landing-option__cta {
   margin-top: auto;
-  padding-top: 0.4rem;
+  padding-top: 0.5rem;
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
-.landing-option--online .landing-option__cta { color: #D9BE7E; }
-.landing-option--inperson .landing-option__cta { color: #1B2A4A; }
 
 .section-nav {
   background: var(--white);
