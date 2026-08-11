@@ -142,8 +142,8 @@ a:hover { text-decoration: underline; }
 }
 
 .landing-option--online {
-  background: linear-gradient(160deg, #7C3AED 0%, #6D28D9 100%);
-  border-color: #6D28D9;
+  background: linear-gradient(160deg, #FB7185 0%, #F43F5E 100%);
+  border-color: #F43F5E;
 }
 
 .landing-option--inperson {
@@ -157,7 +157,7 @@ a:hover { text-decoration: underline; }
 .landing-option--inperson .landing-option__desc { color: rgba(255,255,255,0.9); }
 .landing-option--online .landing-option__cta,
 .landing-option--inperson .landing-option__cta { color: #fff; }
-.landing-option--online .landing-option__icon { color: #6D28D9; }
+.landing-option--online .landing-option__icon { color: #E11D48; }
 .landing-option--inperson .landing-option__icon { color: #059669; }
 
 .landing-option__icon {
@@ -171,7 +171,7 @@ a:hover { text-decoration: underline; }
   box-shadow: var(--shadow);
 }
 .landing-option__icon svg { width: 26px; height: 26px; }
-.landing-option--online .landing-option__icon { color: #6D28D9; }
+.landing-option--online .landing-option__icon { color: #E11D48; }
 .landing-option--inperson .landing-option__icon { color: #059669; }
 
 .landing-option__label {
