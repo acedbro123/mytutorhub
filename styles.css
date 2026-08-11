@@ -142,23 +142,23 @@ a:hover { text-decoration: underline; }
 }
 
 .landing-option--online {
-  background: linear-gradient(160deg, #FB7185 0%, #F43F5E 100%);
-  border-color: #F43F5E;
+  background: linear-gradient(160deg, #1E3A8A 0%, #172554 100%);
+  border-color: #172554;
 }
 
 .landing-option--inperson {
-  background: linear-gradient(160deg, #10B981 0%, #059669 100%);
-  border-color: #059669;
+  background: linear-gradient(160deg, #FBBF24 0%, #F59E0B 100%);
+  border-color: #F59E0B;
 }
-/* filled cards -> light text */
-.landing-option--online .landing-option__label,
-.landing-option--inperson .landing-option__label { color: #fff; }
-.landing-option--online .landing-option__desc,
-.landing-option--inperson .landing-option__desc { color: rgba(255,255,255,0.9); }
-.landing-option--online .landing-option__cta,
-.landing-option--inperson .landing-option__cta { color: #fff; }
-.landing-option--online .landing-option__icon { color: #E11D48; }
-.landing-option--inperson .landing-option__icon { color: #059669; }
+/* Online (navy) -> white text; In Person (gold) -> dark text for contrast */
+.landing-option--online .landing-option__label { color: #fff; }
+.landing-option--online .landing-option__desc { color: rgba(255,255,255,0.9); }
+.landing-option--online .landing-option__cta { color: #fff; }
+.landing-option--online .landing-option__icon { color: #1E3A8A; }
+.landing-option--inperson .landing-option__label { color: #1F2937; }
+.landing-option--inperson .landing-option__desc { color: rgba(31,41,55,0.85); }
+.landing-option--inperson .landing-option__cta { color: #78350F; }
+.landing-option--inperson .landing-option__icon { color: #B45309; }
 
 .landing-option__icon {
   width: 46px;
@@ -171,8 +171,8 @@ a:hover { text-decoration: underline; }
   box-shadow: var(--shadow);
 }
 .landing-option__icon svg { width: 26px; height: 26px; }
-.landing-option--online .landing-option__icon { color: #E11D48; }
-.landing-option--inperson .landing-option__icon { color: #059669; }
+.landing-option--online .landing-option__icon { color: #1E3A8A; }
+.landing-option--inperson .landing-option__icon { color: #B45309; }
 
 .landing-option__label {
   font-size: 1.35rem;
@@ -224,8 +224,8 @@ a:hover { text-decoration: underline; }
   font-weight: 800;
   font-size: 0.95rem;
 }
-.landing-option--online .landing-option__cta,
-.landing-option--inperson .landing-option__cta { color: #fff; }
+.landing-option--online .landing-option__cta { color: #fff; }
+.landing-option--inperson .landing-option__cta { color: #78350F; }
 
 .section-nav {
   background: var(--white);
