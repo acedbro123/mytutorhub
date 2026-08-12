@@ -4158,20 +4158,6 @@
     "longitude": -117.9874958
   },
   {
-    "id": "build-futures",
-    "name": "Build Futures",
-    "description": "",
-    "address": "18822 Beach Blvd Ste 211, Huntington Beach, CA 92648",
-    "category": "Community",
-    "link": "",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6890675,
-    "longitude": -117.988587
-  },
-  {
     "id": "tolerance-foundation",
     "name": "Tolerance Foundation",
     "description": "",
