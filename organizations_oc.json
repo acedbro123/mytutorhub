@@ -6970,5 +6970,33 @@
     "weeklyHoursRequired": null,
     "latitude": 33.788491,
     "longitude": -117.9609877
+  },
+  {
+    "id": "stand-up-to-trash",
+    "name": "Stand Up To Trash",
+    "description": "",
+    "address": "24200 Dana Point Harbor Dr, Dana Point, CA 92629",
+    "category": "Environment",
+    "link": "https://www.standuptotrash.com",
+    "email": "",
+    "minAge": 18,
+    "ageStatus": "confirmed",
+    "weeklyHoursRequired": null,
+    "latitude": 33.4612065,
+    "longitude": -117.7067044
+  },
+  {
+    "id": "league-of-volunteers",
+    "name": "League of Volunteers",
+    "description": "",
+    "address": "8440 Central Ave Ste A-B, Newark, CA 94560",
+    "category": "Community",
+    "link": "https://www.lov.org",
+    "email": "",
+    "minAge": 13,
+    "ageStatus": "confirmed",
+    "weeklyHoursRequired": null,
+    "latitude": 37.5164261,
+    "longitude": -122.0446578
   }
 ]
