@@ -847,12 +847,13 @@
 
       // ----------------------------------------------------------------
       // Load orgs: curated list (orgs.js) MERGED with the batch imports
-      // (organizations_la.json + organizations_oc.json + organizations_ny.json).
+      // (organizations_la.json + organizations_oc.json + organizations_ny.json
+      // + organizations_il.json + organizations_ma.json).
       // Each import file is optional — a missing file just contributes nothing.
       // ----------------------------------------------------------------
       (function loadOrgs() {
         var curated = Array.isArray(window.VOLUNTOOL_ORGS) ? window.VOLUNTOOL_ORGS : [];
-        var files = ['organizations_la.json', 'organizations_oc.json', 'organizations_ny.json', 'organizations_il.json'];
+        var files = ['organizations_la.json', 'organizations_oc.json', 'organizations_ny.json', 'organizations_il.json', 'organizations_ma.json'];
 
         // Fetch every import file; a failed/missing one resolves to [] so the
         // others still load.
