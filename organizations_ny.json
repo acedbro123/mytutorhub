@@ -15412,5 +15412,19 @@
     "weeklyHoursRequired": null,
     "latitude": 42.7284117,
     "longitude": -73.6917878
+  },
+  {
+    "id": "brooklyn-community-housing-services",
+    "name": "Brooklyn Community Housing & Services",
+    "description": "",
+    "address": "105 Carlton Ave, Brooklyn, NY 11205",
+    "category": "Housing",
+    "link": "https://bchands.org",
+    "email": "info@bchands.org",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 40.6945324,
+    "longitude": -73.9729443
   }
 ]

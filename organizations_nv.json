@@ -1,0 +1,44 @@
+[
+  {
+    "id": "project-150-inc",
+    "name": "Project 150, Inc",
+    "description": "",
+    "address": "3600 N Rancho Dr, Las Vegas, NV 89130",
+    "category": "Youth",
+    "link": "https://project150.org",
+    "email": "stacychapter@project150.org",
+    "minAge": 15,
+    "ageStatus": "confirmed",
+    "weeklyHoursRequired": null,
+    "latitude": 36.224566,
+    "longitude": -115.218661
+  },
+  {
+    "id": "united-way-of-northern-nevada-and-the-sierra",
+    "name": "United Way of Northern Nevada and the Sierra",
+    "description": "",
+    "address": "639 Isbell Rd Ste 460, Reno, NV 89509",
+    "category": "Community",
+    "link": "https://uwnns.org",
+    "email": "volunteers@uwnns.org",
+    "minAge": 16,
+    "ageStatus": "confirmed",
+    "weeklyHoursRequired": null,
+    "latitude": 39.4922908,
+    "longitude": -119.8040397
+  },
+  {
+    "id": "community-foundation-of-northern-nevada",
+    "name": "Community Foundation of Northern Nevada",
+    "description": "",
+    "address": "50 Washington St #300, Reno, NV 89503",
+    "category": "Community",
+    "link": "https://nevadafund.org",
+    "email": "info@nevadafund.org",
+    "minAge": null,
+    "ageStatus": "unknown",
+    "weeklyHoursRequired": null,
+    "latitude": 39.5233435,
+    "longitude": -119.8214581
+  }
+]
