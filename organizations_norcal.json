@@ -2268,20 +2268,6 @@
     "longitude": -121.7423628
   },
   {
-    "id": "covance-food-solutions",
-    "name": "Covance Food Solutions",
-    "description": "",
-    "address": "365 N Canyons Pkwy #201, Livermore, CA 94551",
-    "category": "Community",
-    "link": "https://thenfl.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 37.7050459,
-    "longitude": -121.8118121
-  },
-  {
     "id": "goodwill-store-donation-center",
     "name": "Goodwill Store & Donation Center",
     "description": "",
@@ -5810,20 +5796,6 @@
     "longitude": -120.0430395
   },
   {
-    "id": "numbers",
-    "name": "Numbers",
-    "description": "",
-    "address": "Madera, CA 93637",
-    "category": "Community",
-    "link": "https://silence.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 37.0226069,
-    "longitude": -120.0751
-  },
-  {
     "id": "madera-county-animal-services",
     "name": "Madera County Animal Services",
     "description": "",
@@ -6790,11 +6762,11 @@
     "longitude": -123.8059293
   },
   {
-    "id": "mcwc",
-    "name": "mcwc",
+    "id": "mendocino-coast-writers-conference",
+    "name": "Mendocino Coast Writers' Conference",
     "description": "",
     "address": "44301 Little Lake Rd, Mendocino, CA 95460",
-    "category": "Community",
+    "category": "Arts",
     "link": "https://mcwc.org",
     "email": "president@mcwc.org",
     "minAge": 18,
