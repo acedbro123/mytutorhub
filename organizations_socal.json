@@ -2959,7 +2959,7 @@
     "description": "",
     "address": "320 N D St, San Bernardino, CA 92401",
     "category": "Advocacy",
-    "link": "https://rescueher33.org",
+    "link": "https://www.rescueher.org",
     "email": "robert@rescueher33.org",
     "minAge": 18,
     "ageStatus": "confirmed",
@@ -6065,15 +6065,15 @@
     "id": "handson-san-diego",
     "name": "HandsOn San Diego",
     "description": "",
-    "address": "P.O. Box 102894, Pasadena, CA 91189-2894",
+    "address": "San Diego, CA",
     "category": "Community",
     "link": "https://handsonsandiego.org",
     "email": "info@handsonsandiego.org",
     "minAge": 5,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 34.1476507,
-    "longitude": -118.144155
+    "latitude": 32.7174202,
+    "longitude": -117.162772
   },
   {
     "id": "outdoor-outreach",
