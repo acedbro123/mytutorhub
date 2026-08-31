@@ -1669,9 +1669,39 @@ footer p { font-size: 0.8rem; }
 @media (max-width: 600px) {
   .map-search { flex-direction: column; }
   .map-search__btn { width: 100%; justify-content: center; }
-  /* Center the nav so wrapped links look intentional instead of ragged-right. */
-  .section-nav-inner { justify-content: center; padding: 0.7rem 1rem; }
-  .section-nav-link { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+  /* Keep the nav on one swipeable row. Wrapping it cost ~90px of a phone
+     screen on every page, and the bar is sticky, so that space was gone for
+     good. Overflow is hidden from the scrollbar UI but still swipeable. */
+  .section-nav-inner {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0.7rem 1rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .section-nav-inner::-webkit-scrollbar { display: none; }
+  .section-nav-link { padding: 0.4rem 0.7rem; font-size: 0.85rem; white-space: nowrap; flex: 0 0 auto; }
+
+  /* Same treatment for the category filters: 19 chips wrapped into ten rows
+     and pushed the map most of a screen down. One scrollable row instead. */
+  /* min-width:0 is required: a flex item defaults to min-width:auto, so the
+     nowrap chip row would otherwise refuse to shrink and push the whole page
+     sideways instead of scrolling inside its own container. */
+  .map-control--category { flex-direction: column; gap: 0.4rem; min-width: 0; }
+  .map-control--category .map-control__label { padding-top: 0; }
+  .category-chips {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-chips::-webkit-scrollbar { display: none; }
+  .category-chip { flex: 0 0 auto; }
 }
 
 /* On the narrowest phones, stack the name search under the sidebar title so
