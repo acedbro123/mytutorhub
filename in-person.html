@@ -4,30 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>In Person — Voluntool</title>
+  <!-- The in-person experience is the map. This page only ever held a
+       placeholder and nothing links to it, so it now forwards to map.html
+       rather than 404ing for anyone holding an old link or bookmark. -->
+  <link rel="canonical" href="map.html" />
+  <meta http-equiv="refresh" content="0; url=map.html" />
+  <script>window.location.replace('map.html');</script>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <nav class="section-nav section-nav--inperson">
-    <div class="section-nav-inner">
-      <a href="index.html" class="section-nav-link">Home</a>
-      <a href="map.html" class="section-nav-link">Map</a>
-      <a href="saved-volunteer-ideas.html" class="section-nav-link">Saved Volunteer Ideas</a>
-      <a href="submit-organization.html" class="section-nav-link">Submit an Org</a>
-    </div>
-  </nav>
-
   <main class="main">
     <section class="section">
       <div class="info-box">
-        <h1 style="font-size:1.75rem;font-weight:800;margin-bottom:0.75rem;">In-person volunteering</h1>
-        <p>This section is where local volunteering opportunities will live. Right now it’s wired up and ready for the next phase of the map experience.</p>
+        <p>Taking you to the map… <a href="map.html">Continue to the map</a>.</p>
       </div>
     </section>
   </main>
-  <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "fbdd47493fb2463a92359000fc1b9164"}'></script>
-  <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
