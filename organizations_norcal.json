@@ -25256,20 +25256,6 @@
     "longitude": -122.4383774
   },
   {
-    "id": "d-d-in-a-castle",
-    "name": "D&D in a Castle",
-    "description": "",
-    "address": "Lake Elsinore, CA 92530",
-    "category": "Community",
-    "link": "https://dndinacastle.com",
-    "email": "support@dndinacastle.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6680772,
-    "longitude": -117.3272615
-  },
-  {
     "id": "lucile-packard-foundation-for-children-s-health",
     "name": "Lucile Packard Foundation for Children's Health",
     "description": "",
