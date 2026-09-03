@@ -1,0 +1,4 @@
+{
+  "_comment": "Orgs deliberately kept off the map, by slug id. Without this, re-running an import would resurrect them, since dedupe only compares against rows currently in the target file. Each entry records why.",
+  "d-d-in-a-castle": "Tabletop Vacations Inc., a for-profit company selling tabletop-gaming retreats in England and Ohio. Not a volunteering opportunity."
+}
