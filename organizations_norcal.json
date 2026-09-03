@@ -23103,15 +23103,15 @@
     "id": "trinity-center",
     "name": "Trinity Center",
     "description": "",
-    "address": "Trinity Center, CA 96091",
+    "address": "1888 Trinity Ave, Walnut Creek, CA 94596",
     "category": "Homeless",
     "link": "https://trinitycenterwc.org",
     "email": "info@trinitycenterwc.org",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 40.9832011,
-    "longitude": -122.6997441
+    "latitude": 37.901435,
+    "longitude": -122.0673408
   },
   {
     "id": "marin-coalition",
@@ -23383,15 +23383,15 @@
     "id": "health-habitat",
     "name": "Health & Habitat",
     "description": "",
-    "address": "27190 CA-189, Blue Jay, CA 92317",
+    "address": "76 Lee St, Mill Valley, CA 94941",
     "category": "Environment",
     "link": "https://healthandhabitat.org",
     "email": "healthandhabitat@bigpond.com",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 34.2459475,
-    "longitude": -117.2107937
+    "latitude": 37.921371,
+    "longitude": -122.552377
   },
   {
     "id": "spark",
@@ -24979,15 +24979,15 @@
     "id": "sequoia-village",
     "name": "Sequoia Village",
     "description": "",
-    "address": "43175 Sierra Dr, Three Rivers, CA 93271",
+    "address": "711 Nevada St, Redwood City, CA 94061",
     "category": "Seniors",
     "link": "https://sequoiavillage.org",
     "email": "info@villagesofsmc.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 36.4572866,
-    "longitude": -118.8859549
+    "latitude": 37.4723719,
+    "longitude": -122.2388375
   },
   {
     "id": "downtown-streets-team-redwood-city",
@@ -25889,15 +25889,15 @@
     "id": "easy-donate",
     "name": "easy-donate",
     "description": "",
-    "address": "6627 Atlantic Ave, Bell, CA 90201",
+    "address": "1062 Lincoln Ave, San Jose, CA 95125",
     "category": "Community",
     "link": "https://easy-donate.com",
     "email": "info@easy-donate.com",
     "minAge": 16,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 33.9755528,
-    "longitude": -118.1879227
+    "latitude": 37.310288,
+    "longitude": -121.9021185
   },
   {
     "id": "el-camino-health-health-library-resource-center-los-gatos",
@@ -26225,15 +26225,15 @@
     "id": "center-for-employment-opportunities",
     "name": "Center for Employment Opportunities",
     "description": "",
-    "address": "759 North Spring Street, Suite 1 Los Angeles, CA 90012",
+    "address": "464 7th St, Oakland, CA 94607",
     "category": "Community",
     "link": "https://ceoworks.org",
     "email": "info@ceoworks.org",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 34.0610448,
-    "longitude": -118.2374167
+    "latitude": 37.7999176,
+    "longitude": -122.2746414
   },
   {
     "id": "san-jose-young-life",
@@ -26309,15 +26309,15 @@
     "id": "covenant-house-of-california",
     "name": "Covenant House of California",
     "description": "",
-    "address": "1325 N Western Ave, Los Angeles, CA 90027",
+    "address": "200 Harrison St, Oakland, CA 94607",
     "category": "Homeless",
     "link": "https://covenanthousecalifornia.org",
     "email": "volunteer@covenanthousecalifornia.org",
     "minAge": 25,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 34.095664,
-    "longitude": -118.309317
+    "latitude": 37.7947083,
+    "longitude": -122.2722982
   },
   {
     "id": "santa-clara-equal-opportunity",
@@ -26687,15 +26687,15 @@
     "id": "phoenix-ranch",
     "name": "Phoenix Ranch",
     "description": "",
-    "address": "4974 Cochran St, Simi Valley, CA 93063",
+    "address": "5046 Midway Rd, Vacaville, CA 95688",
     "category": "Animals",
     "link": "https://asktheanimals.net",
     "email": "suechandvm@sbcglobal.net",
     "minAge": 16,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 34.2780039,
-    "longitude": -118.696287
+    "latitude": 38.4169157,
+    "longitude": -121.9315056
   },
   {
     "id": "tabimoms",
