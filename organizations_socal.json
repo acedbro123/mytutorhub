@@ -6790,20 +6790,6 @@
     "longitude": -117.356369
   },
   {
-    "id": "live4legacy",
-    "name": "Live4Legacy",
-    "description": "",
-    "address": "6125 Paseo Del Norte #210, Carlsbad, CA 92011",
-    "category": "Community",
-    "link": "https://live4legacy.com",
-    "email": "info@live4legacy.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.1580933,
-    "longitude": -117.3505966
-  },
-  {
     "id": "labrats-san-diego",
     "name": "LabRats San Diego",
     "description": "",
@@ -7208,20 +7194,6 @@
     "weeklyHoursRequired": null,
     "latitude": 32.6381386,
     "longitude": -117.0833049
-  },
-  {
-    "id": "banc-of-california",
-    "name": "Banc of California",
-    "description": "",
-    "address": "2602 El Camino Real, Carlsbad, CA 92008",
-    "category": "Community",
-    "link": "https://bancofcal.com",
-    "email": "ClientCareCenter@bancofcal.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.1767881,
-    "longitude": -117.3259448
   },
   {
     "id": "oceanside-san-dieguito-masonic-lodge-no-381-f-am",

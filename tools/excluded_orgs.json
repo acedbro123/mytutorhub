@@ -1,4 +1,6 @@
 {
   "_comment": "Orgs deliberately kept off the map, by slug id. Without this, re-running an import would resurrect them, since dedupe only compares against rows currently in the target file. Each entry records why.",
-  "d-d-in-a-castle": "Tabletop Vacations Inc., a for-profit company selling tabletop-gaming retreats in England and Ohio. Not a volunteering opportunity."
+  "d-d-in-a-castle": "Tabletop Vacations Inc., a for-profit company selling tabletop-gaming retreats in England and Ohio. Not a volunteering opportunity.",
+  "banc-of-california": "A bank. Its own site lists no volunteer program; the row came in with the San Diego batch but there is nothing for a volunteer to sign up for.",
+  "live4legacy": "Live4Legacy Brand, an online apparel storefront rather than a nonprofit. Not a volunteering opportunity."
 }
