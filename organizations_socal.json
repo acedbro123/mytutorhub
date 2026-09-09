@@ -9761,15 +9761,15 @@
     "id": "aricares-alliance",
     "name": "Aricares Alliance",
     "description": "",
-    "address": "101 Montgomery St, Suite 2150, San Francisco, CA 94104",
+    "address": "El Cajon, CA 92021",
     "category": "Advocacy",
     "link": "https://aricaresalliance.com",
     "email": "contact@aricaresalliance.com",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 37.7902982,
-    "longitude": -122.4024772
+    "latitude": 32.7947731,
+    "longitude": -116.962526
   },
   {
     "id": "mcalister-institute-bingo-hall",
@@ -10419,29 +10419,29 @@
     "id": "self-realization-fellowship-books-gifts",
     "name": "Self-Realization Fellowship Books & Gifts",
     "description": "",
-    "address": "3880 San Rafael Avenue, Los Angeles, CA 90065-3219",
+    "address": "1150 S Coast Hwy 101, Encinitas, CA 92024",
     "category": "Education",
     "link": "https://bookstore.yogananda-srf.org",
     "email": "weborders@srfpublishers.org",
     "minAge": 13,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 34.1016605,
-    "longitude": -118.2156703
+    "latitude": 33.0378676,
+    "longitude": -117.2928273
   },
   {
     "id": "educore-foundation-inc",
     "name": "Educore Foundation Inc",
     "description": "",
-    "address": "123 A Street | San Francisco, CA 38279",
+    "address": "PO Box 230791, Encinitas, CA 92024",
     "category": "Community",
     "link": "https://educorefoundation.org",
     "email": "",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 37.7271789,
-    "longitude": -122.3578133
+    "latitude": 33.0369867,
+    "longitude": -117.2919818
   },
   {
     "id": "rancho-coastal-humane-society",
@@ -10671,15 +10671,15 @@
     "id": "dharma-voices-for-animals",
     "name": "Dharma Voices for Animals",
     "description": "",
-    "address": "584 Castro Street #3190, San Francisco, CA 94114",
+    "address": "PO Box 508, Solana Beach, CA 92075",
     "category": "Animals",
     "link": "https://dharmavoicesforanimals.org",
     "email": "friends@dharmavoicesforanimals.org",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 37.7595967,
-    "longitude": -122.4352061
+    "latitude": 32.9919141,
+    "longitude": -117.2678124
   },
   {
     "id": "the-best-of-north-county",
@@ -17223,15 +17223,15 @@
     "id": "san-marcos-foundation",
     "name": "San Marcos Foundation",
     "description": "",
-    "address": "2030 Vallejo St, San Francisco, CA 94123",
+    "address": "1 Civic Center Dr, San Marcos, CA 92069",
     "category": "Community",
     "link": "https://sanmarcosfoundation.org",
     "email": "",
     "minAge": 16,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 37.7960471,
-    "longitude": -122.4308801
+    "latitude": 33.141226,
+    "longitude": -117.160851
   },
   {
     "id": "operation-help-a-hero",
@@ -17279,15 +17279,15 @@
     "id": "foundation-for-women",
     "name": "Foundation For Women",
     "description": "",
-    "address": "1301 Clay St. #71719, Oakland, CA 94612",
+    "address": "4747 Morena Blvd, San Diego, CA 92117",
     "category": "Community",
     "link": "https://foundationforwomen.org",
     "email": "info@foundationforwomen.net",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 37.8048227,
-    "longitude": -122.2749411
+    "latitude": 32.8242614,
+    "longitude": -117.2287552
   },
   {
     "id": "greyhound-adoption-center",
