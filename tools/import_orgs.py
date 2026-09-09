@@ -239,17 +239,23 @@ STREET_RE = re.compile(
 
 def parse_address(addr):
     """Split a free-text address into (street, city, state, zip)."""
-    a = re.sub(r',?\s*(?:USA|United States)\s*$', '', (addr or '').strip(), flags=re.I)
+    a = re.sub(r',?\s*(?:USA|United States)\s*\.?\s*$', '', (addr or '').strip(), flags=re.I)
+    # Some rows separate fields with a pipe instead of a comma.
+    a = a.replace('|', ',')
 
     zipcode = ''
-    m = re.search(r'\b(\d{5})(?:-\d{4})?\s*$', a)
+    m = re.search(r'\b(\d{5})(?:-\d{4})?\s*\.?\s*$', a)
     if m:
-        zipcode, a = m.group(1), a[:m.start()].rstrip(' ,')
+        zipcode, a = m.group(1), a[:m.start()].rstrip(' ,.')
 
+    # The trailing \.? matters: "National City, California." otherwise leaves
+    # the state unmatched, so "California." becomes the city, "National City"
+    # becomes the street, and the row silently geocodes to the wrong end of
+    # the state rather than failing.
     state = ''
-    m = re.search(r',?\s*\b(CA|California)\b\s*$', a, re.I)
+    m = re.search(r',?\s*\b(CA|California)\b\s*\.?\s*$', a, re.I)
     if m:
-        state, a = 'CA', a[:m.start()].rstrip(' ,')
+        state, a = 'CA', a[:m.start()].rstrip(' ,.')
 
     parts = [p.strip() for p in a.split(',') if p.strip()]
     city = parts[-1] if parts else ''
