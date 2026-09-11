@@ -166,7 +166,8 @@ def extract_min_age(text):
 #
 # Several patterns are anchored with \b because the unanchored version matched
 # inside longer words: "hiv" in "Archive", "tree" in "Streets", "park" in
-# "Sparkle", "ministr" in "Administrative", "christ" in "Christmas".
+# "Sparkle", "ministr" in "Administrative", "christ" in "Christmas", "dance"
+# in "Guidance", "craft" in "Woodcraft".
 
 RULES = [
     ('Animals', r'animal|humane societ|spca|wildlife|pet |pets\b|dog|cat\b|cats\b|feline|canine|equine|horse|rescue ranch|zoo|aquarium|bird|raptor|marine mammal|paws|kitten|puppy|veterinar|sanctuary'),
@@ -178,7 +179,7 @@ RULES = [
     ('Veterans', r'veteran|\bvfw\b|american legion|military|armed forces|troops|blue star|gold star'),
     ('Seniors', r'senior|elder|aging|older adult|retire|\bage well\b|meals on wheels|55\+'),
     ('Environment', r'environment|conservat|\bcreek|watershed|bay keeper|baykeeper|river|land trust|open space|\bparks?\b|trail|garden|\btrees?\b|forest|climate|recycl|sustainab|clean ?up|ecolog|audubon|sierra club|wetland|coast|ocean|shoreline|native plant|greenbelt|zero waste|solar|energy'),
-    ('Arts', r'\barts?\b|museum|theat|music|orchestra|choral|chorus|symphony|dance|gallery|film|festival|\bopera\b|ballet|craft|photograph|poetry|literary|jazz|band\b|studio|creative'),
+    ('Arts', r'\barts?\b|museum|theat|music|orchestra|choral|chorus|symphony|\bdanc|gallery|film|festival|\bopera\b|ballet|\bcrafts?\b|photograph|poetry|literary|jazz|band\b|studio|creative'),
     ('Education', r'school|educat|tutor|literacy|library|libraries|scholarship|college|university|stem|reading|learning|academy|mentor|classroom|teach|student|book'),
     ('Children', r'child|kids?\b|infant|toddler|preschool|early childhood|foster|orphan|pediatric|boys & girls|boys and girls|girls inc|cradle|babies|baby|diaper'),
     ('Youth', r'youth|teen|young|scout|\b4-h\b|boy scouts|girl scouts|ymca|ywca|big brothers|big sisters|junior|after ?school|mentoring'),

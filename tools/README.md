@@ -67,8 +67,9 @@ about age policy, not mission, so classifying on it misfires badly. Several
 keyword patterns are anchored with `\b` for the same reason — unanchored, they
 matched inside longer words: `hiv` in "Arc**hiv**e", `tree` in "S**tree**ts",
 `park` in "S**park**le", `ministr` in "Ad**ministr**ative", `christ` in
-"**Christ**mas". If a new category rule starts sweeping up unrelated orgs,
-this is the first thing to check.
+"**Christ**mas", `dance` in "Gui**dance**", `craft` in "Wood**craft**". If
+a new category rule starts sweeping up unrelated orgs, this is the first thing
+to check.
 
 ## Checking the result
 

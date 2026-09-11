@@ -10640,20 +10640,6 @@
     "longitude": -117.7254985
   },
   {
-    "id": "sacred-roots-alchemy",
-    "name": "Sacred Roots Alchemy",
-    "description": "",
-    "address": "120 Vantis Dr #300, Aliso Viejo, CA 92656",
-    "category": "Community",
-    "link": "https://sacredrootsalchemy.org",
-    "email": "",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5791345,
-    "longitude": -117.7300566
-  },
-  {
     "id": "aliso-viejo-community-association",
     "name": "Aliso Viejo Community Association",
     "description": "",
@@ -10708,20 +10694,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.5886965,
     "longitude": -117.7252927
-  },
-  {
-    "id": "capstone-federal-credit-union",
-    "name": "Capstone Federal Credit Union",
-    "description": "",
-    "address": "3 Polaris Way #31B, Aliso Viejo, CA 92656",
-    "category": "Community",
-    "link": "https://capstonefcu.coop",
-    "email": "capstonefcu@capstonefcu.coop",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5842636,
-    "longitude": -117.7235051
   },
   {
     "id": "active-20-30-club",
@@ -12054,20 +12026,6 @@
     "longitude": -117.8846626
   },
   {
-    "id": "timeshare-xchange",
-    "name": "Timeshare Xchange",
-    "description": "",
-    "address": "1503 S Coast Dr, Costa Mesa, CA 92627",
-    "category": "Community",
-    "link": "https://1800nonprofit.org",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6908091,
-    "longitude": -117.9202773
-  },
-  {
     "id": "bridge-to-skate",
     "name": "Bridge to Skate",
     "description": "",
@@ -12115,7 +12073,7 @@
     "description": "",
     "address": "535 Anton Blvd #1125, Costa Mesa, CA 92626",
     "category": "Community",
-    "link": "https://gennext.com",
+    "link": "https://gennextfoundation.org",
     "email": "",
     "minAge": 20,
     "ageStatus": "confirmed",
@@ -12136,20 +12094,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.6772766,
     "longitude": -117.8746371
-  },
-  {
-    "id": "home-saver-realty",
-    "name": "Home Saver Realty",
-    "description": "",
-    "address": "1503 S Coast Dr Ste 100D, Costa Mesa, CA 92626",
-    "category": "Community",
-    "link": "https://homesaverrealty.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6907166,
-    "longitude": -117.9204673
   },
   {
     "id": "california-arts-university",
@@ -13076,20 +13020,6 @@
     "longitude": -117.7802789
   },
   {
-    "id": "euraupair-au-pair-agency",
-    "name": "EurAupair Au Pair Agency",
-    "description": "",
-    "address": "250 N Pacific Coast Hwy, Laguna Beach, CA 92651",
-    "category": "Community",
-    "link": "https://euraupair.com",
-    "email": "info@euraupair.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.4984765,
-    "longitude": -117.7403009
-  },
-  {
     "id": "laguna-college-of-art-and-design",
     "name": "Laguna College of Art and Design",
     "description": "",
@@ -13396,20 +13326,6 @@
     "weeklyHoursRequired": null,
     "latitude": 34.1958808,
     "longitude": -118.6245757
-  },
-  {
-    "id": "western-turbine-users-inc",
-    "name": "Western Turbine Users, Inc.",
-    "description": "",
-    "address": "25201 Paseo De Alicia Ste 215, Laguna Hills, CA 92653",
-    "category": "Community",
-    "link": "https://wtui.com",
-    "email": "volunteer@wtui.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6026749,
-    "longitude": -117.6896187
   },
   {
     "id": "the-ranch-golden-heart-ranch",
@@ -14280,20 +14196,6 @@
     "longitude": -117.8938947
   },
   {
-    "id": "seaview-plaza",
-    "name": "Seaview Plaza",
-    "description": "",
-    "address": "2800 Pacific View Dr, Corona Del Mar, CA 92625",
-    "category": "Seniors",
-    "link": "https://st-residential.com",
-    "email": "info@st-residential.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5995916,
-    "longitude": -117.873739
-  },
-  {
     "id": "newport-shores-community-association",
     "name": "Newport Shores Community Association",
     "description": "",
@@ -14390,20 +14292,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.6576994,
     "longitude": -117.8662319
-  },
-  {
-    "id": "mercer-advisors-newport-beach",
-    "name": "Mercer Advisors - Newport Beach",
-    "description": "",
-    "address": "620 Newport Center Dr #1030, Newport Beach, CA 92660",
-    "category": "Community",
-    "link": "https://merceradvisors.com",
-    "email": "nonprofits@merceradvisors.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6192214,
-    "longitude": -117.8726544
   },
   {
     "id": "laguna-sea-dwellers",

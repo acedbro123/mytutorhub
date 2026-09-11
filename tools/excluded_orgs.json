@@ -2,5 +2,13 @@
   "_comment": "Orgs deliberately kept off the map, by slug id. Without this, re-running an import would resurrect them, since dedupe only compares against rows currently in the target file. Each entry records why.",
   "d-d-in-a-castle": "Tabletop Vacations Inc., a for-profit company selling tabletop-gaming retreats in England and Ohio. Not a volunteering opportunity.",
   "banc-of-california": "A bank. Its own site lists no volunteer program; the row came in with the San Diego batch but there is nothing for a volunteer to sign up for.",
-  "live4legacy": "Live4Legacy Brand, an online apparel storefront rather than a nonprofit. Not a volunteering opportunity."
+  "live4legacy": "Live4Legacy Brand, an online apparel storefront rather than a nonprofit. Not a volunteering opportunity.",
+  "capstone-federal-credit-union": "A credit union. Not a volunteering opportunity.",
+  "home-saver-realty": "A real-estate brokerage; its sheet note is about agent licensing, not volunteering.",
+  "euraupair-au-pair-agency": "An au pair placement agency, not a volunteer organization.",
+  "mercer-advisors-newport-beach": "A wealth-management firm whose community service is for its own staff only.",
+  "seaview-plaza": "Run by Silver Tree Residential, a property-management company; no volunteer program.",
+  "timeshare-xchange": "A timeshare business; its listed website is not an active nonprofit registry, and it shares a Costa Mesa address with Home Saver Realty.",
+  "western-turbine-users-inc": "A trade group for gas-turbine industry professionals; its volunteers are its own members.",
+  "sacred-roots-alchemy": "Tied to a healing center in Easthampton, Massachusetts; no Orange County volunteer program found."
 }
