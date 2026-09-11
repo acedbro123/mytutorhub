@@ -12,7 +12,14 @@ it does everything except write the target file.
 
 Safe to re-run. Rows already in the target are skipped by slug id, geocoding
 results are cached in `.cache/`, and an interrupted run picks up where it
-stopped.
+stopped. Duplicates are removed *before* you're asked for any categories, so
+you only classify rows that will actually be added.
+
+It also skips an org that another region's file already carries at the same
+address — an LA food bank turning up in an Orange County sheet, say. A shared
+name alone doesn't count: "Meals On Wheels" in Laguna Niguel and in New
+Rochelle are different orgs, and the map handles the id clash by renaming the
+newcomer. Only same name *and* same street number and ZIP is a duplicate.
 
 ## What it does
 

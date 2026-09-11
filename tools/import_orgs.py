@@ -15,6 +15,7 @@ Requires the `numbers_parser` package.
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -326,7 +327,10 @@ class Geocoder:
         """Return (coords, level). Falls back street -> ZIP -> city -> free-form."""
         street, city, state, zipcode = parse_address(address)
 
-        if street and (city or zipcode):
+        # A "street" with no letters is a bare unit or box number ("#2442").
+        # Nominatim still returns *something* for it -- confidently, and in the
+        # wrong town -- so treat it as no street and fall through to ZIP/city.
+        if street and re.search(r'[A-Za-z]', street) and (city or zipcode):
             p = {'street': street, 'state': state}
             if city:
                 p['city'] = city
@@ -361,6 +365,46 @@ class Geocoder:
 # --------------------------------------------------------------------------
 # Pipeline
 # --------------------------------------------------------------------------
+
+def street_key(address):
+    """(leading street number, ZIP or city) for telling duplicates apart.
+
+    Generic names repeat across regions -- "Meals On Wheels" is a different org
+    in New Rochelle than in Laguna Niguel -- so a shared slug alone is not a
+    duplicate. A shared slug at the same street number in the same ZIP is.
+    """
+    street, city, _, zipcode = parse_address(address)
+    m = re.match(r'\s*(\d+)', street or '')
+    return (m.group(1) if m else None, zipcode or city.lower())
+
+
+def load_other_files(target):
+    """id -> [(file, street_key)] across every org file except the target."""
+    others = {}
+    for path in sorted(glob.glob(os.path.join(REPO, 'organizations_*.json'))):
+        if os.path.abspath(path) == os.path.abspath(target):
+            continue
+        with open(path) as f:
+            for o in json.load(f):
+                others.setdefault(o['id'], []).append(
+                    (os.path.basename(path), street_key(o.get('address', ''))))
+    return others
+
+
+def duplicate_elsewhere(record, others):
+    """The other file already carrying this exact org, if any.
+
+    Dedupe against the target alone misses an org that one region's batch
+    repeats from another region's file -- an LA food bank turning up in an
+    Orange County sheet. The map keeps both on an id collision, so the result
+    would be two identical pins.
+    """
+    key = street_key(record['address'])
+    for path, other_key in others.get(record['id'], []):
+        if other_key == key:
+            return path
+    return None
+
 
 def build_records(raw_rows, overrides):
     records, uncategorized = [], []
@@ -408,32 +452,48 @@ def main():
     raw = read_rows(args.numbers_file)
     print('  %d rows' % len(raw))
 
-    records, uncategorized = build_records(raw, overrides)
+    records, _ = build_records(raw, overrides)
 
     confirmed = sum(1 for r in records if r['ageStatus'] == 'confirmed')
     print('ages: %d confirmed, %d unknown' % (confirmed, len(records) - confirmed))
 
-    if uncategorized:
-        print('\n%d names need a category. Add them to %s, then re-run:\n'
-              % (len(uncategorized), os.path.relpath(OVERRIDES_FILE, REPO)))
-        for n in sorted(set(uncategorized)):
-            print('  "%s": "",' % n.replace('"', '\\"'))
-        print('\nValid categories: %s' % ', '.join(CATEGORIES))
-        return 1
-
+    # Dedupe BEFORE asking for categories: a row that will never be imported
+    # should not cost anyone a classification decision.
     existing = json.load(open(target)) if os.path.exists(target) else []
     seen = {o['id'] for o in existing}
     excluded = load_excluded()
+    others = load_other_files(target)
 
-    skipped = [r['name'] for r in records if r['id'] in excluded]
-    fresh = [r for r in records if r['id'] not in seen and r['id'] not in excluded]
-    dupes = len(records) - len(fresh) - len(skipped)
-    print('%d new, %d already present' % (len(fresh), dupes))
+    fresh, skipped, elsewhere, present = [], [], [], 0
+    for r in records:
+        if r['id'] in excluded:
+            skipped.append(r['name'])
+        elif r['id'] in seen:
+            present += 1
+        else:
+            where = duplicate_elsewhere(r, others)
+            if where:
+                elsewhere.append((r['name'], where))
+            else:
+                fresh.append(r)
+
+    print('%d new, %d already present' % (len(fresh), present))
     for name in skipped:
         print('  excluded: %s' % name)
+    for name, where in elsewhere:
+        print('  already on the map via %s: %s' % (where, name))
     if not fresh:
         print('nothing to add')
         return 0
+
+    uncategorized = sorted({r['name'] for r in fresh if not r['category']})
+    if uncategorized:
+        print('\n%d names need a category. Add them to %s, then re-run:\n'
+              % (len(uncategorized), os.path.relpath(OVERRIDES_FILE, REPO)))
+        for n in uncategorized:
+            print('  "%s": "",' % n.replace('"', '\\"'))
+        print('\nValid categories: %s' % ', '.join(CATEGORIES))
+        return 1
 
     print('geocoding %d addresses (about %d minutes at Nominatim rate limits)'
           % (len(fresh), max(1, round(len(fresh) * RATE_LIMIT_SECONDS / 60))))
