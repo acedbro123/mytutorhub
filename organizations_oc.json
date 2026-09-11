@@ -7812,20 +7812,6 @@
     "longitude": -117.7036115
   },
   {
-    "id": "make-a-change",
-    "name": "Make A Change",
-    "description": "",
-    "address": "23986 Aliso Creek Rd #532, Laguna Niguel, CA 92677",
-    "category": "Community",
-    "link": "https://makeachangenonprofit.org",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5556466,
-    "longitude": -117.7095075
-  },
-  {
     "id": "fam-resale-store",
     "name": "FAM Resale Store",
     "description": "",
@@ -10036,20 +10022,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.7490482,
     "longitude": -117.8685733
-  },
-  {
-    "id": "sendsomeonetoday",
-    "name": "sendsomeonetoday",
-    "description": "",
-    "address": "2626 Angie Drive, Santa Ana, CA 92701",
-    "category": "Community",
-    "link": "https://sendsomeonetoday.com",
-    "email": "",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7494951,
-    "longitude": -117.873221
   },
   {
     "id": "innovative-housing-opportunities",
@@ -13396,20 +13368,6 @@
     "weeklyHoursRequired": null,
     "latitude": 37.2662905,
     "longitude": -122.015192
-  },
-  {
-    "id": "a-rainbow-away",
-    "name": "A Rainbow Away",
-    "description": "",
-    "address": "8601 Tampa Ave, Northridge, CA 91324",
-    "category": "Community",
-    "link": "https://paypal.me",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 34.226535,
-    "longitude": -118.553659
   },
   {
     "id": "south-coast-roller-derby-scrd",
