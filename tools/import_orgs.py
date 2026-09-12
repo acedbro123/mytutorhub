@@ -46,6 +46,25 @@ CATEGORIES = ['Advocacy', 'Animals', 'Arts', 'Children', 'Community', 'Education
 FIELDS = ['id', 'name', 'description', 'address', 'category', 'link', 'email',
           'minAge', 'ageStatus', 'weeklyHoursRequired', 'latitude', 'longitude']
 
+# Spelled-out states seen in batch sheets, mapped to their postal code.
+STATE_NAMES = {'california': 'CA', 'new york': 'NY', 'illinois': 'IL',
+               'massachusetts': 'MA', 'nevada': 'NV', 'new jersey': 'NJ',
+               'connecticut': 'CT', 'pennsylvania': 'PA', 'texas': 'TX',
+               'florida': 'FL', 'washington': 'WA', 'oregon': 'OR', 'arizona': 'AZ'}
+
+# Rough bounding boxes, used only to reject a geocode that landed in the wrong
+# state. A state absent from this table simply is not checked -- the point is
+# catching gross errors, not validating borders.
+STATE_BOX = {
+    'CA': (32.0, 42.1, -124.5, -114.0), 'NY': (40.4, 45.1, -79.9, -71.8),
+    'IL': (36.9, 42.6, -91.6, -87.0),   'MA': (41.2, 42.9, -73.6, -69.9),
+    'NV': (35.0, 42.1, -120.1, -114.0), 'NJ': (38.9, 41.4, -75.6, -73.9),
+    'CT': (40.9, 42.1, -73.8, -71.7),   'PA': (39.7, 42.3, -80.6, -74.7),
+    'TX': (25.8, 36.6, -106.7, -93.5),  'FL': (24.4, 31.1, -87.7, -79.9),
+    'WA': (45.5, 49.1, -124.9, -116.9), 'OR': (41.9, 46.3, -124.6, -116.4),
+    'AZ': (31.3, 37.1, -115.0, -109.0),
+}
+
 
 # --------------------------------------------------------------------------
 # Parsing
@@ -294,7 +313,7 @@ NOISE_RE = re.compile(
     r'\b(?:ste|suite|unit|apt|apartment|fl|floor|rm|room|bldg|building|#\s*\S+|pmb|c/o|po box|p\.o\. box|mailbox)\b[^,]*',
     re.I)
 STREET_RE = re.compile(
-    r'\b(\d+[A-Za-z]?)\s+((?:[NSEW]\.?|North|South|East|West)?\s*[\w\.\'\-]+(?:\s+[\w\.\'\-]+){0,3}?\s+'
+    r'\b(\d+(?:-\d+)?[A-Za-z]?)\s+((?:[NSEW]\.?|North|South|East|West)?\s*[\w\.\'\-]+(?:\s+[\w\.\'\-]+){0,3}?\s+'
     r'(?:st|street|ave|avenue|rd|road|blvd|boulevard|dr|drive|ln|lane|way|ct|court|pl|place|'
     r'pkwy|parkway|ter|terrace|cir|circle|hwy|highway|sq|square|plaza|trail|trl|loop|row|walk|'
     r'path|alley|expy|expressway)\b\.?)', re.I)
@@ -311,14 +330,18 @@ def parse_address(addr):
     if m:
         zipcode, a = m.group(1), a[:m.start()].rstrip(' ,.')
 
-    # The trailing \.? matters: "National City, California." otherwise leaves
-    # the state unmatched, so "California." becomes the city, "National City"
-    # becomes the street, and the row silently geocodes to the wrong end of
-    # the state rather than failing.
+    # Any state, not just California: hardcoding CA left "Brooklyn, NY" with
+    # the state unmatched, so "NY" became the city and Brooklyn disappeared.
+    # The trailing \.? matters too -- "National City, California." otherwise
+    # geocoded to the wrong end of the state instead of failing.
     state = ''
-    m = re.search(r',?\s*\b(CA|California)\b\s*\.?\s*$', a, re.I)
-    if m:
-        state, a = 'CA', a[:m.start()].rstrip(' ,.')
+    m = re.search(r',?\s*\b([A-Za-z]{2})\b\s*\.?\s*$', a)
+    if m and m.group(1).upper() in STATE_BOX:
+        state, a = m.group(1).upper(), a[:m.start()].rstrip(' ,.')
+    else:
+        m = re.search(r',?\s*\b(%s)\b\s*\.?\s*$' % '|'.join(STATE_NAMES), a, re.I)
+        if m:
+            state, a = STATE_NAMES[m.group(1).lower()], a[:m.start()].rstrip(' ,.')
 
     parts = [p.strip() for p in a.split(',') if p.strip()]
     city = parts[-1] if parts else ''
@@ -337,7 +360,7 @@ def parse_address(addr):
         sm = STREET_RE.search(cleaned)
         street = sm.group(0) if sm else cleaned.split(',')[0].strip()
 
-    return street.strip(), city.strip(), state or 'CA', zipcode
+    return street.strip(), city.strip(), state, zipcode
 
 
 def clean_for_freeform(addr):
@@ -348,16 +371,16 @@ def clean_for_freeform(addr):
     return re.sub(r'\s{2,}', ' ', a).strip(' ,')
 
 
-def _in_california(hit):
-    """Drop a result that is nowhere near California.
+def _in_state(hit, state):
+    """Drop a result that landed outside the state the address names.
 
-    Free-form search will happily answer a California address with a match in
-    another state -- "Aptos, CA 95001" came back in Kansas -- and nothing
-    downstream would notice, because a wrong coordinate looks exactly like a
-    right one. Checking the answer against the state the address itself names
-    turns that silent error into a fallback.
+    Geocoding an address rarely fails outright; it answers with something
+    plausible. "Aptos, CA 95001" came back in Kansas, and nothing downstream
+    would have noticed, because a wrong coordinate looks exactly like a right
+    one. A state we have no box for is not checked.
     """
-    if hit and not (32.0 <= hit[0] <= 42.1 and -124.5 <= hit[1] <= -114.0):
+    box = STATE_BOX.get(state)
+    if hit and box and not (box[0] <= hit[0] <= box[1] and box[2] <= hit[1] <= box[3]):
         return None
     return hit
 
@@ -402,47 +425,43 @@ class Geocoder:
     def locate(self, address):
         """Return (coords, level). Falls back street -> ZIP -> city -> free-form."""
         street, city, state, zipcode = parse_address(address)
-        # parse_address defaults the state to CA when it finds none, so the
-        # sanity check below must read the address itself -- otherwise a
-        # Chicago or New York batch would have correct results thrown away.
-        says_california = bool(re.search(
-            r'\b(?:CA|California)\b[\s.,]*(?:\d{5}(?:-\d{4})?)?[\s.]*$', address or '', re.I))
+        base = {'state': state} if state else {}
 
         # A "street" with no letters is a bare unit or box number ("#2442").
         # Nominatim still returns *something* for it -- confidently, and in the
         # wrong town -- so treat it as no street and fall through to ZIP/city.
         if street and re.search(r'[A-Za-z]', street) and (city or zipcode):
-            p = {'street': street, 'state': state}
+            p = dict(base, street=street)
             if city:
                 p['city'] = city
             if zipcode:
                 p['postalcode'] = zipcode
-            hit = self.query(p)
+            hit = _in_state(self.query(p), state)
             if hit:
                 return hit, 'street'
 
         if zipcode:
-            hit = self.query({'postalcode': zipcode, 'state': state})
+            hit = _in_state(self.query(dict(base, postalcode=zipcode)), state)
             if hit:
                 return hit, 'zip'
 
         if city:
-            hit = self.query({'city': city, 'state': state})
+            hit = _in_state(self.query(dict(base, city=city)), state)
             if hit:
                 return hit, 'city'
 
-        # Free-form, most specific first. Only add the state when the address
-        # does not already carry it: appending it blindly produced "Aptos, CA
-        # 95001, CA", which Nominatim placed in another county rather than
-        # failing. The city-only form is what rescues towns whose structured
-        # lookup returns nothing, Aptos among them.
+        # Free-form, most specific first. The state is appended only when the
+        # address does not already name it: appending blindly produced "Aptos,
+        # CA 95001, CA", which Nominatim placed in another county rather than
+        # failing. The city-only form rescues towns whose structured lookup
+        # returns nothing, Aptos among them.
         for cand in (clean_for_freeform(address), city, zipcode):
             if not cand:
                 continue
-            q = cand if re.search(r'\b(?:CA|California)\b', cand, re.I) else cand + ', CA'
-            hit = self.query({'q': q})
-            if says_california:
-                hit = _in_california(hit)
+            q = cand
+            if state and not re.search(r'\b%s\b' % state, cand, re.I):
+                q = '%s, %s' % (cand, state)
+            hit = _in_state(self.query({'q': q}), state)
             if hit:
                 return hit, 'freeform'
 
@@ -461,7 +480,7 @@ def street_key(address):
     duplicate. A shared slug at the same street number in the same ZIP is.
     """
     street, city, _, zipcode = parse_address(address)
-    m = re.match(r'\s*(\d+)', street or '')
+    m = re.match(r'\s*(\d+(?:-\d+)?)', street or '')
     return (m.group(1) if m else None, zipcode or city.lower())
 
 

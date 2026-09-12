@@ -86,10 +86,22 @@ outright; it answers with something plausible. "Aptos, CA 95001" came back in
 Kansas, a bare suite number `#2442` came back in the wrong county, and a
 trailing period on `National City, California.` moved an org 500 miles. The
 script now refuses a letterless street, tolerates trailing punctuation, and
-rejects a result outside California when the address itself says CA. That last
-check reads the address, not the parsed state -- `parse_address` defaults the
-state to CA, so keying off it would throw away correct results for a Chicago
-or New York batch.
+rejects a result that lands outside the state the address itself names (see
+`STATE_BOX`). A state with no box is simply not checked — the point is
+catching gross errors, not validating borders.
+
+## Batches outside California
+
+The parser reads whatever state the address names, so New York, Illinois and
+Massachusetts sheets work the same way. Two things were California-only until
+a NYC batch was planned, and are worth remembering if a third region behaves
+oddly: the state used to be hardcoded to CA, which left "Brooklyn, NY" with
+"NY" as the city and Brooklyn discarded entirely; and house numbers were
+truncated at a hyphen, which matters because Queens addresses look like
+`30-30 Northern Blvd`.
+
+Verified by re-geocoding existing New York rows that the older scripts had
+placed: all came back to the same coordinates, to four decimals.
 
 ## Checking the result
 
