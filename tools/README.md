@@ -60,7 +60,7 @@ next run and comes straight back. Add the id here and the deletion sticks.
 Committed on purpose: it makes re-runs instant, keeps coordinates stable
 across runs, and is the polite thing to do to a free service.
 
-## Two things that will bite you
+## Three things that will bite you
 
 **The age column mixes two different facts.** It states the age a volunteer
 must be, *and* the age of the people the org serves, in the same free text.
