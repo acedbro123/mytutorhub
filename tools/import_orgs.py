@@ -11,7 +11,7 @@ Nothing is written to the target file until every row has a category and a
 coordinate. If some rows are missing a category the run stops and lists them;
 add those names to category_overrides.json and run again.
 
-Requires the `numbers_parser` package.
+Reads .numbers (via the `numbers_parser` package) or .xlsx.
 """
 
 import argparse
@@ -56,15 +56,76 @@ def slugify(name):
     return re.sub(r'[^a-z0-9]+', '-', s).strip('-')
 
 
+def _read_numbers(path):
+    from numbers_parser import Document
+    return Document(path).sheets[0].tables[0].rows(values_only=True)
+
+
+def _col_index(ref):
+    """Cell reference to zero-based column index: 'AB12' -> 27."""
+    n = 0
+    for ch in ref:
+        if not ch.isalpha():
+            break
+        n = n * 26 + (ord(ch.upper()) - 64)
+    return n - 1
+
+
+def _read_xlsx(path):
+    """Minimal .xlsx reader -- the format is a zip of XML, so no dependency.
+
+    Cells are placed by their own column reference rather than by order, so a
+    blank cell cannot shift later columns out from under the header mapping.
+    """
+    import zipfile
+    from xml.etree import ElementTree as ET
+    ns = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+    with zipfile.ZipFile(path) as z:
+        shared = []
+        if 'xl/sharedStrings.xml' in z.namelist():
+            ss = ET.fromstring(z.read('xl/sharedStrings.xml'))
+            shared = [''.join(t.text or '' for t in si.iter(ns + 't'))
+                      for si in ss.iter(ns + 'si')]
+        sheets = sorted(n for n in z.namelist()
+                        if re.match(r'xl/worksheets/sheet\d+\.xml$', n))
+        if not sheets:
+            raise SystemExit('no worksheet found in %s' % path)
+        root = ET.fromstring(z.read(sheets[0]))
+
+    out = []
+    for row in root.iter(ns + 'row'):
+        cells = {}
+        for c in row.iter(ns + 'c'):
+            if c.get('t') == 'inlineStr':
+                node = c.find(ns + 'is')
+                val = ''.join(t.text or '' for t in node.iter(ns + 't')) if node is not None else None
+            else:
+                v = c.find(ns + 'v')
+                if v is None or v.text is None:
+                    val = None
+                elif c.get('t') == 's':
+                    val = shared[int(v.text)]
+                else:
+                    val = v.text
+            if val not in (None, ''):
+                cells[_col_index(c.get('r') or '')] = val
+        out.append([cells.get(i) for i in range(max(cells) + 1 if cells else 0)])
+    return out
+
+
 def read_rows(path):
     """Read the first table of the first sheet, keyed by header name.
 
     Column *order* varies between batches, so everything downstream goes
     through the header rather than a fixed index.
     """
-    from numbers_parser import Document
-
-    rows = Document(path).sheets[0].tables[0].rows(values_only=True)
+    ext = os.path.splitext(path)[1].lower()
+    if ext == '.numbers':
+        rows = _read_numbers(path)
+    elif ext in ('.xlsx', '.xlsm'):
+        rows = _read_xlsx(path)
+    else:
+        raise SystemExit('unsupported file type %r (expected .numbers or .xlsx)' % ext)
     header = [(h or '').strip() for h in rows[0]]
 
     def col(*aliases):
@@ -287,6 +348,20 @@ def clean_for_freeform(addr):
     return re.sub(r'\s{2,}', ' ', a).strip(' ,')
 
 
+def _in_california(hit):
+    """Drop a result that is nowhere near California.
+
+    Free-form search will happily answer a California address with a match in
+    another state -- "Aptos, CA 95001" came back in Kansas -- and nothing
+    downstream would notice, because a wrong coordinate looks exactly like a
+    right one. Checking the answer against the state the address itself names
+    turns that silent error into a fallback.
+    """
+    if hit and not (32.0 <= hit[0] <= 42.1 and -124.5 <= hit[1] <= -114.0):
+        return None
+    return hit
+
+
 class Geocoder:
     def __init__(self, cache_path):
         self.cache_path = cache_path
@@ -327,6 +402,11 @@ class Geocoder:
     def locate(self, address):
         """Return (coords, level). Falls back street -> ZIP -> city -> free-form."""
         street, city, state, zipcode = parse_address(address)
+        # parse_address defaults the state to CA when it finds none, so the
+        # sanity check below must read the address itself -- otherwise a
+        # Chicago or New York batch would have correct results thrown away.
+        says_california = bool(re.search(
+            r'\b(?:CA|California)\b[\s.,]*(?:\d{5}(?:-\d{4})?)?[\s.]*$', address or '', re.I))
 
         # A "street" with no letters is a bare unit or box number ("#2442").
         # Nominatim still returns *something* for it -- confidently, and in the
@@ -351,14 +431,20 @@ class Geocoder:
             if hit:
                 return hit, 'city'
 
-        hit = self.query({'q': clean_for_freeform(address) + ', CA'})
-        if hit:
-            return hit, 'freeform'
-
-        if zipcode:
-            hit = self.query({'q': zipcode + ', CA'})
+        # Free-form, most specific first. Only add the state when the address
+        # does not already carry it: appending it blindly produced "Aptos, CA
+        # 95001, CA", which Nominatim placed in another county rather than
+        # failing. The city-only form is what rescues towns whose structured
+        # lookup returns nothing, Aptos among them.
+        for cand in (clean_for_freeform(address), city, zipcode):
+            if not cand:
+                continue
+            q = cand if re.search(r'\b(?:CA|California)\b', cand, re.I) else cand + ', CA'
+            hit = self.query({'q': q})
+            if says_california:
+                hit = _in_california(hit)
             if hit:
-                return hit, 'zip'
+                return hit, 'freeform'
 
         return None, 'fail'
 
@@ -443,6 +529,12 @@ def main():
                     help='target JSON, e.g. organizations_norcal.json')
     ap.add_argument('--dry-run', action='store_true',
                     help='report what would happen without writing the target file')
+    ap.add_argument('--only-ids', metavar='PATH',
+                    help='import only rows whose slug id appears in this file, one per '
+                         'line (blank lines and # comments ignored). A sheet covering '
+                         'several regions is split by running once per target file. '
+                         'Ids rather than an address pattern because city names are '
+                         'ambiguous -- "Marina" is also inside "Marina del Rey".')
     args = ap.parse_args()
 
     target = args.into if os.path.isabs(args.into) else os.path.join(REPO, args.into)
@@ -452,6 +544,12 @@ def main():
     print('reading %s' % args.numbers_file)
     raw = read_rows(args.numbers_file)
     print('  %d rows' % len(raw))
+    if args.only_ids:
+        with open(args.only_ids) as fh:
+            wanted = {l.split('#')[0].strip() for l in fh}
+        wanted.discard('')
+        raw = [r for r in raw if slugify(str(r['name']).strip()) in wanted]
+        print('  %d of %d ids matched' % (len(raw), len(wanted)))
 
     records, _ = build_records(raw, overrides)
 

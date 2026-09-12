@@ -1,14 +1,15 @@
 # Org import
 
-Turns an Apple Numbers batch into map data.
+Turns an Apple Numbers (`.numbers`) or Excel (`.xlsx`) batch into map data.
 
 ```bash
 python3 tools/import_orgs.py "new batch.numbers" --into organizations_norcal.json --dry-run
 python3 tools/import_orgs.py "new batch.numbers" --into organizations_norcal.json
 ```
 
-Needs `numbers_parser` (`pip3 install numbers-parser`). Start with `--dry-run`:
-it does everything except write the target file.
+Needs `numbers_parser` for `.numbers` files (`pip3 install numbers-parser`);
+`.xlsx` is read with the standard library. Start with `--dry-run`: it does
+everything except write the target file.
 
 Safe to re-run. Rows already in the target are skipped by slug id, geocoding
 results are cached in `.cache/`, and an interrupted run picks up where it
@@ -34,6 +35,15 @@ newcomer. Only same name *and* same street number and ZIP is a duplicate.
 The run stops before writing if any row lacks a category, and prints the
 missing names as paste-ready JSON lines. Add them to
 `category_overrides.json` and run again.
+
+## A sheet covering several regions
+
+One batch arrived mixed: Orange County alongside Santa Cruz, San Francisco and
+Long Beach. Route it with `--only-ids`, a file of slug ids, and run once per
+target file. Ids rather than a city pattern because city names overlap --
+"Marina" is inside "Marina del Rey", and Corona (Riverside) shares the 928xx
+ZIP range with Orange County. Build the lists by assigning each city to a
+region, then assert every row lands in exactly one list before running.
 
 ## The three files beside the script
 
@@ -70,6 +80,16 @@ matched inside longer words: `hiv` in "Arc**hiv**e", `tree` in "S**tree**ts",
 "**Christ**mas", `dance` in "Gui**dance**", `craft` in "Wood**craft**". If
 a new category rule starts sweeping up unrelated orgs, this is the first thing
 to check.
+
+**A wrong coordinate looks exactly like a right one.** Geocoding rarely fails
+outright; it answers with something plausible. "Aptos, CA 95001" came back in
+Kansas, a bare suite number `#2442` came back in the wrong county, and a
+trailing period on `National City, California.` moved an org 500 miles. The
+script now refuses a letterless street, tolerates trailing punctuation, and
+rejects a result outside California when the address itself says CA. That last
+check reads the address, not the parsed state -- `parse_address` defaults the
+state to CA, so keying off it would throw away correct results for a Chicago
+or New York batch.
 
 ## Checking the result
 
