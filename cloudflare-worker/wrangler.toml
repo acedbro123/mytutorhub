@@ -1,3 +1,6 @@
-name = "voluntool-ask"
+# Must match the Worker the site actually calls (WORKER_URL in ask.html is
+# https://delicate-night-d9fa.acedbro123.workers.dev). Under the old name,
+# `wrangler deploy` created a second, unused Worker and left the live one as-is.
+name = "delicate-night-d9fa"
 main = "worker.js"
 compatibility_date = "2024-11-01"

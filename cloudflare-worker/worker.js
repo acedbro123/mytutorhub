@@ -61,9 +61,18 @@ export default {
     }
 
     // Only forward the fields we expect (model + limits are fixed server-side).
+    //
+    // openai/gpt-oss-20b is Groq's named replacement for llama-3.1-8b-instant,
+    // which Groq shut down on 2026-08-16. It is a reasoning model: it thinks
+    // before answering, and that thinking draws on the same completion budget.
+    // The old 150-token cap would let it spend everything thinking and return an
+    // empty answer, so reasoning is kept low and the cap raised. At Groq's price
+    // for this model a full 1,024-token reply costs a fraction of a cent.
     const body = {
-      model: 'llama-3.1-8b-instant',
-      max_tokens: 150,
+      model: 'openai/gpt-oss-20b',
+      reasoning_effort: 'low',
+      include_reasoning: false,
+      max_completion_tokens: 1024,
       messages: Array.isArray(payload.messages) ? payload.messages : []
     };
 
@@ -76,8 +85,24 @@ export default {
       body: JSON.stringify(body)
     });
 
-    // Pass Groq's response straight back to the browser.
     const text = await groqRes.text();
+
+    // If the model spends its whole budget thinking, Groq still answers 200 --
+    // just with no content -- and the page would show a blank reply with no
+    // explanation. Turn that into an error the page can display.
+    if (groqRes.ok) {
+      try {
+        const data = JSON.parse(text);
+        const choice = data && data.choices && data.choices[0];
+        if (choice && !(choice.message && choice.message.content)) {
+          return jsonError('The AI ran out of room before answering. Please try again or ask a shorter question.', 502, cors);
+        }
+      } catch (e) {
+        // Not JSON -- pass it back unchanged below.
+      }
+    }
+
+    // Otherwise pass Groq's response straight back to the browser.
     return new Response(text, {
       status: groqRes.status,
       headers: { ...cors, 'Content-Type': 'application/json' }
