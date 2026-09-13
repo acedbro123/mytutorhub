@@ -15722,20 +15722,6 @@
     "longitude": -117.6597714
   },
   {
-    "id": "ihss-support",
-    "name": "IHSS Support",
-    "description": "",
-    "address": "27758 Santa Margarita Pky #7010, Mission Viejo, CA 92691",
-    "category": "Health",
-    "link": "https://benefitboostadvocates.com",
-    "email": "",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5965685,
-    "longitude": -117.659405
-  },
-  {
     "id": "hlaa-mission-viejo-chapter",
     "name": "HLAA Mission Viejo Chapter",
     "description": "",
@@ -16282,20 +16268,6 @@
     "longitude": -117.834229
   },
   {
-    "id": "little-spark-mission",
-    "name": "Little Spark Mission",
-    "description": "",
-    "address": "12211 Magnolia St, Garden Grove, CA 92841",
-    "category": "Community",
-    "link": "https://littlesparkmissions.org",
-    "email": "admin@littlesparklers.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7852493,
-    "longitude": -117.9752019
-  },
-  {
     "id": "tbdf-english",
     "name": "TBDF - English",
     "description": "",
@@ -16464,20 +16436,6 @@
     "longitude": -117.9886818
   },
   {
-    "id": "california-love-topicals",
-    "name": "California Love Topicals",
-    "description": "",
-    "address": "201 Springfield Ave, Huntington Beach, CA 92648",
-    "category": "Community",
-    "link": "https://californialovetopicals.com",
-    "email": "info@californialovetopicals.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6742153,
-    "longitude": -117.9965538
-  },
-  {
     "id": "price-mediation",
     "name": "Price Mediation",
     "description": "",
@@ -16518,20 +16476,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.6937353,
     "longitude": -117.9490936
-  },
-  {
-    "id": "live-your-life-brand",
-    "name": "Live Your Life Brand",
-    "description": "",
-    "address": "19729 Beach Blvd, Huntington Beach, CA 92648",
-    "category": "Health",
-    "link": "https://hyperprotrainingcenter.com",
-    "email": "",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6761569,
-    "longitude": -117.9891295
   },
   {
     "id": "huntington-west-little-league",
@@ -17164,20 +17108,6 @@
     "longitude": -117.8261824
   },
   {
-    "id": "oc-rain-basketball",
-    "name": "OC Rain Basketball",
-    "description": "",
-    "address": "14522 Myford Rd, Irvine, CA 92606",
-    "category": "Youth",
-    "link": "https://rainbasketballusa.com",
-    "email": "admin@rainbasketballusa.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7136144,
-    "longitude": -117.802242
-  },
-  {
     "id": "rule-62-foundation",
     "name": "Rule 62 Foundation",
     "description": "",
@@ -17204,20 +17134,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.6845282,
     "longitude": -117.8319911
-  },
-  {
-    "id": "bbb-mountain-west-pacific-southwest-irvine",
-    "name": "BBB Mountain West & Pacific Southwest - Irvine",
-    "description": "",
-    "address": "1200 Main St Ste A, Irvine, CA 92614",
-    "category": "Community",
-    "link": "https://bbb.org",
-    "email": "info@bbbcommunity.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.689324,
-    "longitude": -117.8654634
   },
   {
     "id": "constitutional-rights-foundation-orange-county",
@@ -17290,20 +17206,6 @@
     "longitude": -117.8545669
   },
   {
-    "id": "mufon-headquarters",
-    "name": "MUFON Headquarters",
-    "description": "",
-    "address": "18023 #F2, Sky Park Cir, Irvine, CA 92614",
-    "category": "Community",
-    "link": "https://mufon.com",
-    "email": "hq@mufon.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6856969,
-    "longitude": -117.825981
-  },
-  {
     "id": "cdf-capital",
     "name": "CDF Capital",
     "description": "",
@@ -17332,20 +17234,6 @@
     "longitude": -117.8278123
   },
   {
-    "id": "xp-league-south-oc",
-    "name": "XP League - South OC",
-    "description": "",
-    "address": "5321 University Dr, Irvine, CA 92612",
-    "category": "Youth",
-    "link": "https://xpleague.com",
-    "email": "christine.baron@xpleague.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6591457,
-    "longitude": -117.8035744
-  },
-  {
     "id": "beckman-center-of-the-national-academies-of-sciences-engineering",
     "name": "Beckman Center of the National Academies of Sciences & Engineering",
     "description": "",
@@ -17372,20 +17260,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.7098483,
     "longitude": -117.7931179
-  },
-  {
-    "id": "coach-winn-sports-and-marketing",
-    "name": "Coach Winn Sports and Marketing",
-    "description": "",
-    "address": "14522 Myford Rd, Irvine, CA 92606",
-    "category": "Community",
-    "link": "https://coachwinn.com",
-    "email": "coachwinn@coachwinn.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7136144,
-    "longitude": -117.802242
   },
   {
     "id": "afghan-american-business-alliance",
@@ -17456,20 +17330,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.8489697,
     "longitude": -118.0373555
-  },
-  {
-    "id": "us-global-business-forum",
-    "name": "US Global Business Forum",
-    "description": "",
-    "address": "6 Centerpointe Dr #700, La Palma, CA 90623",
-    "category": "Community",
-    "link": "https://usgbf.com",
-    "email": "kevinkaul@usgbf.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.859698,
-    "longitude": -118.029233
   },
   {
     "id": "the-shorus-foundation",
@@ -17554,34 +17414,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.545481,
     "longitude": -117.7815598
-  },
-  {
-    "id": "so-laguna",
-    "name": "So Laguna",
-    "description": "",
-    "address": "505 Forest Avenue, Laguna Beach, CA 92651",
-    "category": "Community",
-    "link": "https://solaguna.com",
-    "email": "michael@solaguna.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5455586,
-    "longitude": -117.7811348
-  },
-  {
-    "id": "core-iq",
-    "name": "Core IQ",
-    "description": "",
-    "address": "496 Broadway St, Laguna Beach, CA 92651",
-    "category": "Community",
-    "link": "https://coreiq.com",
-    "email": "info@coreiq.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5462338,
-    "longitude": -117.7824286
   },
   {
     "id": "laguna-dance",
@@ -17822,34 +17654,6 @@
     "longitude": -117.8350472
   },
   {
-    "id": "eca-so-cal",
-    "name": "Eca So Cal",
-    "description": "",
-    "address": "2390 E Orangewood Ave ,Anaheim, CA 92806",
-    "category": "Community",
-    "link": "https://ecasocal.org",
-    "email": "",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7961771,
-    "longitude": -117.8824726
-  },
-  {
-    "id": "hutton-development-co-inc",
-    "name": "Hutton Development Co, Inc",
-    "description": "",
-    "address": "2100 S State College Blvd ,Anaheim, CA 92806",
-    "category": "Community",
-    "link": "https://huttoncompanies.com",
-    "email": "",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7958557,
-    "longitude": -117.888875
-  },
-  {
     "id": "el-bekal-shrine-center",
     "name": "El Bekal Shrine Center",
     "description": "",
@@ -18032,20 +17836,6 @@
     "longitude": -117.9922659
   },
   {
-    "id": "irvine-improv",
-    "name": "Irvine Improv",
-    "description": "",
-    "address": "527 Spectrum Center Dr ,Irvine, CA 92618",
-    "category": "Arts",
-    "link": "https://improv.com",
-    "email": "hollywoodboxoffice@improv.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6520116,
-    "longitude": -117.7463036
-  },
-  {
     "id": "brea-community-center",
     "name": "Brea Community Center",
     "description": "",
@@ -18072,20 +17862,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.930148,
     "longitude": -117.9360195
-  },
-  {
-    "id": "ezincorporate",
-    "name": "EZIncorporate",
-    "description": "",
-    "address": "2001 E 1st St Ste 102 ,Santa Ana, CA 92705",
-    "category": "Community",
-    "link": "https://ezincorporate.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7460501,
-    "longitude": -117.8387491
   },
   {
     "id": "big-brothers-big-sisters",
@@ -18242,20 +18018,6 @@
     "longitude": -117.8247612
   },
   {
-    "id": "olin-group",
-    "name": "Olin Group",
-    "description": "",
-    "address": "2101 E 4th St ,Santa Ana, CA 92705",
-    "category": "Community",
-    "link": "https://theolingroup.com",
-    "email": "info@charitableventuresoc.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7486355,
-    "longitude": -117.8370795
-  },
-  {
     "id": "outreach-concern-inc",
     "name": "Outreach Concern Inc",
     "description": "",
@@ -18338,20 +18100,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.7356786,
     "longitude": -117.7758992
-  },
-  {
-    "id": "zymo-research-corp",
-    "name": "Zymo Research Corp.",
-    "description": "",
-    "address": "2911 Dow Ave ,Tustin, CA 92780",
-    "category": "Community",
-    "link": "https://zymoresearch.com",
-    "email": "info@zymoresearch.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7109287,
-    "longitude": -117.8059923
   },
   {
     "id": "legacy-magnet-acad",
@@ -18492,20 +18240,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.6949909,
     "longitude": -117.7788112
-  },
-  {
-    "id": "era-superior",
-    "name": "Era Superior",
-    "description": "",
-    "address": "9134 Edinger Ave ,Fountain Valley, CA 92708",
-    "category": "Community",
-    "link": "https://era.com",
-    "email": "",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7308524,
-    "longitude": -117.9413276
   },
   {
     "id": "eastlake-village-homeowners-association",
@@ -18718,20 +18452,6 @@
     "longitude": -117.875209
   },
   {
-    "id": "no-organization-name",
-    "name": "No Organization Name",
-    "description": "",
-    "address": "5848 Edinger Ave ,Huntington Beach, CA 92649",
-    "category": "Community",
-    "link": "https://donnajean4realestate.com",
-    "email": "jin@experiencenjteam.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7298439,
-    "longitude": -118.0266933
-  },
-  {
     "id": "glo-costa-mesa-inc",
     "name": "Glo Costa Mesa Inc",
     "description": "",
@@ -18788,34 +18508,6 @@
     "longitude": -117.9871062
   },
   {
-    "id": "cooperative-organization",
-    "name": "Cooperative Organization",
-    "description": "",
-    "address": "20422 Beach Blvd ,Huntington Beach, CA 92648",
-    "category": "Community",
-    "link": "https://codesp.com",
-    "email": "codesp@codesp.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6658767,
-    "longitude": -117.9880973
-  },
-  {
-    "id": "land-advisors-organization",
-    "name": "Land Advisors Organization",
-    "description": "",
-    "address": "100 Spectrum Center Dr ,Irvine, CA 92618",
-    "category": "Community",
-    "link": "https://landadvisors.com",
-    "email": "careers@landadvisors.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6505695,
-    "longitude": -117.7476412
-  },
-  {
     "id": "developments-in-literacy",
     "name": "Developments in Literacy",
     "description": "",
@@ -18858,62 +18550,6 @@
     "longitude": -117.8726544
   },
   {
-    "id": "beachwalk-homeowners-assn",
-    "name": "Beachwalk Homeowners Assn",
-    "description": "",
-    "address": "19752 Seacliff Ln ,Huntington Beach, CA 92648",
-    "category": "Community",
-    "link": "https://beachwalkhoa.org",
-    "email": "info@beachparkhoa.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.674529,
-    "longitude": -118.0084689
-  },
-  {
-    "id": "anviron-corp",
-    "name": "Anviron Corp",
-    "description": "",
-    "address": "4 Trouville ,Newport Coast, CA 92657",
-    "category": "Community",
-    "link": "https://anviron.com",
-    "email": "info@anviron.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6132656,
-    "longitude": -117.8373728
-  },
-  {
-    "id": "sclera",
-    "name": "Sclera",
-    "description": "",
-    "address": "9 Morgan ,Irvine, CA 92618",
-    "category": "Community",
-    "link": "https://scleracorp.com",
-    "email": "volunteer@scleroderma.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6533988,
-    "longitude": -117.7130589
-  },
-  {
-    "id": "pier-colony-hoa",
-    "name": "Pier Colony Hoa",
-    "description": "",
-    "address": "200 Pacific Coast Hwy ,Huntington Beach, CA 92648",
-    "category": "Community",
-    "link": "https://piercolony.com",
-    "email": "info@thepierconway.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6568415,
-    "longitude": -118.000563
-  },
-  {
     "id": "cor-community-development-corp",
     "name": "Cor Community Development Corp",
     "description": "",
@@ -18940,20 +18576,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.602593,
     "longitude": -117.8772336
-  },
-  {
-    "id": "andrea-clasen-associates",
-    "name": "Andrea Clasen & Associates",
-    "description": "",
-    "address": "28 Via Rubino ,Newport Coast, CA 92657",
-    "category": "Community",
-    "link": "https://clasenconsulting.com",
-    "email": "andrea@clasenconsulting.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.6003893,
-    "longitude": -117.8205233
   },
   {
     "id": "the-raise-foundation",
@@ -18996,20 +18618,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.7136066,
     "longitude": -117.784725
-  },
-  {
-    "id": "sanjoaquin-hills",
-    "name": "Sanjoaquin Hills",
-    "description": "",
-    "address": "27380 Aliso Niguel Rd ,Laguna Niguel, CA 92677",
-    "category": "Community",
-    "link": "https://mysjh.com",
-    "email": "volunteer1@sjhsyr.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.5225261,
-    "longitude": -117.7075526
   },
   {
     "id": "david-sheldrick-wildlife-trust",
@@ -19192,20 +18800,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.4331524,
     "longitude": -117.6174481
-  },
-  {
-    "id": "reef-pointe-villa",
-    "name": "Reef Pointe Villa",
-    "description": "",
-    "address": "410 Arenoso Ln ,San Clemente, CA 92672",
-    "category": "Community",
-    "link": "https://reefpointco.com",
-    "email": "reefpointco@outlook.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.4234677,
-    "longitude": -117.6212382
   },
   {
     "id": "marina-hills-recreational-center",

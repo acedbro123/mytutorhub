@@ -17332,20 +17332,6 @@
     "longitude": -117.1264146
   },
   {
-    "id": "chemistress-cause",
-    "name": "Chemistress Cause",
-    "description": "",
-    "address": "29 N OLIVE ST, VENTURA CA 93001-2552",
-    "category": "Community",
-    "link": "https://chemistresscause.org",
-    "email": "",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 34.2816826,
-    "longitude": -119.3035653
-  },
-  {
     "id": "regional-access-project-foundation",
     "name": "Regional Access Project Foundation",
     "description": "",

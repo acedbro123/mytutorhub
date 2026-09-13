@@ -29134,20 +29134,6 @@
     "longitude": -121.7557942
   },
   {
-    "id": "bivvyfarm",
-    "name": "Bivvyfarm",
-    "description": "",
-    "address": "3240 Freedom Blvd, Watsonville, CA 95076",
-    "category": "Community",
-    "link": "https://bivvycorp.us",
-    "email": "g1@bivvycorp.us",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 36.9184817,
-    "longitude": -121.7600613
-  },
-  {
     "id": "parents-center-inc",
     "name": "Parents Center, Inc.",
     "description": "",
@@ -29342,34 +29328,6 @@
     "weeklyHoursRequired": null,
     "latitude": 36.9888858,
     "longitude": -121.9793306
-  },
-  {
-    "id": "non-profit-world",
-    "name": "Non-Profit-World",
-    "description": "",
-    "address": "413 Western Drive, Suite 15, Santa Cruz, CA 95060",
-    "category": "Community",
-    "link": "https://non-profit-world.com",
-    "email": "joshwagner@aol.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 36.9644259,
-    "longitude": -122.0567888
-  },
-  {
-    "id": "victory",
-    "name": "victory",
-    "description": "",
-    "address": "2845 Soquel Ave, Santa Cruz, CA 95062",
-    "category": "Community",
-    "link": "https://santacruzcardonation.com",
-    "email": "sle4you@yahoo.com",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 36.9856446,
-    "longitude": -121.987365
   },
   {
     "id": "mid-county-youth-soccer-club",

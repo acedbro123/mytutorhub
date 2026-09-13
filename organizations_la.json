@@ -4565,20 +4565,6 @@
     "longitude": -118.448647
   },
   {
-    "id": "u-turn-to-hope",
-    "name": "U Turn to Hope",
-    "description": "",
-    "address": "1360 E Anaheim St, Long Beach, California, 90813",
-    "category": "Community",
-    "link": "https://uturntohope.org",
-    "email": "info@uturntohope.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7825212,
-    "longitude": -118.174693
-  },
-  {
     "id": "i-did-something-good-today-foundation",
     "name": "I Did Something Good Today Foundation",
     "description": "",
@@ -4871,34 +4857,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.8324143,
     "longitude": -118.1038712
-  },
-  {
-    "id": "golden-star-notary",
-    "name": "Golden Star Notary",
-    "description": "",
-    "address": "Po Box 786 ,Bellflower, CA 90707",
-    "category": "Community",
-    "link": "https://goldenstarnotary.com",
-    "email": "goldstarsigning@gmail.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.8825705,
-    "longitude": -118.1167679
-  },
-  {
-    "id": "heavens-kare-inc",
-    "name": "Heavens Kare Inc",
-    "description": "",
-    "address": "10017 Palm St ,Bellflower, CA 90706",
-    "category": "Community",
-    "link": "https://ceoroyalt.com",
-    "email": "heavensangelhomecare@gmail.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.8767358,
-    "longitude": -118.1204248
   },
   {
     "id": "masonic-lodge",
@@ -5223,20 +5181,6 @@
     "longitude": -118.192128
   },
   {
-    "id": "karma-international",
-    "name": "Karma International",
-    "description": "",
-    "address": "115 Pine Ave Ste 200 ,Long Beach, CA 90802",
-    "category": "Community",
-    "link": "https://karmainternational.com",
-    "email": "contact@karmainternational.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7659831,
-    "longitude": -118.192448
-  },
-  {
     "id": "rebuilding-together-long-beach",
     "name": "Rebuilding Together Long Beach",
     "description": "",
@@ -5291,20 +5235,6 @@
     "weeklyHoursRequired": null,
     "latitude": 33.8223984,
     "longitude": -118.1894529
-  },
-  {
-    "id": "najeeb-rubina-md",
-    "name": "Najeeb, Rubina, MD",
-    "description": "",
-    "address": "100 E Wardlow Rd ,Long Beach, CA 90807",
-    "category": "Health",
-    "link": "https://starsinc.com",
-    "email": "info@starsinc.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.818828,
-    "longitude": -118.190744
   },
   {
     "id": "masonic-temples",
@@ -5405,34 +5335,6 @@
     "longitude": -118.2802829
   },
   {
-    "id": "international-longshore",
-    "name": "International Longshore",
-    "description": "",
-    "address": "411 N Harbor Blvd ,San Pedro, CA 90731",
-    "category": "Community",
-    "link": "https://portoflosangeles.org",
-    "email": "community@portla.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7462027,
-    "longitude": -118.2798023
-  },
-  {
-    "id": "grande-harbour-pointe-hoa",
-    "name": "Grande Harbour Pointe Hoa",
-    "description": "",
-    "address": "760 W 30th St ,San Pedro, CA 90731",
-    "category": "Community",
-    "link": "https://sanpedrocondosforsale.com",
-    "email": "joe@digitalengineering.io",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.7162625,
-    "longitude": -118.293434
-  },
-  {
     "id": "interfaith-community",
     "name": "Interfaith Community",
     "description": "",
@@ -5531,20 +5433,6 @@
     "longitude": -117.9523214
   },
   {
-    "id": "hispanos-unidos",
-    "name": "Hispanos Unidos",
-    "description": "",
-    "address": "15205 Stafford St ,City Of Industry, CA 91744",
-    "category": "Community",
-    "link": "https://hispanosnews.com",
-    "email": "info@hispanosnews.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 34.0286241,
-    "longitude": -117.9636952
-  },
-  {
     "id": "bright-hope-community-service-center",
     "name": "Bright Hope Community Service Center",
     "description": "",
@@ -5573,20 +5461,6 @@
     "longitude": -117.8586627
   },
   {
-    "id": "claret-hispanic-organization",
-    "name": "Claret Hispanic Organization",
-    "description": "",
-    "address": "8745 Whittier Blvd ,Pico Rivera, CA 90660",
-    "category": "Community",
-    "link": "https://imaestri.com",
-    "email": "social@imaestri.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 34.0024113,
-    "longitude": -118.0867749
-  },
-  {
     "id": "armenian-cultural-foundation",
     "name": "Armenian Cultural Foundation",
     "description": "",
@@ -5613,34 +5487,6 @@
     "weeklyHoursRequired": null,
     "latitude": 34.036461,
     "longitude": -117.80249
-  },
-  {
-    "id": "sistahs-with-purpose",
-    "name": "Sistahs With Purpose",
-    "description": "",
-    "address": "6535 72nd St ,Paramount, CA 90723",
-    "category": "Community",
-    "link": "https://sistahswithpurpose.com",
-    "email": "sistahswithpurpose@gmail.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.898917,
-    "longitude": -118.171005
-  },
-  {
-    "id": "akiba-day",
-    "name": "Akiba Day",
-    "description": "",
-    "address": "7200 Somerset Blvd. #641 ,Paramount, CA 90723",
-    "category": "Community",
-    "link": "https://akibaday.com",
-    "email": "akibadaycamp@templeakiba.net",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 33.896223,
-    "longitude": -118.172929
   },
   {
     "id": "let-us-inc",
