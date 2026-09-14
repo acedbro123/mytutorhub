@@ -770,6 +770,19 @@ a:hover { text-decoration: underline; }
 .info-box ul { padding-left: 1.5rem; }
 .info-box li { margin-bottom: 0.5rem; }
 
+/* "Who can volunteer" line at the foot of each organization's info box.
+   Uses --primary, so it picks up each page's own theme color. */
+.info-box .volunteer-age {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.info-box .volunteer-age a {
+  color: var(--primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ========== Opportunity / Challenge Grid ========== */
 .two-col {
   display: grid;
