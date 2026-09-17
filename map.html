@@ -573,21 +573,47 @@
         var originalLabel = button.textContent;
         button.textContent = 'Searching…';
 
-        var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
-          encodeURIComponent(query);
-
-        fetch(url, {
-          headers: { 'Accept': 'application/json' },
-          referrerPolicy: 'strict-origin-when-cross-origin'
-        })
-          .then(function (res) {
+        var NOMINATIM = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&';
+        function nominatim(params) {
+          return fetch(NOMINATIM + params, {
+            headers: { 'Accept': 'application/json' },
+            referrerPolicy: 'strict-origin-when-cross-origin'
+          }).then(function (res) {
             if (!res.ok) {
               var httpErr = new Error('HTTP ' + res.status);
               httpErr.status = res.status;
               throw httpErr;
             }
             return res.json();
-          })
+          });
+        }
+
+        // Free-text search on a Queens-style address ("28-19 Steinway St,
+        // Astoria, NY 11103") matches the street but not the hyphenated house
+        // number, and returns the street's midpoint -- here a power plant 1.4
+        // miles away, which throws off every distance. The same address as a
+        // structured street + ZIP lookup finds the building. So when the first
+        // answer is only a road but the query named a house number and a ZIP,
+        // retry once that way, and use it only if it found the house number.
+        function refineStreetMatch(results) {
+          var place = results && results[0];
+          if (!place || (place.address && place.address.house_number)) return results;
+          var comma = query.indexOf(',');
+          var street = (comma > 0 ? query.slice(0, comma) : '')
+            .replace(/\s*(?:#|\b(?:apt|apartment|suite|ste|unit|fl|floor)\b).*$/i, '').trim();
+          var zips = query.slice(comma + 1).match(/\b\d{5}\b/g);
+          if (!/^\d+(?:-\d+)?[A-Za-z]?\s+\S/.test(street) || !zips) return results;
+          return nominatim('countrycodes=us&street=' + encodeURIComponent(street) +
+                           '&postalcode=' + zips[zips.length - 1])
+            .then(function (better) {
+              var hit = better && better[0];
+              return (hit && hit.address && hit.address.house_number) ? better : results;
+            })
+            .catch(function () { return results; });
+        }
+
+        nominatim('q=' + encodeURIComponent(query))
+          .then(refineStreetMatch)
           .then(function (results) {
             if (!results || results.length === 0) {
               showMessage('We couldn’t find that address. Try adding a city/state, or check the spelling.', 'error');

@@ -15920,16 +15920,16 @@
   {
     "id": "brooklyn-citizens",
     "name": "Brooklyn Citizens",
-    "description": "",
-    "address": "1629 10th Ave Apt #1, Brooklyn, NY 11215",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11215",
     "category": "Community",
     "link": "https://brooklyncitizens.org",
     "email": "info@brooklyncitizens.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6583714,
-    "longitude": -73.9784628
+    "latitude": 40.6673098,
+    "longitude": -73.9838561
   },
   {
     "id": "brooklyn-for-peace",
@@ -17138,16 +17138,16 @@
   {
     "id": "global-opportunity-fund",
     "name": "Global Opportunity Fund",
-    "description": "",
-    "address": "24 Kosciuszko St Apt 4B, Brooklyn, NY 11205",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11205",
     "category": "Community",
     "link": "https://thegofund.org",
     "email": "info@thegofund.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6900522,
-    "longitude": -73.9542823
+    "latitude": 40.6931398,
+    "longitude": -73.9643066
   },
   {
     "id": "team-friendship",
@@ -17474,16 +17474,16 @@
   {
     "id": "american-friends-of-small-jewish-communities-in-ukraine",
     "name": "American Friends of Small Jewish Communities in Ukraine",
-    "description": "",
-    "address": "446 Kingston Ave Apt B5, Brooklyn, NY 11225",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11225",
     "category": "Faith",
     "link": "https://jewishukraine.org",
     "email": "",
     "minAge": 21,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6632753,
-    "longitude": -73.9430642
+    "latitude": 40.6623704,
+    "longitude": -73.9531138
   },
   {
     "id": "recycle-a-bicycle",
@@ -18160,16 +18160,16 @@
   {
     "id": "brooklyn-bureau-of-community-services",
     "name": "Brooklyn Bureau of Community Services",
-    "description": "",
-    "address": "1825 Atlantic Ave APT 2, Brooklyn, NY 11233",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11233",
     "category": "Community",
     "link": "https://usacommetix.top",
     "email": "mapdetailscom@gmail.com",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6771757,
-    "longitude": -73.9292103
+    "latitude": 40.6789506,
+    "longitude": -73.9203699
   },
   {
     "id": "the-b-r-o-experience-foundation",
@@ -18706,16 +18706,16 @@
   {
     "id": "rainbow-unity-network-inc",
     "name": "Rainbow Unity Network, Inc.",
-    "description": "",
-    "address": "141 Lenox Rd Apt 3F, Brooklyn, NY 11226",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11226",
     "category": "Community",
     "link": "https://rainbowunitynetworkinc.org",
     "email": "",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6542507,
-    "longitude": -73.9548682
+    "latitude": 40.6460856,
+    "longitude": -73.9550483
   },
   {
     "id": "chavivim-of-flatbush",
@@ -19210,16 +19210,16 @@
   {
     "id": "empowering-development-project-inc",
     "name": "Empowering Development Project Inc.",
-    "description": "",
-    "address": "58 Church Ave Apt 2E, Brooklyn, NY 11218",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11218",
     "category": "Advocacy",
     "link": "https://edpngo.org",
     "email": "info@edpngo.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6419358,
-    "longitude": -73.9809128
+    "latitude": 40.6436213,
+    "longitude": -73.9772846
   },
   {
     "id": "peggy-lillis-foundation",
@@ -19266,16 +19266,16 @@
   {
     "id": "badass-animal-rescue-inc",
     "name": "Badass Animal Rescue, Inc.",
-    "description": "",
-    "address": "Basement Apartment, 304 Caton Ave, Brooklyn, NY 11218",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11218",
     "category": "Animals",
     "link": "https://badassanimalrescue.com",
     "email": "volunteercoordinators@badassbk.com",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 40.6473394,
-    "longitude": -73.9779366
+    "latitude": 40.6436213,
+    "longitude": -73.9772846
   },
   {
     "id": "sudanese-american-community-nyc",
@@ -19322,16 +19322,16 @@
   {
     "id": "coalition-to-preserve-reggae-music",
     "name": "Coalition to Preserve Reggae Music",
-    "description": "",
-    "address": "1199 Ocean Ave Apt 407, Brooklyn, NY 11230",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11230",
     "category": "Arts",
     "link": "https://cprreggae.org",
     "email": "info@cprreggae.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.633037,
-    "longitude": -73.957669
+    "latitude": 40.62151,
+    "longitude": -73.9656378
   },
   {
     "id": "brooklyn-ayso-473",
@@ -20008,16 +20008,16 @@
   {
     "id": "foster-dogs-incorporated",
     "name": "Foster Dogs Incorporated",
-    "description": "",
-    "address": "349 16th St, Apt 2, Brooklyn, NY 11215",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11215",
     "category": "Animals",
     "link": "https://fosterdogsnyc.com",
     "email": "info@fosterdogsnyc.com",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6626577,
-    "longitude": -73.9844802
+    "latitude": 40.6673098,
+    "longitude": -73.9838561
   },
   {
     "id": "southside-united-hdfc-los-sures",
@@ -20078,16 +20078,16 @@
   {
     "id": "aurora-midwifery-foundation-inc",
     "name": "Aurora Midwifery Foundation, Inc.",
-    "description": "",
-    "address": "240 Cozine Ave Apt 4j. Brooklyn, NY 11207",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Brooklyn, NY 11207",
     "category": "Community",
     "link": "https://auroramidwifery.org",
     "email": "info@auroramidwifery.org",
     "minAge": 14,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.6555733,
-    "longitude": -73.883097
+    "latitude": 40.6722656,
+    "longitude": -73.8947883
   },
   {
     "id": "mylahs-organization-inc",
@@ -22556,16 +22556,16 @@
   {
     "id": "relief-fund",
     "name": "Relief Fund",
-    "description": "",
-    "address": "46-10 61st St Apt 1H, Woodside, NY 11377",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Woodside, NY 11377",
     "category": "Community",
     "link": "https://relieffundny.org",
     "email": "info@relieffundny.org",
     "minAge": 18,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.7403745,
-    "longitude": -73.9034838
+    "latitude": 40.744829,
+    "longitude": -73.9042572
   },
   {
     "id": "row-new-york-queens",
@@ -22584,16 +22584,16 @@
   {
     "id": "queens-world-film-festival",
     "name": "Queens World Film Festival",
-    "description": "",
-    "address": "74-15 35th Ave Apt 6F, Jackson Heights, NY 11372",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Jackson Heights, NY 11372",
     "category": "Arts",
     "link": "https://queensworldfilmfestival.org",
     "email": "",
     "minAge": 12,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.7518366,
-    "longitude": -73.8842171
+    "latitude": 40.7512,
+    "longitude": -73.8831752
   },
   {
     "id": "together-we-can",
@@ -22752,16 +22752,16 @@
   {
     "id": "modern-chinese-school-office",
     "name": "Modern Chinese School (Office)",
-    "description": "",
-    "address": "136-39 41st Ave Apt 1A, Flushing, NY 11355",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Flushing, NY 11355",
     "category": "Education",
     "link": "https://nymcs.org",
     "email": "admin@nymcs.org",
     "minAge": 24,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.7590639,
-    "longitude": -73.8281961
+    "latitude": 40.7503772,
+    "longitude": -73.8199703
   },
   {
     "id": "boys-girls-club-of-metro-queens-inc-ps-254",
@@ -23452,16 +23452,16 @@
   {
     "id": "stage-aurora-ny",
     "name": "Stage Aurora NY",
-    "description": "",
-    "address": "24-54 29th St, Apt 2A, Astoria, NY 11102",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Astoria, NY 11102",
     "category": "Arts",
     "link": "https://stageaurora.org",
     "email": "",
     "minAge": null,
     "ageStatus": "unknown",
     "weeklyHoursRequired": null,
-    "latitude": 40.7719926,
-    "longitude": -73.918061
+    "latitude": 40.7709844,
+    "longitude": -73.9246544
   },
   {
     "id": "atiku-young-entrepreneurs",
@@ -25678,16 +25678,16 @@
   {
     "id": "pinease-association",
     "name": "Pinease Association",
-    "description": "",
-    "address": "21306 75th Ave, Apt 5k Flushing, NY 11364",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Flushing, NY 11364",
     "category": "Community",
     "link": "https://pinease.us",
     "email": "info@pinease.us",
     "minAge": 14,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.7382224,
-    "longitude": -73.7591584
+    "latitude": 40.7468771,
+    "longitude": -73.7593041
   },
   {
     "id": "the-haitian-americans-united-for-progress",
@@ -25916,16 +25916,16 @@
   {
     "id": "the-alice-wyre-education-foundation",
     "name": "The Alice Wyre Education Foundation",
-    "description": "",
-    "address": "14444 Village Rd Apt 72D, Jamaica, New York 11435",
+    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
+    "address": "Jamaica, NY 11435",
     "category": "Education",
     "link": "https://theawefoundation.org",
     "email": "info@awefoundation.org",
     "minAge": 12,
     "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
-    "latitude": 40.7167929,
-    "longitude": -73.8081675
+    "latitude": 40.6992261,
+    "longitude": -73.8082165
   },
   {
     "id": "nyc-network-of-worker-cooperatives-nyc-nowc",

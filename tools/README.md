@@ -115,7 +115,9 @@ coordinate — 29 of 731 in that batch, corrected against the US Census geocoder
 (`geocoding.geo.census.gov`), which uses official address ranges. Accept a
 Census result only when its matched house number is the one you asked for: it
 reads "6-02 Woodward Ave" as "2 Woodward Ave". The map's own address search
-uses Nominatim and has the same weakness for a student typing a Queens address.
+had the same weakness; it now retries a road-only answer as a structured
+street + ZIP lookup, which finds the building. Nominatim's `addressdetails`
+tells the two apart: a building match carries `house_number`, a midpoint does not.
 
 ## Batches outside California
 
