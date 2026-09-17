@@ -12159,8 +12159,8 @@
     "category": "Community",
     "link": "https://openheartleaders.org",
     "email": "info@openheartleaders.org",
-    "minAge": null,
-    "ageStatus": "unknown",
+    "minAge": 15,
+    "ageStatus": "confirmed",
     "weeklyHoursRequired": null,
     "latitude": 32.756365,
     "longitude": -117.038738
