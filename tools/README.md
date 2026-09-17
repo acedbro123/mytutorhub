@@ -72,6 +72,12 @@ older", "must be 21". Everything else is left `unknown`, which the map renders
 as "AGE NOT VERIFIED". Roughly a quarter of rows land there, and that is the
 correct outcome, not a gap to fill.
 
+A floor suffix on a *range* belongs to the range: "Ages 16 To 24 Or Older"
+means 16, but the floor patterns search the whole string and used to latch
+onto "24 or older", recording the upper bound. `RANGE_THEN_FLOOR_RE` is checked
+first so the low end is used. Across all nine batches to date that changed 26
+of 5,897 age strings and nothing else.
+
 **Categories come from the org name, never the Note column.** The Note is
 about age policy, not mission, so classifying on it misfires badly. Several
 keyword patterns are anchored with `\b` for the same reason — unanchored, they
@@ -89,6 +95,27 @@ script now refuses a letterless street, tolerates trailing punctuation, and
 rejects a result that lands outside the state the address itself names (see
 `STATE_BOX`). A state with no box is simply not checked — the point is
 catching gross errors, not validating borders.
+
+New York needs two fallbacks the rest of the country didn't. OpenStreetMap
+files Jamaica, Astoria and Long Island City as neighborhoods of Queens, not
+cities, so a street lookup naming them finds nothing; the script retries with
+street and ZIP alone. And a ZIP scoped by `state=NY` returns nothing at all, so
+it retries scoped by country. Before these, 135 of 731 Brooklyn/Queens rows fell
+to neighborhood centroids, 50 of them on one Jamaica pin. Both only run when
+the original lookup failed: re-resolving the 3,812 addresses already on the map
+gave identical coordinates for every one.
+
+The state box can't catch a wrong answer *inside* the state. "Briarwood, NY"
+resolved to the Briarwood near Rochester, 300 miles from Queens.
+
+Queens house numbers also defeat Nominatim more quietly: "28-19 Steinway St"
+comes back as a street-level hit on the street's midpoint, 2 km from the
+building. Spot it by looking for different house numbers sharing one
+coordinate — 29 of 731 in that batch, corrected against the US Census geocoder
+(`geocoding.geo.census.gov`), which uses official address ranges. Accept a
+Census result only when its matched house number is the one you asked for: it
+reads "6-02 Woodward Ave" as "2 Woodward Ave". The map's own address search
+uses Nominatim and has the same weakness for a student typing a Queens address.
 
 ## Batches outside California
 

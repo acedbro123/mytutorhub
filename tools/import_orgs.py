@@ -194,6 +194,13 @@ MIN_PATTERNS = [
     r'(?<!under )\bage\s*of\s*(\d{1,2})',
 ]
 RANGE_RE = re.compile(r'(\d{1,2})\s*(?:years?|yrs?)?\s*(?:-|–|—|to|and)\s*(\d{1,2})')
+# A range whose upper end carries a floor suffix: "16 To 24 Or Older", "18 To 21+".
+# The suffix belongs to the range as a whole, but the floor patterns above search
+# the whole string and latch onto the second number, recording the upper bound
+# as the minimum. Checked first so the range's low end is used instead.
+RANGE_THEN_FLOOR_RE = re.compile(
+    r'(\d{1,2})\s*(?:years?|yrs?)?\s*(?:-|–|—|to|and)\s*(\d{1,2})\s*(?:years?|yrs?)?\s*'
+    r'(?:of age\s*)?(?:\+|(?:and|or)\s*(?:older|above|up|over))')
 NUM_RE = re.compile(r'\b(\d{1,2})\b')
 # Wording that means the number describes people served, not the volunteer floor.
 SERVED_RE = re.compile(r'\bunder\b|\bbirth\b|\bup to\b|\bgrades?\b|\byounger\b', re.I)
@@ -209,6 +216,11 @@ def extract_min_age(text):
 
     if SERVED_RE.search(low) and not FLOOR_RE.search(low):
         return None, 'unknown'
+
+    m = RANGE_THEN_FLOOR_RE.search(low)
+    if m:
+        a = int(m.group(1))
+        return (a, 'confirmed') if 12 <= a <= 25 else (None, 'unknown')
 
     for pat in MIN_PATTERNS:
         m = re.search(pat, low)
@@ -440,8 +452,26 @@ class Geocoder:
             if hit:
                 return hit, 'street'
 
+            # New York files Jamaica, Astoria and Long Island City as neighborhoods
+            # of Queens rather than cities, so "street in city Jamaica" finds
+            # nothing for a perfectly good address like "106-56 Guy R Brewer Blvd".
+            # The ZIP pins the location on its own. Only tried after the lookup
+            # above fails, so rows that already resolved keep their coordinates.
+            if city and zipcode:
+                p = dict(base, street=street, postalcode=zipcode)
+                hit = _in_state(self.query(p), state)
+                if hit:
+                    return hit, 'street'
+
         if zipcode:
             hit = _in_state(self.query(dict(base, postalcode=zipcode)), state)
+            if hit:
+                return hit, 'zip'
+            # Nominatim answers nothing for a New York ZIP scoped by state (43 of
+            # 43 in the Sept 2026 Brooklyn/Queens batch), which dropped every such
+            # row straight to a neighborhood centroid -- 50 orgs on one Jamaica
+            # pin. Scoped by country the same ZIP resolves; _in_state still guards.
+            hit = _in_state(self.query({'postalcode': zipcode, 'country': 'us'}), state)
             if hit:
                 return hit, 'zip'
 
@@ -639,14 +669,24 @@ def main():
             print('  %s' % n)
         fresh = [r for r in fresh if r['latitude'] is not None]
 
-    # A coordinate far outside California usually means the sheet lists a
-    # national headquarters rather than the local office. Worth a look, but not
-    # an error — see the SOAR entry for a row that is legitimately remote.
+    # A coordinate far outside the target's region usually means the sheet lists
+    # a national headquarters rather than the local office. Worth a look, but
+    # not an error — see the SOAR entry for a row that is legitimately remote.
+    # The region is the footprint of rows already in the target file. This was
+    # hardcoded to California, so a New York batch flagged all 731 rows, and a
+    # warning that fires on everything hides the rows it exists to catch.
+    pts = [(o['latitude'], o['longitude']) for o in existing if o.get('latitude') is not None]
+    if pts:
+        lats, lons = [p[0] for p in pts], [p[1] for p in pts]
+        region = (min(lats) - 0.5, max(lats) + 0.5, min(lons) - 0.5, max(lons) + 0.5)
+        where = 'the area %s already covers' % args.into
+    else:
+        region, where = STATE_BOX['CA'], 'California'
     outliers = [r for r in fresh
-                if not (32.0 <= r['latitude'] <= 42.1 and -124.5 <= r['longitude'] <= -114.0)]
+                if not (region[0] <= r['latitude'] <= region[1] and region[2] <= r['longitude'] <= region[3])]
     if outliers:
-        print('\n%d rows landed outside California — check these against the org\'s own site:'
-              % len(outliers))
+        print('\n%d rows landed outside %s — check these against the org\'s own site:'
+              % (len(outliers), where))
         for r in outliers:
             print('  %-38s %s' % (r['name'][:38], r['address']))
 
