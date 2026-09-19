@@ -286,17 +286,18 @@ def extract_min_age(text):
 # Several patterns are anchored with \b because the unanchored version matched
 # inside longer words: "hiv" in "Archive", "tree" in "Streets", "park" in
 # "Sparkle", "ministr" in "Administrative", "christ" in "Christmas", "dance"
-# in "Guidance", "craft" in "Woodcraft".
+# in "Guidance", "craft" in "Woodcraft", "feline" in "Lifeline", "bird" in
+# "Mockingbird", "aging" in "Imaging".
 
 RULES = [
-    ('Animals', r'animal|humane societ|spca|wildlife|pet |pets\b|dog|cat\b|cats\b|feline|canine|equine|horse|rescue ranch|zoo|aquarium|bird|raptor|marine mammal|paws|kitten|puppy|veterinar|sanctuary'),
+    ('Animals', r'animal|humane societ|spca|wildlife|pet |pets\b|dog|cat\b|cats\b|\bfeline|canine|equine|horse|rescue ranch|zoo|aquarium|\bbirds?\b|raptor|marine mammal|paws|kitten|puppy|veterinar|sanctuary'),
     ('Food', r'food bank|foodbank|food pantry|pantry|meals? on wheels|\bmeals?\b|hunger|nutrition|kitchen|feeding|farmers market|glean|harvest|soup |grocer|\bfeed\b|edible|second harvest'),
     ('Faith', r'\bchurch\b|temple|synagogue|mosque|islamic|jewish|catholic|parish|\bministr|\bchrist|gospel|congregation|baptist|lutheran|presbyterian|methodist|episcopal|chabad|buddhist|dharma|sikh|gurdwara|faith|bible|salvation army|diocese|hindu|vedic|spiritual'),
     ('Health', r'health|hospital|clinic|medical|hospice|cancer|blood|mental|counsel|therap|recovery|addiction|substance|wellness|disabilit|autism|alzheimer|caregiv|\baids\b|\bhiv\b|nurs|dental|vision|hearing|diabet|stroke|epilep|cerebral|down syndrome|special needs|crisis|suicide'),
     ('Homeless', r'homeless|shelter\b|unhoused|rescue mission|street outreach|transitional'),
     ('Housing', r'housing|habitat for humanity|tenant|rebuilding together|home repair|\bhomes\b'),
     ('Veterans', r'veteran|\bvfw\b|american legion|military|armed forces|troops|blue star|gold star'),
-    ('Seniors', r'senior|elder|aging|older adult|retire|\bage well\b|meals on wheels|55\+'),
+    ('Seniors', r'senior|elder|\baging\b|older adult|retire|\bage well\b|meals on wheels|55\+'),
     ('Environment', r'environment|conservat|\bcreek|watershed|bay keeper|baykeeper|river|land trust|open space|\bparks?\b|trail|garden|\btrees?\b|forest|climate|recycl|sustainab|clean ?up|ecolog|audubon|sierra club|wetland|coast|ocean|shoreline|native plant|greenbelt|zero waste|solar|energy'),
     ('Arts', r'\barts?\b|museum|theat|music|orchestra|choral|chorus|symphony|\bdanc|gallery|film|festival|\bopera\b|ballet|\bcrafts?\b|photograph|poetry|literary|jazz|band\b|studio|creative'),
     ('Education', r'school|educat|tutor|literacy|library|libraries|scholarship|college|university|stem|reading|learning|academy|mentor|classroom|teach|student|book'),

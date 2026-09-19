@@ -70,5 +70,9 @@
   "catholic-charities-boston-2": "Labeled Catholic Charities Boston, but its website (pddm.us) and note describe a Catholic religious order's vocation-discernment program for women aged 18-30 -- a different organization, and not a student volunteering opportunity. The real Catholic Charities Boston is already on the map.",
   "city-of-seattle": "Named 'City of Seattle' but its website is a broken URL (cityfish.comtexaco.com). The row's name and its website describe different things, so what a student would see on the map is not trustworthy.",
   "city-of-seattle-2": "Named 'City of Seattle' but its website is a trapeze school (emeraldcitytrapeze.com). The row's name and its website describe different things, so what a student would see on the map is not trustworthy.",
-  "charity-partners-boston": "A second 'Charity Partners' row (177 Huntington Ave) whose website belongs to an unrelated staffing firm (agilitypartners.com). The row's name and its website describe different things, so what a student would see on the map is not trustworthy."
+  "charity-partners-boston": "A second 'Charity Partners' row (177 Huntington Ave) whose website belongs to an unrelated staffing firm (agilitypartners.com). The row's name and its website describe different things, so what a student would see on the map is not trustworthy.",
+  "center-for-sex-positive-culture": "An adults-only sexuality community center. The map is used by high school students, so it was taken off rather than left live.",
+  "the-cannabis-alliance": "A cannabis industry and advocacy group; its activities are 21+. Not appropriate for a map used by high school students.",
+  "pan-eros-foundation": "An adult sexuality-education foundation tied to the Center for Sex Positive Culture. Not appropriate for a map used by high school students.",
+  "cannabis-society-of-massachusetts": "A cannabis advocacy and social group for adults 21+. Not appropriate for a map used by high school students."
 }
