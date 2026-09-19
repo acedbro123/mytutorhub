@@ -45,6 +45,25 @@ target file. Ids rather than a city pattern because city names overlap --
 ZIP range with Orange County. Build the lists by assigning each city to a
 region, then assert every row lands in exactly one list before running.
 
+## Other sheet shapes
+
+**Split address columns.** A sheet may give the address as separate Street /
+City / State / Zip columns instead of one Address column (one arrived headed
+`Stree-Address`, City, State, `Zip code`). They are joined back into one
+address automatically. Before that, only the street was read and every row
+geocoded from a bare "1204 Minor Ave" with no city at all.
+
+**One sheet, several states.** Split it with `--only-state WA`, one run per
+target file. Don't use `--only-ids` for this: ids come from names, and two
+different groups can share a name across states ("American Legion" in Seattle
+and in Boston).
+
+**The same name twice.** Same name at the same street number is the same group
+and is kept once. Same name at a *different* street number is kept as a
+separate group with its own id (e.g. `social-venture-partners-seattle`), and
+the run prints it -- check those, because in practice the second row was as
+often a stale address or a mislabeled row as a genuine second branch.
+
 ## The three files beside the script
 
 `category_overrides.json` — org name to category, for names the keyword rules
@@ -95,6 +114,20 @@ script now refuses a letterless street, tolerates trailing punctuation, and
 rejects a result that lands outside the state the address itself names (see
 `STATE_BOX`). A state with no box is simply not checked — the point is
 catching gross errors, not validating borders.
+
+Unit numbers written with `#` ("1333 Broadway #200") were not being stripped
+before September 18 2026 -- the pattern needed a word character before `#` and
+there is only ever a space -- so the lookup failed and fell back to a
+city-centre pin. Fixed; rows imported earlier with a `#` unit may still sit on
+a city centre.
+
+**Cross-check with the US Census geocoder.** The box check cannot see a pin on
+the wrong street inside the right city, and in Seattle "1st Ave", "1st Ave S"
+and "1st Ave N" are different streets miles apart. The Census batch endpoint
+(`geocoding.geo.census.gov/geocoder/locations/addressbatch`, one CSV upload for
+the whole sheet) gives an independent answer. Only take its location when its
+matched house number and street agree with the sheet -- it also answers
+confidently wrong ("1 Boston Pl" -> "1 Bolton Pl").
 
 New York needs two fallbacks the rest of the country didn't. OpenStreetMap
 files Jamaica, Astoria and Long Island City as neighborhoods of Queens, not

@@ -164,12 +164,39 @@ def read_rows(path):
     if idx['name'] is None:
         raise SystemExit('could not find an "Organization Name" column in: %s' % header)
 
+    # Some sheets split the address into Street / City / State / Zip columns
+    # instead of one Address column. The street column still matches "Address"
+    # above (one arrived headed "Stree-Address"), so without this the city,
+    # state and ZIP were silently dropped and every row geocoded from a bare
+    # street -- "1204 Minor Ave" with no city at all. Matched on exact header
+    # names, since a substring like "state" is too loose to trust.
+    def exact(*names):
+        for i, h in enumerate(header):
+            if h.lower().replace('-', ' ').strip() in names:
+                return i
+        return None
+    split = {'city': exact('city'), 'state': exact('state'),
+             'zip': exact('zip', 'zip code', 'zipcode', 'postal code')}
+
     out = []
     for r in rows[1:]:
         if idx['name'] >= len(r) or not r[idx['name']]:
             continue
         get = lambda k: (r[idx[k]] if idx[k] is not None and idx[k] < len(r) else None)
-        out.append({k: get(k) for k in idx})
+        row = {k: get(k) for k in idx}
+        if any(v is not None for v in split.values()):
+            part = lambda k: (r[split[k]] if split[k] is not None and split[k] < len(r) else None)
+            city, state, zipc = part('city'), part('state'), part('zip')
+            if isinstance(zipc, float) and zipc.is_integer():
+                zipc = int(zipc)
+            if isinstance(zipc, int):
+                zipc = '%05d' % zipc          # keep New England's leading zero: 02114
+            zipc = str(zipc).strip() if zipc not in (None, '') else ''
+            tail = ' '.join(x for x in (str(state).strip() if state else '', zipc) if x)
+            pieces = [str(row['address']).strip() if row['address'] else '',
+                      str(city).strip() if city else '', tail]
+            row['address'] = ', '.join(x for x in pieces if x)
+        out.append(row)
     return out
 
 
@@ -321,14 +348,18 @@ def classify(name, overrides):
 # addresses and silently falls back to a city-center pin, so it is only used to
 # rescue rows the structured query could not place at all.
 
+# The "#" alternative sits outside the \b group on purpose: a \b before "#"
+# needs a word character right before it, and in "123 Main St #200" there is
+# only a space. Inside the group it never matched, so "#200" stayed in the
+# street, the lookup failed, and the row fell back to a city-centre pin.
 NOISE_RE = re.compile(
-    r'\b(?:ste|suite|unit|apt|apartment|fl|floor|rm|room|bldg|building|#\s*\S+|pmb|c/o|po box|p\.o\. box|mailbox)\b[^,]*',
+    r'(?:\b(?:ste|suite|unit|apt|apartment|fl|floor|rm|room|bldg|building|pmb|c/o|po box|p\.o\. box|mailbox)\b|#)[^,]*',
     re.I)
 STREET_RE = re.compile(
     r'\b(\d+(?:-\d+)?[A-Za-z]?)\s+((?:[NSEW]\.?|North|South|East|West)?\s*[\w\.\'\-]+(?:\s+[\w\.\'\-]+){0,3}?\s+'
     r'(?:st|street|ave|avenue|rd|road|blvd|boulevard|dr|drive|ln|lane|way|ct|court|pl|place|'
     r'pkwy|parkway|ter|terrace|cir|circle|hwy|highway|sq|square|plaza|trail|trl|loop|row|walk|'
-    r'path|alley|expy|expressway)\b\.?)', re.I)
+    r'path|alley|expy|expressway|wy)\b\.?)', re.I)
 
 
 def parse_address(addr):
@@ -584,6 +615,11 @@ def main():
                          'several regions is split by running once per target file. '
                          'Ids rather than an address pattern because city names are '
                          'ambiguous -- "Marina" is also inside "Marina del Rey".')
+    ap.add_argument('--only-state', metavar='XX',
+                    help='import only rows whose address is in this state (e.g. WA). '
+                         'Use this, not --only-ids, to split a sheet by state: two '
+                         'different orgs can share a name across states ("American '
+                         'Legion" in Seattle and Boston), and ids cannot tell them apart.')
     args = ap.parse_args()
 
     target = args.into if os.path.isabs(args.into) else os.path.join(REPO, args.into)
@@ -599,6 +635,10 @@ def main():
         wanted.discard('')
         raw = [r for r in raw if slugify(str(r['name']).strip()) in wanted]
         print('  %d of %d ids matched' % (len(raw), len(wanted)))
+    if args.only_state:
+        want = args.only_state.upper()
+        raw = [r for r in raw if parse_address(str(r['address'] or ''))[2] == want]
+        print('  %d rows in %s' % (len(raw), want))
 
     records, _ = build_records(raw, overrides)
 
@@ -612,22 +652,62 @@ def main():
     excluded = load_excluded()
     others = load_other_files(target)
 
-    fresh, skipped, elsewhere, present = [], [], [], 0
+    # An id alone does not identify an org: two different groups can share a
+    # name ("Charity Partners" at two Boston addresses), and a sheet can list
+    # the same group twice. So a repeated id is only "the same org" when the
+    # street numbers match, or when either address has no number to compare --
+    # which keeps re-running an old batch a no-op. Otherwise the newcomer is a
+    # separate org and gets its own id rather than being silently dropped.
+    taken = {o['id']: o.get('address', '') for o in existing}
+
+    def same_place(a, b):
+        na, nb = street_key(a)[0], street_key(b)[0]
+        return not (na and nb) or na == nb
+
+    def unique_id(base, address):
+        # Deterministic, so a re-import yields the same id and an exclusion of
+        # it sticks. Never steps past an excluded id for the same reason.
+        city = slugify(parse_address(address)[1] or '')
+        cand = '%s-%s' % (base, city) if city and city not in base else base + '-2'
+        n = 2
+        while cand in taken:
+            n += 1
+            cand = '%s-%d' % (base, n)
+        return cand
+
+    fresh, skipped, elsewhere, present, repeated, renamed = [], [], [], 0, [], []
     for r in records:
         if r['id'] in excluded:
             skipped.append(r['name'])
-        elif r['id'] in seen:
-            present += 1
-        else:
-            where = duplicate_elsewhere(r, others)
-            if where:
-                elsewhere.append((r['name'], where))
-            else:
-                fresh.append(r)
+            continue
+        if r['id'] in taken:
+            if same_place(r['address'], taken[r['id']]):
+                if r['id'] in seen:
+                    present += 1
+                else:
+                    repeated.append(r['name'])
+                continue
+            old = r['id']
+            r['id'] = unique_id(old, r['address'])
+            if r['id'] in excluded:
+                skipped.append(r['name'] + ' (' + r['id'] + ')')
+                continue
+            renamed.append((r['name'], r['address'], old, r['id']))
+        where = duplicate_elsewhere(r, others)
+        if where:
+            elsewhere.append((r['name'], where))
+            continue
+        taken[r['id']] = r['address']
+        fresh.append(r)
 
     print('%d new, %d already present' % (len(fresh), present))
     for name in skipped:
         print('  excluded: %s' % name)
+    for name in repeated:
+        print('  listed twice in this sheet at the same address, kept once: %s' % name)
+    for name, addr, old, new in renamed:
+        print('  same name as another org but a different address, kept separately as %s: %s (%s)'
+              % (new, name, addr))
     for name, where in elsewhere:
         print('  already on the map via %s: %s' % (where, name))
     if not fresh:
