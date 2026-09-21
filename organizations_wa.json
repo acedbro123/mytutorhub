@@ -714,20 +714,6 @@
     "longitude": -122.3328088
   },
   {
-    "id": "the-2100-building",
-    "name": "The 2100 Building",
-    "description": "",
-    "address": "2100 24th Ave S, Seattle, WA 98144",
-    "category": "Community",
-    "link": "https://nitze-stagen.com",
-    "email": "melissa@nsco.com",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.5841884,
-    "longitude": -122.301253
-  },
-  {
     "id": "wscadv",
     "name": "WSCADV",
     "description": "",
@@ -1076,20 +1062,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.5853024,
     "longitude": -122.1551827
-  },
-  {
-    "id": "mobile-giving-foundation",
-    "name": "Mobile Giving Foundation",
-    "description": "",
-    "address": "155 108th Ave NE, Bellevue, WA 98004",
-    "category": "Community",
-    "link": "https://mobilegiving.org",
-    "email": "support@mobilegiving.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6118602,
-    "longitude": -122.1968831
   },
   {
     "id": "rotary-club-of-bellevue",
@@ -2184,20 +2156,6 @@
     "longitude": -122.3105879
   },
   {
-    "id": "carina",
-    "name": "Carina",
-    "description": "",
-    "address": "215 Columbia St #300, Seattle, WA 98104",
-    "category": "Health",
-    "link": "https://carina.org",
-    "email": "contactus@carina.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.603854,
-    "longitude": -122.3328661
-  },
-  {
     "id": "sunset-club-inc",
     "name": "Sunset Club Inc",
     "description": "",
@@ -2324,20 +2282,6 @@
     "longitude": -122.2786683
   },
   {
-    "id": "global-aid-against-poverty",
-    "name": "Global Aid Against Poverty",
-    "description": "",
-    "address": "3815 S Othello St #100, Seattle, WA 98118",
-    "category": "Community",
-    "link": "https://gaapaid.org",
-    "email": "chiif206@gmail.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.5368328,
-    "longitude": -122.2836073
-  },
-  {
     "id": "town-hall-seattle",
     "name": "Town Hall Seattle",
     "description": "",
@@ -2350,20 +2294,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6090191,
     "longitude": -122.3299377
-  },
-  {
-    "id": "discovery-institute",
-    "name": "Discovery Institute",
-    "description": "",
-    "address": "506 2nd Ave #1700, Seattle, WA 98104",
-    "category": "Community",
-    "link": "https://discovery.org",
-    "email": "info@discovery.org",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6020094,
-    "longitude": -122.3317853
   },
   {
     "id": "sustainable-path-foundation",
@@ -2576,20 +2506,6 @@
     "longitude": -122.2696523
   },
   {
-    "id": "washington-bankers-association",
-    "name": "Washington Bankers Association",
-    "description": "",
-    "address": "601 Union St Ste 1720, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://wabankers.com",
-    "email": "katherine@wabankers.com",
-    "minAge": 12,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6099437,
-    "longitude": -122.3325277
-  },
-  {
     "id": "citizen-university",
     "name": "Citizen University",
     "description": "",
@@ -2700,48 +2616,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6656488,
     "longitude": -122.3012825
-  },
-  {
-    "id": "finra",
-    "name": "Finra",
-    "description": "",
-    "address": "601 Union St #1616, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://finra.org",
-    "email": "alumni@finra.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6099437,
-    "longitude": -122.3325277
-  },
-  {
-    "id": "washington-economic-development-association",
-    "name": "Washington Economic Development Association",
-    "description": "",
-    "address": "3213 W Wheeler St #424, Seattle, WA 98199",
-    "category": "Community",
-    "link": "https://wedaonline.org",
-    "email": "info@wedaonline.org",
-    "minAge": 15,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6397909,
-    "longitude": -122.3986055
-  },
-  {
-    "id": "leave-10",
-    "name": "Leave 10",
-    "description": "",
-    "address": "2150 N 107th St #205, Seattle, WA 98133",
-    "category": "Community",
-    "link": "https://leave10.org",
-    "email": "contact@leave10.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.7074571,
-    "longitude": -122.331727
   },
   {
     "id": "washington-s-national-park-fund",
@@ -2912,20 +2786,6 @@
     "longitude": -122.3320856
   },
   {
-    "id": "optimus-fundraising",
-    "name": "Optimus Fundraising",
-    "description": "",
-    "address": "601 Union St #4200, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://optimusfundraising.com",
-    "email": "info@optimusfundraising.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6099437,
-    "longitude": -122.3325277
-  },
-  {
     "id": "trust-for-public-land",
     "name": "Trust for Public Land",
     "description": "",
@@ -2982,20 +2842,6 @@
     "longitude": -122.3003868
   },
   {
-    "id": "seeyourimpact-org",
-    "name": "SeeYourImpact.org",
-    "description": "",
-    "address": "220 2nd Ave Ext S, Seattle, WA 98104",
-    "category": "Community",
-    "link": "https://seeyourimpact.org",
-    "email": "contact@seeyourimpact.org",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6004988,
-    "longitude": -122.3312384
-  },
-  {
     "id": "women-s-university-club",
     "name": "Women's University Club",
     "description": "",
@@ -3010,20 +2856,6 @@
     "longitude": -122.3319371
   },
   {
-    "id": "washington-round-table",
-    "name": "Washington Round Table",
-    "description": "",
-    "address": "520 Pike St #1212, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://waroundtable.com",
-    "email": "contact@waroundtable.com",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6112881,
-    "longitude": -122.3350402
-  },
-  {
     "id": "washington-state-medical-association",
     "name": "Washington State Medical Association",
     "description": "",
@@ -3036,34 +2868,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6076371,
     "longitude": -122.3349395
-  },
-  {
-    "id": "giving-compass",
-    "name": "Giving Compass",
-    "description": "",
-    "address": "1012 1st Avenue, Seattle, WA 98104",
-    "category": "Community",
-    "link": "https://givingcompass.org",
-    "email": "support@givingcompass.org",
-    "minAge": 12,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6052702,
-    "longitude": -122.3362992
-  },
-  {
-    "id": "vitaltalk",
-    "name": "VitalTalk",
-    "description": "",
-    "address": "600 1st Ave Suite 605, Seattle, WA 98104",
-    "category": "Health",
-    "link": "https://vitaltalk.org",
-    "email": "info@vitaltalk.org",
-    "minAge": 25,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6020633,
-    "longitude": -122.333511
   },
   {
     "id": "healthierhere",
@@ -3192,20 +2996,6 @@
     "longitude": -122.1525191
   },
   {
-    "id": "washington-state-funeral-directors-association",
-    "name": "Washington State Funeral Directors Association",
-    "description": "",
-    "address": "PO Box 13273, Des Moines, WA 98198",
-    "category": "Community",
-    "link": "https://wsfda.org",
-    "email": "director@wsfda.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.392328,
-    "longitude": -122.3135122
-  },
-  {
     "id": "united-sports-seattle",
     "name": "United Sports Seattle",
     "description": "",
@@ -3302,20 +3092,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.4589146,
     "longitude": -122.1881041
-  },
-  {
-    "id": "washington-multi-family-housing-association",
-    "name": "Washington Multi-Family Housing Association",
-    "description": "",
-    "address": "600 SW 39th St Ste 220, Renton, WA 98057",
-    "category": "Housing",
-    "link": "https://wmfha.org",
-    "email": "admin@wmfha.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.4467904,
-    "longitude": -122.2254667
   },
   {
     "id": "king-county-sexual-assault-resource-center",
@@ -3442,20 +3218,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.4769484,
     "longitude": -122.2051998
-  },
-  {
-    "id": "abyssinia-beauty-school",
-    "name": "Abyssinia Beauty School",
-    "description": "",
-    "address": "203 S 2nd St f, Renton, WA 98057",
-    "category": "Education",
-    "link": "https://abyssiniabeautyschool.org",
-    "email": "info@abyssiniabeautyschool.org",
-    "minAge": 17,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.480966,
-    "longitude": -122.214789
   },
   {
     "id": "renton-rowing-center",
@@ -4256,34 +4018,6 @@
     "longitude": -122.3284036
   },
   {
-    "id": "channel-a-tv",
-    "name": "Channel A TV",
-    "description": "",
-    "address": "930 South 336th St Ste H, Federal Way, WA 98003",
-    "category": "Arts",
-    "link": "https://channelatvg.org",
-    "email": "info@channelatv.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.30122,
-    "longitude": -122.3213783
-  },
-  {
-    "id": "institute-for-functional-medicine",
-    "name": "Institute for Functional Medicine",
-    "description": "",
-    "address": "505 South 336th St #600, Federal Way, WA 98003",
-    "category": "Health",
-    "link": "https://ifm.org",
-    "email": "info@ifm.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.2994886,
-    "longitude": -122.3269961
-  },
-  {
     "id": "kwa-in-home-care",
     "name": "KWA In-Home Care",
     "description": "",
@@ -4366,20 +4100,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.3017161,
     "longitude": -122.3005316
-  },
-  {
-    "id": "kagro-of-washington",
-    "name": "Kagro of Washington",
-    "description": "",
-    "address": "33515 10th Pl S, Federal Way, WA 98003",
-    "category": "Community",
-    "link": "https://kagrowa.org",
-    "email": "kagrowa@gmail.com",
-    "minAge": 15,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.3019048,
-    "longitude": -122.3213847
   },
   {
     "id": "fwps-americorps-support-svcs-ctr",
@@ -4564,20 +4284,6 @@
     "longitude": -122.283639244495
   },
   {
-    "id": "the-transportation-club-of-seattle",
-    "name": "The Transportation Club of Seattle",
-    "description": "",
-    "address": "6620 Fauntleroy Way SW, Seattle, WA 98136",
-    "category": "Community",
-    "link": "https://transportationclubofseattle.org",
-    "email": "transportationclubofseattle@gmail.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.5436897,
-    "longitude": -122.3896606
-  },
-  {
     "id": "crista-ministries",
     "name": "CRISTA Ministries",
     "description": "",
@@ -4674,20 +4380,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6015824,
     "longitude": -122.3292767
-  },
-  {
-    "id": "cares-of-washington",
-    "name": "Cares of Washington",
-    "description": "",
-    "address": "1833 N 105th St #202, Seattle, WA 98133",
-    "category": "Community",
-    "link": "https://caresofwa.org",
-    "email": "admin@caresofwa.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.7048385,
-    "longitude": -122.3344386
   },
   {
     "id": "washington-vocational-services",
@@ -4914,20 +4606,6 @@
     "longitude": -122.2408474
   },
   {
-    "id": "el-migdal-coming-soon",
-    "name": "El Migdal - Coming soon!",
-    "description": "",
-    "address": "14900 Interurban Ave S, Seattle, WA 98168",
-    "category": "Community",
-    "link": "https://el-migdal.ueniweb.com",
-    "email": "",
-    "minAge": 19,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.4689158,
-    "longitude": -122.2525183
-  },
-  {
     "id": "hanuman-nagri",
     "name": "Hanuman Nagri",
     "description": "",
@@ -4954,20 +4632,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.4901237,
     "longitude": -122.2390152
-  },
-  {
-    "id": "masonry-institute-of-washington",
-    "name": "Masonry Institute of Washington",
-    "description": "",
-    "address": "14900 Interurban Ave S #275, Seattle, WA 98168",
-    "category": "Community",
-    "link": "https://masonryinstitute.com",
-    "email": "",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.4689158,
-    "longitude": -122.2525183
   },
   {
     "id": "cascadia-pigeon-rescue",
@@ -5124,20 +4788,6 @@
     "longitude": -122.3401563
   },
   {
-    "id": "solutions",
-    "name": "Solutions",
-    "description": "",
-    "address": "233 6th Ave N, Seattle, WA 98109",
-    "category": "Community",
-    "link": "https://volunteersolutions.org",
-    "email": "info@volunteeringsolutions.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.620131364247,
-    "longitude": -122.345093603396
-  },
-  {
     "id": "jesuit-corp",
     "name": "Jesuit Corp",
     "description": "",
@@ -5180,20 +4830,6 @@
     "longitude": -122.31525
   },
   {
-    "id": "park-cafe",
-    "name": "Park Cafe",
-    "description": "",
-    "address": "1501 17th Ave E, Seattle, WA 98112",
-    "category": "Community",
-    "link": "https://volunteerpark.cafe",
-    "email": "hi@volunteerpark.cafe",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.632372155894,
-    "longitude": -122.309979407367
-  },
-  {
     "id": "retired-senior-program",
     "name": "Retired & Senior Program",
     "description": "",
@@ -5234,20 +4870,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.7186992,
     "longitude": -122.2966031
-  },
-  {
-    "id": "rain-city-fire-protection",
-    "name": "Rain City Fire Protection",
-    "description": "",
-    "address": "8220 Interlake Ave N, Seattle, WA 98103",
-    "category": "Community",
-    "link": "https://raincityfireprotection.com",
-    "email": "geoff@raincityfireprotection.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6893481,
-    "longitude": -122.3401417
   },
   {
     "id": "north-highline-fire-district",
@@ -5334,20 +4956,6 @@
     "longitude": -122.3345892
   },
   {
-    "id": "charityusa-com",
-    "name": "Charityusa.com",
-    "description": "",
-    "address": "600 University St, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://charityusa.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6097242,
-    "longitude": -122.332144
-  },
-  {
     "id": "virginia-mason-health-system",
     "name": "Virginia Mason Health System",
     "description": "",
@@ -5430,20 +5038,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.580991930963,
     "longitude": -122.325893173664
-  },
-  {
-    "id": "seattles-bravest-charity",
-    "name": "Seattles Bravest Charity",
-    "description": "",
-    "address": "517 2nd Ave W, Seattle, WA 98119",
-    "category": "Community",
-    "link": "https://seattlesbravestcharity.com",
-    "email": "halmond@iaff27.org",
-    "minAge": 17,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.62353929953,
-    "longitude": -122.359415369643
   },
   {
     "id": "child-empowerment-international",
@@ -5838,34 +5432,6 @@
     "longitude": -122.3340723
   },
   {
-    "id": "impact-capital",
-    "name": "Impact Capital",
-    "description": "",
-    "address": "701 5th Ave, Seattle, WA 98104",
-    "category": "Housing",
-    "link": "https://impactcapital.org",
-    "email": "lending@impactcapital.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6045429,
-    "longitude": -122.3307181
-  },
-  {
-    "id": "xpert-solutions-inc",
-    "name": "Xpert Solutions Inc",
-    "description": "",
-    "address": "701 5th Ave, Seattle, WA 98104",
-    "category": "Education",
-    "link": "https://uncf.org",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6045429,
-    "longitude": -122.3307181
-  },
-  {
     "id": "sight-life",
     "name": "Sight Life",
     "description": "",
@@ -5878,34 +5444,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6090083,
     "longitude": -122.3320926
-  },
-  {
-    "id": "western-state-air-resources-council",
-    "name": "Western State Air Resources Council",
-    "description": "",
-    "address": "1218 3rd Ave Ste 1518, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://westar.org",
-    "email": "info@westar.org",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6076665,
-    "longitude": -122.3354378
-  },
-  {
-    "id": "chapter-13-trustee",
-    "name": "Chapter 13 Trustee",
-    "description": "",
-    "address": "600 University St, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://seattlech13.com",
-    "email": "information@seattlech13.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6097242,
-    "longitude": -122.332144
   },
   {
     "id": "long-live-the-kings",
@@ -6468,20 +6006,6 @@
     "longitude": -122.3434292
   },
   {
-    "id": "express-advantage",
-    "name": "Express Advantage",
-    "description": "",
-    "address": "1741 4th Ave S, Seattle, WA 98134",
-    "category": "Community",
-    "link": "https://expresscu.org",
-    "email": "expresscu@expresscu.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.587774947246,
-    "longitude": -122.329139513606
-  },
-  {
     "id": "powerful-voices",
     "name": "Powerful Voices",
     "description": "",
@@ -6986,20 +6510,6 @@
     "longitude": -122.3181103
   },
   {
-    "id": "tisbest-philanthropy",
-    "name": "Tisbest Philanthropy",
-    "description": "",
-    "address": "5950 6th Ave S, Seattle, WA 98108",
-    "category": "Community",
-    "link": "https://tisbest.org",
-    "email": "info@tisbest.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.5497659,
-    "longitude": -122.3260252
-  },
-  {
     "id": "digital-learning-commons",
     "name": "Digital Learning Commons",
     "description": "",
@@ -7182,20 +6692,6 @@
     "longitude": -122.2999867
   },
   {
-    "id": "manufacturing-industrial-cnsl",
-    "name": "Manufacturing Industrial CNSL",
-    "description": "",
-    "address": "6770 E Marginal Way S, Seattle, WA 98108",
-    "category": "Education",
-    "link": "https://seattleindustry.org",
-    "email": "dgering@seattleindustry.org",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.5424838,
-    "longitude": -122.3263667
-  },
-  {
     "id": "serve-ethiopians-washington",
     "name": "Serve Ethiopians Washington",
     "description": "",
@@ -7278,20 +6774,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6695718,
     "longitude": -122.3836631
-  },
-  {
-    "id": "world-aid",
-    "name": "World Aid",
-    "description": "",
-    "address": "2442 NW Market St, Seattle, WA 98107",
-    "category": "Community",
-    "link": "https://worldaidinc.org",
-    "email": "worldaidinc@gmail.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6688371,
-    "longitude": -122.3893743
   },
   {
     "id": "fellowship-of-reconciliation",
@@ -7518,20 +7000,6 @@
     "longitude": -122.322083018277
   },
   {
-    "id": "northgate-veterinary-clinic",
-    "name": "Northgate Veterinary Clinic",
-    "description": "",
-    "address": "12345 15th Ave NE, Seattle, WA 98125",
-    "category": "Animals",
-    "link": "https://northgateveterinary.com",
-    "email": "northgate@northgateveterinary.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.7189028,
-    "longitude": -122.313193
-  },
-  {
     "id": "rotary-grocery",
     "name": "Rotary Grocery",
     "description": "",
@@ -7558,48 +7026,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6236436,
     "longitude": -122.2962004
-  },
-  {
-    "id": "seattle-cornerstone-dental",
-    "name": "Seattle Cornerstone Dental",
-    "description": "",
-    "address": "600 University St, Seattle, WA 98101",
-    "category": "Health",
-    "link": "https://seattlecornerstonedental.com",
-    "email": "info@seattlecornerstonedental.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6097242,
-    "longitude": -122.332144
-  },
-  {
-    "id": "blu-corporate-housing",
-    "name": "Blu Corporate Housing",
-    "description": "",
-    "address": "509 Olive Way, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://blucorporatehousing.com",
-    "email": "partnerships@travelershaven.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6127317,
-    "longitude": -122.3366229
-  },
-  {
-    "id": "merchant-risk-council",
-    "name": "Merchant Risk Council",
-    "description": "",
-    "address": "600 Stewart St, Seattle, WA 98101",
-    "category": "Community",
-    "link": "https://merchantriskcouncil.org",
-    "email": "pr@merchantriskcouncil.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6141028,
-    "longitude": -122.3374364
   },
   {
     "id": "meredith-mathews-east-madison-branch-ymca",
@@ -7728,20 +7154,6 @@
     "longitude": -122.3558989
   },
   {
-    "id": "d-a-davidson",
-    "name": "D.A. Davidson",
-    "description": "",
-    "address": "701 5th Ave Ste 4050, Seattle, WA 98104",
-    "category": "Community",
-    "link": "https://dadavidson.com",
-    "email": "clientaccesshelp@dadco.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6045429,
-    "longitude": -122.3307181
-  },
-  {
     "id": "geekgirlcon",
     "name": "Geekgirlcon",
     "description": "",
@@ -7840,20 +7252,6 @@
     "longitude": -122.3170794
   },
   {
-    "id": "lag-enterprises-bellevue",
-    "name": "Lag Enterprises Bellevue",
-    "description": "This organization lists an apartment as its address, so only the neighborhood is shown. Contact them before visiting.",
-    "address": "Seattle, WA 98122",
-    "category": "Community",
-    "link": "https://bellevuefarmersmarket.org",
-    "email": "fresh@bellevuefarmersmarket.org",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6107535,
-    "longitude": -122.3038715
-  },
-  {
     "id": "peace-for-the-streets-by-kids",
     "name": "Peace for the Streets by Kids",
     "description": "",
@@ -7894,20 +7292,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.6168087,
     "longitude": -122.3177803
-  },
-  {
-    "id": "open-organization",
-    "name": "Open Organization",
-    "description": "",
-    "address": "2600 2nd Ave, Seattle, WA 98121",
-    "category": "Community",
-    "link": "https://theopenorganization.com",
-    "email": "",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6164005,
-    "longitude": -122.3490464
   },
   {
     "id": "y-cascade-people-s-center",
@@ -8176,34 +7560,6 @@
     "longitude": -122.2907526
   },
   {
-    "id": "clarity-natural-medicine",
-    "name": "Clarity Natural Medicine",
-    "description": "",
-    "address": "753 N 35th St, Seattle, WA 98103",
-    "category": "Health",
-    "link": "https://naturistalife.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6499244,
-    "longitude": -122.3477359
-  },
-  {
-    "id": "mitchell-organization",
-    "name": "Mitchell Organization",
-    "description": "",
-    "address": "620 N 34th St, Seattle, WA 98103",
-    "category": "Community",
-    "link": "https://themitchellorganization.com",
-    "email": "info@themitchellorganization.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6499723,
-    "longitude": -122.3506448
-  },
-  {
     "id": "doric-lodge",
     "name": "Doric Lodge",
     "description": "",
@@ -8400,20 +7756,6 @@
     "longitude": -122.2786683
   },
   {
-    "id": "align-wellness",
-    "name": "Align Wellness",
-    "description": "",
-    "address": "6217 Roosevelt Way NE, Seattle, WA 98115",
-    "category": "Health",
-    "link": "https://align-wellness.com",
-    "email": "info@align-wellness.com",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6738733,
-    "longitude": -122.3175427
-  },
-  {
     "id": "ballard-studio-works",
     "name": "Ballard Studio Works",
     "description": "",
@@ -8498,20 +7840,6 @@
     "longitude": -122.3548115
   },
   {
-    "id": "obscure-organization",
-    "name": "Obscure Organization",
-    "description": "",
-    "address": "8551 Stone Ave N, Seattle, WA 98103",
-    "category": "Community",
-    "link": "https://obscure.org",
-    "email": "rbulling@obscure.org",
-    "minAge": 13,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.6920267,
-    "longitude": -122.3415265
-  },
-  {
     "id": "around-the-sound-community-band",
     "name": "Around the Sound Community Band",
     "description": "",
@@ -8580,20 +7908,6 @@
     "weeklyHoursRequired": null,
     "latitude": 47.7074571,
     "longitude": -122.331727
-  },
-  {
-    "id": "united-friends-group-home-site-2",
-    "name": "United Friends Group Home Site 2",
-    "description": "",
-    "address": "150 SW 114th St, Seattle, WA 98146",
-    "category": "Community",
-    "link": "https://frontlinestudios.com",
-    "email": "",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 47.501565,
-    "longitude": -122.3356443
   },
   {
     "id": "water-for-humans",

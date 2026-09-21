@@ -7434,20 +7434,6 @@
     "longitude": -71.111289
   },
   {
-    "id": "global-association-of-economics-education",
-    "name": "Global Association of Economics Education",
-    "description": "",
-    "address": "2001 Washington St, Braintree, MA 02184",
-    "category": "Education",
-    "link": "https://gaee.org",
-    "email": "contact@gaee.org",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 42.1716619,
-    "longitude": -71.0139953
-  },
-  {
     "id": "beacon-communities-charitable-fund-inc",
     "name": "Beacon Communities Charitable Fund, Inc",
     "description": "",
@@ -7504,20 +7490,6 @@
     "longitude": -71.059732
   },
   {
-    "id": "globe-santa",
-    "name": "Globe Santa",
-    "description": "",
-    "address": "Washington St, Boston, MA 02109",
-    "category": "Children",
-    "link": "https://globesanta.org",
-    "email": "donations: santa@globe.com",
-    "minAge": null,
-    "ageStatus": "unknown",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3580503,
-    "longitude": -71.0578881
-  },
-  {
     "id": "project-351",
     "name": "Project 351",
     "description": "",
@@ -7558,20 +7530,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3584376,
     "longitude": -71.0544619
-  },
-  {
-    "id": "educause",
-    "name": "Educause",
-    "description": "",
-    "address": "4772 Walnut St, Boston, MA 02108",
-    "category": "Education",
-    "link": "https://educause.edu",
-    "email": "info@educause.edu",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3576563,
-    "longitude": -71.0660407
   },
   {
     "id": "generations-inc",
@@ -7658,20 +7616,6 @@
     "longitude": -71.0818583
   },
   {
-    "id": "fabsit",
-    "name": "Fabsit",
-    "description": "",
-    "address": "292 Newbury St, Boston, MA 02115",
-    "category": "Community",
-    "link": "https://fabsit.org",
-    "email": "office@fabsit.org",
-    "minAge": 12,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3487502,
-    "longitude": -71.0847347
-  },
-  {
     "id": "home-inc",
     "name": "Home Inc",
     "description": "",
@@ -7740,20 +7684,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3513993,
     "longitude": -71.0700643
-  },
-  {
-    "id": "space-with-a-soul",
-    "name": "Space With A Soul",
-    "description": "",
-    "address": "281 Summer St, Boston, MA 02210",
-    "category": "Community",
-    "link": "https://spacewithasoul.org",
-    "email": "help@spacewithasoul.org",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.349905,
-    "longitude": -71.0500173
   },
   {
     "id": "first-literacy",
@@ -7854,20 +7784,6 @@
     "longitude": -71.0596792
   },
   {
-    "id": "sightsavers",
-    "name": "Sightsavers",
-    "description": "",
-    "address": "1 Boston Pl, Boston, MA 02108",
-    "category": "Health",
-    "link": "https://sightsavers.org",
-    "email": "info@sightsavers.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3593235,
-    "longitude": -71.0600389
-  },
-  {
     "id": "massachusetts-s-alliance",
     "name": "Massachusetts 's Alliance",
     "description": "",
@@ -7910,20 +7826,6 @@
     "longitude": -71.05928
   },
   {
-    "id": "nicsa-inc",
-    "name": "Nicsa Inc",
-    "description": "",
-    "address": "101 Federal St, Boston, MA 02110",
-    "category": "Community",
-    "link": "https://nicsa.org",
-    "email": "info@nicsa.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.354929,
-    "longitude": -71.0567125
-  },
-  {
     "id": "t1d-exchange",
     "name": "T1D Exchange",
     "description": "",
@@ -7950,20 +7852,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3521592,
     "longitude": -71.0608645
-  },
-  {
-    "id": "refugepoint-inc",
-    "name": "Refugepoint Inc",
-    "description": "",
-    "address": "89 South St, Boston, MA 02111",
-    "category": "Community",
-    "link": "https://refugepoint.org",
-    "email": "info@refugepoint.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3518221,
-    "longitude": -71.0573484
   },
   {
     "id": "massachusetts-women-s",
@@ -8006,20 +7894,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3513538,
     "longitude": -71.0569341
-  },
-  {
-    "id": "family-firm-institute-inc",
-    "name": "Family Firm Institute Inc",
-    "description": "",
-    "address": "711 Atlantic Ave, Boston, MA 02111",
-    "category": "Community",
-    "link": "https://ffi.org",
-    "email": "ffi@ffi.org",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3510061,
-    "longitude": -71.056392
   },
   {
     "id": "now-there",
@@ -8076,20 +7950,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3456821,
     "longitude": -71.0510825
-  },
-  {
-    "id": "foundation-medicine-inc",
-    "name": "Foundation Medicine, Inc",
-    "description": "",
-    "address": "400 Summer St, Boston, MA 02210",
-    "category": "Health",
-    "link": "https://foundationmedicine.com",
-    "email": "client.services@foundationmedicine.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3487277,
-    "longitude": -71.0460518
   },
   {
     "id": "beat-the-streets-new-england",
@@ -8232,20 +8092,6 @@
     "longitude": -71.0504489
   },
   {
-    "id": "jobs-for-the-future-inc",
-    "name": "Jobs for the Future Inc",
-    "description": "",
-    "address": "50 Milk St, Boston, MA 02109",
-    "category": "Education",
-    "link": "https://jff.org",
-    "email": "development@jff.org",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.357074,
-    "longitude": -71.0575972
-  },
-  {
     "id": "henry-p-kendall-foundation",
     "name": "Henry P Kendall Foundation",
     "description": "",
@@ -8330,20 +8176,6 @@
     "longitude": -71.0643202
   },
   {
-    "id": "venture-growth-partners",
-    "name": "Venture Growth Partners",
-    "description": "",
-    "address": "30 Newbury St Ste 3RD, Boston, MA 02116",
-    "category": "Community",
-    "link": "https://venturegrowthpartners.com",
-    "email": "info@venturegrowthpartners.com",
-    "minAge": 21,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3520813,
-    "longitude": -71.0726371
-  },
-  {
     "id": "ywca",
     "name": "YWCA",
     "description": "",
@@ -8386,20 +8218,6 @@
     "longitude": -71.0384122
   },
   {
-    "id": "capital-construction-contracting",
-    "name": "Capital Construction Contracting",
-    "description": "",
-    "address": "3 Norwood St, Boston, MA 02122",
-    "category": "Community",
-    "link": "https://capitalconstructioncontracting.com",
-    "email": "quotes@capitalcons.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.2907242,
-    "longitude": -71.0447881
-  },
-  {
     "id": "community-economic-development",
     "name": "Community Economic Development",
     "description": "",
@@ -8440,20 +8258,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3581156,
     "longitude": -71.0593238
-  },
-  {
-    "id": "social-finance",
-    "name": "Social Finance",
-    "description": "",
-    "address": "10 Milk St, Boston, MA 02108",
-    "category": "Community",
-    "link": "https://socialfinance.org",
-    "email": "info@socialfinance.org",
-    "minAge": 14,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3568422,
-    "longitude": -71.0580786
   },
   {
     "id": "national-immigration",
@@ -8622,20 +8426,6 @@
     "weeklyHoursRequired": null,
     "latitude": 42.3489483,
     "longitude": -71.0676066
-  },
-  {
-    "id": "354-congress-fine-dining",
-    "name": "354 Congress Fine Dining",
-    "description": "",
-    "address": "354 Congress St, Boston, MA 02210",
-    "category": "Community",
-    "link": "https://mentonboston.com",
-    "email": "events@mentonboston.com",
-    "minAge": 18,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3504639,
-    "longitude": -71.0482916
   },
   {
     "id": "aids-housing-corp",
@@ -8832,19 +8622,5 @@
     "weeklyHoursRequired": null,
     "latitude": 42.37109,
     "longitude": -71.040325
-  },
-  {
-    "id": "endeavor-fire-protection",
-    "name": "Endeavor Fire Protection",
-    "description": "",
-    "address": "99 Bedford St, Boston, MA 02111",
-    "category": "Community",
-    "link": "https://endeavorfireprotection.com",
-    "email": "endeavorfireprotection@gmail.com",
-    "minAge": 16,
-    "ageStatus": "confirmed",
-    "weeklyHoursRequired": null,
-    "latitude": 42.3530902,
-    "longitude": -71.0582399
   }
 ]
