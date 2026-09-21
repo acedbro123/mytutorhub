@@ -15,6 +15,7 @@ Reads .numbers (via the `numbers_parser` package) or .xlsx.
 """
 
 import argparse
+import collections
 import glob
 import json
 import os
@@ -29,6 +30,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 CACHE_DIR = os.path.join(HERE, '.cache')
 OVERRIDES_FILE = os.path.join(HERE, 'category_overrides.json')
+AGE_OVERRIDES_FILE = os.path.join(HERE, 'age_overrides.json')
 EXCLUDED_FILE = os.path.join(HERE, 'excluded_orgs.json')
 
 # Nominatim asks for a real contact address in the User-Agent.
@@ -47,10 +49,13 @@ FIELDS = ['id', 'name', 'description', 'address', 'category', 'link', 'email',
           'minAge', 'ageStatus', 'weeklyHoursRequired', 'latitude', 'longitude']
 
 # Spelled-out states seen in batch sheets, mapped to their postal code.
+COUNTRY_RE = re.compile(r'(?:USA|U\.?S\.?A?\.?|United\s+Stat\w*)', re.I)
+
 STATE_NAMES = {'california': 'CA', 'new york': 'NY', 'illinois': 'IL',
                'massachusetts': 'MA', 'nevada': 'NV', 'new jersey': 'NJ',
                'connecticut': 'CT', 'pennsylvania': 'PA', 'texas': 'TX',
-               'florida': 'FL', 'washington': 'WA', 'oregon': 'OR', 'arizona': 'AZ'}
+               'florida': 'FL', 'washington': 'WA', 'oregon': 'OR', 'arizona': 'AZ',
+               'louisiana': 'LA'}
 
 # Rough bounding boxes, used only to reject a geocode that landed in the wrong
 # state. A state absent from this table simply is not checked -- the point is
@@ -62,7 +67,7 @@ STATE_BOX = {
     'CT': (40.9, 42.1, -73.8, -71.7),   'PA': (39.7, 42.3, -80.6, -74.7),
     'TX': (25.8, 36.6, -106.7, -93.5),  'FL': (24.4, 31.1, -87.7, -79.9),
     'WA': (45.5, 49.1, -124.9, -116.9), 'OR': (41.9, 46.3, -124.6, -116.4),
-    'AZ': (31.3, 37.1, -115.0, -109.0),
+    'AZ': (31.3, 37.1, -115.0, -109.0), 'LA': (28.8, 33.1, -94.1, -88.7),
 }
 
 
@@ -365,14 +370,32 @@ STREET_RE = re.compile(
 
 def parse_address(addr):
     """Split a free-text address into (street, city, state, zip)."""
-    a = re.sub(r',?\s*(?:USA|United States)\s*\.?\s*$', '', (addr or '').strip(), flags=re.I)
+    a = (addr or '').strip()
     # Some rows separate fields with a pipe instead of a comma.
     a = a.replace('|', ',')
+    # Drop a country segment wherever it sits. It is not always last: one row
+    # reads "605 Cotton St, Shreveport, LA, United States, 71101", and another
+    # ends "...LA 70130-6324, US". Truncated spellings ("United Stat") appear
+    # too, where a sheet cell cut the text off.
+    # A trailing country, with or without the comma before it: one row ends
+    # "CA 91979United States", glued straight onto the ZIP.
+    a = re.sub(r',?\s*(?:%s)\s*\.?\s*$' % COUNTRY_RE.pattern, '', a, flags=re.I)
+    a = ', '.join(p for p in a.split(',')
+                  if not COUNTRY_RE.fullmatch(p.strip(' .'))).strip(' ,.')
+    a = re.sub(r',?\s*(?:%s)\s*\.?\s*$' % COUNTRY_RE.pattern, '', a, flags=re.I)
 
     zipcode = ''
     m = re.search(r'\b(\d{5})(?:-\d{4})?\s*\.?\s*$', a)
     if m:
         zipcode, a = m.group(1), a[:m.start()].rstrip(' ,.')
+    else:
+        # A ZIP cut short by the sheet ("Ruston, LA 712"). Keeping it would
+        # leave the state unmatched and the city reading "LA 712"; dropping it
+        # geocodes on street and city, which is what the row actually says.
+        m = re.search(r'(?<=[A-Za-z])\s+\d{3,4}\s*\.?\s*$', a)
+        if m and re.search(r'\b([A-Za-z]{2})\s+\d{3,4}\s*\.?\s*$', a) \
+                and re.search(r'\b([A-Za-z]{2})\s+\d{3,4}\s*\.?\s*$', a).group(1).upper() in STATE_BOX:
+            a = a[:m.start()].rstrip(' ,.')
 
     # Any state, not just California: hardcoding CA left "Brooklyn, NY" with
     # the state unmatched, so "NY" became the city and Brooklyn disappeared.
@@ -389,6 +412,9 @@ def parse_address(addr):
 
     parts = [p.strip() for p in a.split(',') if p.strip()]
     city = parts[-1] if parts else ''
+    # "#409 New Orleans" -- a unit number that ran into the city because the
+    # row put no comma after the street.
+    city = re.sub(r'^#\s*\S+\s+', '', city)
     rest = ', '.join(parts[:-1]) if len(parts) > 1 else ''
 
     if not rest and parts:
@@ -574,13 +600,35 @@ def duplicate_elsewhere(record, others):
     return None
 
 
+def load_age_overrides():
+    """Hand corrections for the minimum age, keyed by org name.
+
+    The sheet's age column is only as good as the note it was researched from,
+    and the note is sometimes about a different organization altogether: a
+    council on aging whose note discusses Google account ages, a church whose
+    note quotes a food bank. Neither the parser nor any rule can see that, so a
+    corrected age is recorded here. null means "no verified floor", which the
+    map renders as AGE NOT VERIFIED -- the honest answer, and the right one
+    whenever the wording turns out to describe the people an org serves, a
+    single role, or another group entirely.
+    """
+    if not os.path.exists(AGE_OVERRIDES_FILE):
+        return {}
+    with open(AGE_OVERRIDES_FILE) as fh:
+        return {k: v for k, v in json.load(fh).items() if not k.startswith('_')}
+
+
 def build_records(raw_rows, overrides):
     records, uncategorized = [], []
+    age_overrides = load_age_overrides()
     for row in raw_rows:
         name = str(row['name']).strip()
         website = (row['website'] or '').strip()
         address = re.sub(r',\s*(?:USA|United States)\s*$', '', (row['address'] or '').strip()).strip(' ,')
         min_age, age_status = extract_min_age(row['age'])
+        if name in age_overrides:
+            min_age = age_overrides[name]
+            age_status = 'confirmed' if min_age is not None else 'unknown'
         category = classify(name, overrides)
         if not category:
             uncategorized.append(name)
@@ -762,7 +810,13 @@ def main():
         region = (min(lats) - 0.5, max(lats) + 0.5, min(lons) - 0.5, max(lons) + 0.5)
         where = 'the area %s already covers' % args.into
     else:
-        region, where = STATE_BOX['CA'], 'California'
+        # A brand-new target file has no footprint yet. Fall back to the box of
+        # the state the batch itself names -- defaulting to California made a
+        # Louisiana batch flag all 705 of its rows.
+        st = collections.Counter(parse_address(r['address'])[2] for r in fresh).most_common(1)
+        st = st[0][0] if st else ''
+        region = STATE_BOX.get(st) or STATE_BOX['CA']
+        where = st or 'California'
     outliers = [r for r in fresh
                 if not (region[0] <= r['latitude'] <= region[1] and region[2] <= r['longitude'] <= region[3])]
     if outliers:

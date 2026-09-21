@@ -64,7 +64,14 @@ separate group with its own id (e.g. `social-venture-partners-seattle`), and
 the run prints it -- check those, because in practice the second row was as
 often a stale address or a mislabeled row as a genuine second branch.
 
-## The three files beside the script
+## Naming a new region's file
+
+`organizations_la.json` is **Los Angeles**. The Louisiana batch therefore went
+into `organizations_louisiana.json` -- spell a state out rather than reuse a
+two-letter name that already means a city. Whatever the file is called, add it
+to the `files` array in `map.html`, or nothing in it will ever load.
+
+## The four files beside the script
 
 `category_overrides.json` — org name to category, for names the keyword rules
 can't resolve or get wrong. This is accumulated hand-classification; it grows
@@ -74,6 +81,10 @@ every batch, and is worth keeping because it encodes judgment the rules can't.
 Deleting a row from the JSON is not enough on its own: dedupe only compares
 against rows currently in the target file, so a deleted row looks new on the
 next run and comes straight back. Add the id here and the deletion sticks.
+
+`age_overrides.json` — org name to minimum age, or to null for "no verified
+floor". Hand corrections for rows whose age came from a note about some other
+organization, about the people served, or about one role.
 
 `.cache/geocache.json` — every Nominatim lookup made so far, keyed by query.
 Committed on purpose: it makes re-runs instant, keeps coordinates stable
@@ -90,6 +101,24 @@ recorded when the wording actually states a floor — "at least 16", "18 and
 older", "must be 21". Everything else is left `unknown`, which the map renders
 as "AGE NOT VERIFIED". Roughly a quarter of rows land there, and that is the
 correct outcome, not a gap to fill.
+
+**The note can be about a different organization.** The age and the note are
+researched per row, and in the Louisiana batch roughly one row in ten had a
+note about something else entirely: a council on aging whose note discussed
+Google account ages, a Baptist church quoting a food bank's warehouse rules, a
+Shreveport equine sanctuary quoting YouTube's contributor program, two councils
+on aging quoting a volunteer-travel company with a similar domain. Every one
+produced a confident, wrong minimum age. Nothing in the parser can see this --
+the sentence itself is well formed. Check it by asking whether the note ever
+mentions the organization the row names; 126 of 486 confirmed ages in that
+batch did not, and about half of those were wrong. Corrections go in
+`age_overrides.json` (name to number, or to null for "no verified floor"),
+which is applied after the parser, so a re-import keeps them.
+
+Also treat as unverified: an age that belongs to the people the org *serves*
+("participants ages 16-23"), to one specialized role ("roles handling alcohol
+must be 21"), or to a membership tier ("Junior Members 16-39"). A floor that
+only applies to part of an org is not the org's floor.
 
 A floor suffix on a *range* belongs to the range: "Ages 16 To 24 Or Older"
 means 16, but the floor patterns search the whole string and used to latch
@@ -151,6 +180,13 @@ reads "6-02 Woodward Ave" as "2 Woodward Ave". The map's own address search
 had the same weakness; it now retries a road-only answer as a structured
 street + ZIP lookup, which finds the building. Nominatim's `addressdetails`
 tells the two apart: a building match carries `house_number`, a midpoint does not.
+
+**Country and ZIP debris.** Rows arrive ending in `, US`, `, United Stat`
+(cut off by the sheet), `CA 91979United States` with no comma at all, and with
+the country stuck in the middle: `605 Cotton St, Shreveport, LA, United States,
+71101`. A ZIP can be truncated too (`Ruston, LA 712`), which used to leave the
+state unmatched and the city reading "LA 712". Both are stripped now. Re-parsing
+all 8,557 addresses already on the map, 150 came out better and none worse.
 
 ## Batches outside California
 
